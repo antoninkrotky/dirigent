@@ -1,7 +1,10 @@
 package org.dirigent.generator.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import junit.framework.TestCase;
 
 import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.Generatable;
@@ -9,9 +12,23 @@ import org.dirigent.metafacade.Pattern;
 import org.dirigent.metafacade.PatternStep;
 import org.dirigent.test.utils.FileComparator;
 
-import junit.framework.TestCase;
-
 public class TestGenerator extends TestCase {
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		//create output directory if does not exist
+		File outputDir=new File("output");
+		if (!outputDir.exists() || !outputDir.isDirectory()) {
+			outputDir.mkdir();
+		}
+		//delete output file
+		File outputFile=new File("output/install.sql");
+		outputFile.delete();
+		
+	}
+	
+	
 	public void testGenerate() {
 		Generator.generate(createGeneratable());
 		FileComparator.assertEquals(TestGenerator.class.getResourceAsStream("TestGenerator.expected.install.sql"), "output/install.sql");
