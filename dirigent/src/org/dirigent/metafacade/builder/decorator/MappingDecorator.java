@@ -1,0 +1,147 @@
+package org.dirigent.metafacade.builder.decorator;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.dirigent.metafacade.ColumnMapping;
+import org.dirigent.metafacade.Mapping;
+import org.dirigent.metafacade.Schema;
+import org.dirigent.metafacade.Table;
+import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
+import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
+import org.dirigent.metafacade.builder.vo.MappingVO;
+
+public class MappingDecorator implements Mapping {
+
+	private MappingVO mapping;
+	private Map<String, Table> sourceTables;
+	private Collection<ColumnMapping> columnMappings;
+
+	public MappingDecorator(MappingVO mapping) {
+		this.mapping = mapping;
+		initSourceTables();
+		initColumnMappings();
+
+	}
+
+	private void initColumnMappings() {
+		columnMappings=new ArrayList<ColumnMapping>();
+		Iterator<ColumnMappingVO> i=mapping.columnMappings.iterator();
+		while (i.hasNext()){
+			columnMappings.add(new ColumnMappingDecorator(i.next()));
+		}
+
+	}
+
+	private void initSourceTables() {
+		sourceTables = new HashMap<String, Table>();
+		Iterator<MappingSourceTableVO> i = mapping.mappingSourceTables
+				.iterator();
+		while (i.hasNext()) {
+			MappingSourceTableVO v = i.next();
+			sourceTables.put(v.alias, (Table) MetafacadeBuilder
+					.getMetafacadeBuilder().getMetafacade(v.tableUri));
+		}
+	}
+
+	@Override
+	public Schema getSchema() {
+		return (Schema) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+				mapping.schemaUri);
+	}
+
+	@Override
+	public Map<String, Table> getSourceTables() {
+		return sourceTables;
+	}
+
+	@Override
+	public Table getTargetTable() {
+		return (Table) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+				mapping.targetTableUri);
+	}
+
+	@Override
+	public String getName() {
+		return mapping.name;
+	}
+
+	@Override
+	public String getUri() {
+		return mapping.uri;
+	}
+
+	@Override
+	public Collection<ColumnMapping> getColumnMappings() {
+		return columnMappings;
+	}
+
+
+	@Override
+	public String getSQLQuery() {
+		StringBuffer sb=new StringBuffer("SELECT \n");
+		sb.append(getColumns());
+		sb.append(getFromClause());
+		sb.append(getWhereClause());
+		// TODO: GROUB_BY_CLAUSE
+		return sb.toString();
+	}
+
+	public String getWhereClause() {
+		StringBuffer sb = new StringBuffer("WHERE\n\t(1=1)\n");
+		if (mapping.joinCondition != null
+				&& !mapping.joinCondition.trim().equals("")) {
+			sb.append("\tAND ");
+			sb.append(mapping.joinCondition.trim());
+		}
+		if (mapping.filterCondition != null
+				&& !mapping.filterCondition.trim().equals("")) {
+			sb.append("\tAND ");
+			sb.append(mapping.filterCondition.trim());
+		}
+		return sb.toString();
+	}
+
+	public String getFromClause() {
+		StringBuffer sb = new StringBuffer("FROM\n");
+		Iterator<String> i = getSourceTables().keySet().iterator();
+		while (i.hasNext()) {
+			String alias = i.next();
+			Table table = getSourceTables().get(alias);
+			sb.append('\t');
+			sb.append(table.getSchema().getSchema());
+			sb.append('.');
+			sb.append(table.getName());
+			sb.append(' ');
+			sb.append(alias);
+			if (i.hasNext()) {
+				sb.append(',');
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+
+	public String getColumns() {
+		StringBuffer sb = new StringBuffer();
+		Iterator<ColumnMapping> i = getColumnMappings().iterator();
+		while (i.hasNext()) {
+			ColumnMapping m = i.next();
+			sb.append('\t');
+			sb.append(m.getExpression());
+			sb.append(" AS \"");
+			sb.append(m.getColumn().getName());
+			sb.append("\"");
+			if (i.hasNext()) {
+				sb.append(',');
+			}
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
+
+}
