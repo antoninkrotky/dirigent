@@ -31,7 +31,7 @@ public class TestGenerator extends TestCase {
 	
 	public void testGenerate() {
 		Generator.generate(createGeneratable());
-		FileComparator.assertEquals(TestGenerator.class.getResourceAsStream("TestGenerator.expected.install.sql"), "output/install.sql");
+		FileComparator.assertEquals(TestGenerator.class.getResourceAsStream("TestGenerator.expected.install.sql"), new File("output/install.sql"));
 	}
 
 	/**
@@ -72,6 +72,11 @@ public class TestGenerator extends TestCase {
 						return "TestPattern";
 					}
 				};
+			}
+
+			@Override
+			public String getUri() {
+				return null;
 			}
 		};
 		return g;

@@ -1,6 +1,7 @@
 package org.dirigent.metafacade.builder;
 
 import org.dirigent.metafacade.Element;
+import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 /**
  * Abstract MetafacadeBuilder factory.
  * */
@@ -11,7 +12,7 @@ public abstract class MetafacadeBuilder {
 	 * @return MetafacadeBuilder implementation
 	 * */
 	public static MetafacadeBuilder getMetafacadeBuilder(){
-		return new CSVMetafacadeBuilder();
+		return new CsvMetafacadeBuilder();
 	}
 	
 	/**
