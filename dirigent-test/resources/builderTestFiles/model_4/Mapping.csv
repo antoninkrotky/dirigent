@@ -1,0 +1,2 @@
+"URI","Name","SchemaURI","TargetTableURI","JoinCondition","FilterCondition","GrouByClause"
+"M_EMPLOYEE","M_EMPLOYEE","S_HSQL","T_EMPLOYEE","E.ID = D.ID","S.SALARY > 100","E.HAIR_COLOR"
