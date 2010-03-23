@@ -10,14 +10,20 @@ import java.util.Collection;
 
 public abstract class CsvDao<V> {
 
+	static protected String path = "resources/model"; 
 	private Connection connection;
 
+	/**
+	 * 
+	 * @return connection identifier 
+	 * @throws RuntimeException if unable to create connection
+	 */
 	protected Connection getConnection() {
 		if (connection == null) {
 			try {
 				Class.forName("org.relique.jdbc.csv.CsvDriver");
 				connection = DriverManager
-						.getConnection("jdbc:relique:csv:resources/model");
+						.getConnection("jdbc:relique:csv:"+path);
 			} catch (Exception e) {
 				throw new RuntimeException("Unable to create jdbc connection.",
 						e);
@@ -60,4 +66,7 @@ public abstract class CsvDao<V> {
 			throw new RuntimeException(e);
 		}
 	}
+
+	
+	
 }

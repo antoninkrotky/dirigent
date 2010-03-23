@@ -19,11 +19,28 @@ import org.dirigent.metafacade.builder.vo.TableVO;
  * */
 public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 
+	
 	private HashMap<String, Element> elements = new HashMap<String, Element>();
-	private TableDao tableDao = new TableDao();
-	private MappingDao mappingDao = new MappingDao();
-	private SchemaDao schemaDao = new SchemaDao();
+	private TableDao tableDao;
+	private MappingDao mappingDao;
+	private SchemaDao schemaDao;
 
+	public CsvMetafacadeBuilder() {
+		tableDao = new TableDao();
+		mappingDao = new MappingDao();
+		schemaDao = new SchemaDao();
+	}
+	
+	/**
+	 * takes path to resources if different tah default 
+	 * default value is resources/model 
+	 * @param path
+	 */
+	public CsvMetafacadeBuilder(String path) {
+		tableDao = new TableDao(path);
+		mappingDao = new MappingDao(path);
+		schemaDao = new SchemaDao(path);
+	}
 	
 	@Override
 	public Element getMetafacade(String uri) {

@@ -29,9 +29,9 @@ public class MappingDecorator implements Mapping {
 	}
 
 	private void initColumnMappings() {
-		columnMappings=new ArrayList<ColumnMapping>();
-		Iterator<ColumnMappingVO> i=mapping.columnMappings.iterator();
-		while (i.hasNext()){
+		columnMappings = new ArrayList<ColumnMapping>();
+		Iterator<ColumnMappingVO> i = mapping.columnMappings.iterator();
+		while (i.hasNext()) {
 			columnMappings.add(new ColumnMappingDecorator(i.next()));
 		}
 
@@ -80,14 +80,24 @@ public class MappingDecorator implements Mapping {
 		return columnMappings;
 	}
 
-
 	@Override
 	public String getSQLQuery() {
-		StringBuffer sb=new StringBuffer("SELECT \n");
+		StringBuffer sb = new StringBuffer("SELECT \n");
 		sb.append(getColumns());
 		sb.append(getFromClause());
 		sb.append(getWhereClause());
-		// TODO: GROUB_BY_CLAUSE
+		sb.append(getGroupByClause());
+		return sb.toString();
+	}
+
+	public String getGroupByClause() {
+		StringBuffer sb = new StringBuffer();
+		if (mapping.groupByClause != null
+				&& !mapping.groupByClause.trim().equals("")) {
+			sb.append("\nGROUP BY \n");
+			sb.append("\t(" + mapping.groupByClause.trim() + ")");
+		}
+
 		return sb.toString();
 	}
 

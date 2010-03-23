@@ -7,9 +7,16 @@ import java.util.Collection;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 
 public class MappingDao extends CsvDao<MappingVO> {
-	private ColumnMappingDao cmDao=new ColumnMappingDao();
-	private MappingSourceTableDao mstDao=new MappingSourceTableDao();
 	
+	public MappingDao() {}
+	
+	public MappingDao(String path) {
+		CsvDao.path = path; 
+	}
+
+	private ColumnMappingDao cmDao = new ColumnMappingDao();
+	private MappingSourceTableDao mstDao = new MappingSourceTableDao();
+
 	public MappingVO getMapping(String uri) {
 		return findVO("select * from Mapping where URI=" + uri);
 	}
@@ -27,8 +34,9 @@ public class MappingDao extends CsvDao<MappingVO> {
 		v.joinCondition = res.getString(5);
 		v.filterCondition = res.getString(6);
 		v.groupByClause = res.getString(7);
-		v.columnMappings=cmDao.getColumnMappingByMappingURI(v.uri);
-		v.mappingSourceTables=mstDao.getMappingSourceTablesByMappingUri(v.uri);
+		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
+		v.mappingSourceTables = mstDao
+				.getMappingSourceTablesByMappingUri(v.uri);
 		return v;
 	}
 

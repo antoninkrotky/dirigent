@@ -1,0 +1,2 @@
+"URI","Name","Schema","Username","Password","JdbcUrl","JdbcDriver"
+"S_HSQL","TestSchema","PUBLIC","sa",,"jdbc:hsqldb:hsql://localhost/dirigent-demo","org.hsqldb.jdbcDriver"
