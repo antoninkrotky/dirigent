@@ -1,8 +1,12 @@
 package org.dirigent.test.utils;
 
+import java.io.BufferedWriter;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,18 +19,38 @@ import junit.framework.AssertionFailedError;
  * etalon files.
  * */
 public class FileComparator {
-	public static void assertEquals(InputStream expected, String actual) {
+
+	public static void assertEquals(String expected, String actual) {
+		ByteArrayInputStream inputStream = null;
+		InputStream goldenFile = null;
 		try {
-			assertEquals(expected, new ByteArrayInputStream(actual.getBytes()));
+			inputStream = new ByteArrayInputStream(actual.getBytes());
+			try {
+				goldenFile = new FileInputStream(new File(expected));
+			} catch (FileNotFoundException fnf) {
+				createGoldenFile(expected, actual);
+				throw new AssertionFailedError(
+						"Couldn't find file to compare so new one has been created. Re-check and re-run failing tests.");
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		assertEquals(goldenFile, inputStream);
+
 	}
 
-	public static void assertEquals(InputStream expected, File actualFilePath) {
+	public static void assertEquals(String expected, File actualFilePath) {
+		InputStream goldenFile = null;
 		try {
 			FileInputStream actIn = new FileInputStream(actualFilePath);
-			assertEquals(expected, actIn);
+			try {
+				goldenFile = new FileInputStream(new File(expected));
+			} catch (FileNotFoundException fnf) {
+				createGoldenFile(expected, actualFilePath);
+				throw new AssertionFailedError(
+						"Couldn't find file to compare so new one has been created. Re-check and re-run failing tests.");
+			}
+			assertEquals(goldenFile, actIn);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -39,12 +63,18 @@ public class FileComparator {
 			LineNumberReader act = new LineNumberReader(new InputStreamReader(
 					actual));
 			int line = 1;
+			String is;
+			String shouldBe;
 			while (act.ready() || exp.ready()) {
-
-				if (!act.ready() || !exp.ready()
-						|| !act.readLine().equals(exp.readLine())) {
+				is = act.readLine();
+				shouldBe = exp.readLine();
+				// !act.ready() || !exp.ready() || - commented out (will se if
+				// temporarily)
+				if (!is.equals(shouldBe)) {
 					throw new AssertionFailedError(
-							"File comparison error on line " + line);
+							"File comparison error on line " + line + "\n"
+									+ "was: >" + is + "<\n" + "expected was: >"
+									+ shouldBe + "<");
 				}
 				line++;
 			}
@@ -53,4 +83,32 @@ public class FileComparator {
 		}
 	}
 
+	private static void createGoldenFile(String expected, String actual)
+			throws IOException {
+		File newFile = new File(expected);
+		FileWriter fstream;
+
+		fstream = new FileWriter(newFile);
+		BufferedWriter out = new BufferedWriter(fstream);
+		out.write(actual);
+		out.close();
+	}
+
+	private static void createGoldenFile(String expected, File actualPath)
+			throws IOException, FileNotFoundException {
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(new File(
+				expected)));
+
+		LineNumberReader actual = new LineNumberReader(new InputStreamReader(
+				new FileInputStream(actualPath)));
+		String line;
+
+		while ((line = actual.readLine()) != null) {
+
+			out.write(line);
+		}
+		out.close();
+
+	}
 }

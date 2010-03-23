@@ -7,6 +7,11 @@ import java.util.Collection;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 
 public class SchemaDao extends CsvDao<SchemaVO> {
+	public SchemaDao() {}
+	
+	public SchemaDao(String path) {
+		CsvDao.path = path; 
+	}
 
 	public SchemaVO getSchema(String uri) {
 		return findVO("select * from Schema where URI="
@@ -27,5 +32,7 @@ public class SchemaDao extends CsvDao<SchemaVO> {
 		v.jdbcDriver = res.getString(7);
 		return v;
 	}
+	
+	
 
 }

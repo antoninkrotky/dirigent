@@ -13,25 +13,25 @@ import org.dirigent.metafacade.PatternStep;
 import org.dirigent.test.utils.FileComparator;
 
 public class TestGenerator extends TestCase {
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		//create output directory if does not exist
-		File outputDir=new File("output");
+		// create output directory if does not exist
+		File outputDir = new File("output");
 		if (!outputDir.exists() || !outputDir.isDirectory()) {
 			outputDir.mkdir();
 		}
-		//delete output file
-		File outputFile=new File("output/install.sql");
+		// delete output file
+		File outputFile = new File("output/install.sql");
 		outputFile.delete();
-		
+
 	}
-	
-	
+
 	public void testGenerate() {
 		Generator.generate(createGeneratable());
-		FileComparator.assertEquals(TestGenerator.class.getResourceAsStream("TestGenerator.expected.install.sql"), new File("output/install.sql"));
+		FileComparator.assertEquals("results/generatorTest/TestGenerator.expected.install.sql",
+				new File("output/install.sql"));
 	}
 
 	/**
@@ -40,11 +40,11 @@ public class TestGenerator extends TestCase {
 	 * */
 	private Generatable createGeneratable() {
 		Generatable g = new Generatable() {
-			
+
 			public String getName() {
 				return "TestElement";
 			}
-			
+
 			@Override
 			public Pattern getPattern() {
 				return new Pattern() {

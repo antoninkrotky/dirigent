@@ -11,6 +11,10 @@ public abstract class MetafacadeBuilder {
 	 * Gets MetafacadeBuilder implementation. Currently CSVMetafacadeBuilder is the only implementation.
 	 * @return MetafacadeBuilder implementation
 	 * */
+	public static MetafacadeBuilder getMetafacadeBuilder(String path){
+		return new CsvMetafacadeBuilder(path);
+	}
+	
 	public static MetafacadeBuilder getMetafacadeBuilder(){
 		return new CsvMetafacadeBuilder();
 	}

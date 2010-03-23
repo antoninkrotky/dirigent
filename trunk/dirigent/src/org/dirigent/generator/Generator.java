@@ -28,9 +28,5 @@ public class Generator {
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to generate pattern step "+step.getName(),e);
 		}
-		
-		
 	}
-	
-
 }
