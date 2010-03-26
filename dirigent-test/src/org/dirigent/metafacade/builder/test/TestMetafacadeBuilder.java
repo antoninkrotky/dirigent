@@ -38,7 +38,7 @@ public class TestMetafacadeBuilder extends TestCase {
 		MetafacadeBuilder mfb = MetafacadeBuilder.getMetafacadeBuilder(path);
 		assertNotNull(mfb);
 		assertTrue(mfb instanceof CsvMetafacadeBuilder);
-		assertNotNull(mfb.getMetafacade("S_HSQL"));
+		assertNotNull(mfb.getMetafacade("S_MYSQL"));
 		assertNotNull(mfb.getMetafacade("T_EMP"));
 		assertNotNull(mfb.getMetafacade("M_EMPLOYEE"));
 		FileComparator
@@ -84,7 +84,7 @@ public class TestMetafacadeBuilder extends TestCase {
 								.getSQLQuery());
 	}
 	/**
-	 * so far only way how to add more than condition in where clause
+	 * so far only way how to add more than one condition in where clause
 	 */
 	public void testGetMetafacadeBuilder_5() {
 		String path = "resources/builderTestFiles/model_5";
@@ -100,6 +100,4 @@ public class TestMetafacadeBuilder extends TestCase {
 						((Mapping) mfb.getMetafacade("M_EMPLOYEE"))
 								.getSQLQuery());
 	}
-	
-
 }
