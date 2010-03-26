@@ -9,15 +9,14 @@ import org.dirigent.metafacade.builder.vo.MappingVO;
 
 public class TestMappingDao extends TestCase {
 
-	public void testGetMapping() {
-		testVO(new MappingDao().getMapping("M_EMPLOYEE"));
+	public void testGetMapping_1() {
+		testVO_1(new MappingDao("resources/builderTestFiles/model_1").getMapping("M_EMPLOYEE"));
+	}
+	public void testGetMappings_1() {
+		testVO_1(new MappingDao().getMappings().iterator().next());
 	}
 	
-	public void testGetMappings() {
-		testVO(new MappingDao().getMappings().iterator().next());
-	}
-	
-	private void testVO(MappingVO v) {
+	private void testVO_1(MappingVO v) {
 		assertEquals("M_EMPLOYEE", v.uri);
 		assertEquals("M_EMPLOYEE", v.name);
 		assertEquals("S_HSQL", v.schemaUri);
@@ -37,4 +36,105 @@ public class TestMappingDao extends TestCase {
 		assertEquals("E", mst.alias);
 		
 	}
+	
+	public void testGetMapping_2() {
+		testVO_2(new MappingDao("resources/builderTestFiles/model_2").getMapping("M_EMPLOYEE"));
+	}
+
+	private void testVO_2(MappingVO v) {
+		assertEquals("M_EMPLOYEE", v.uri);
+		assertEquals("M_EMPLOYEE", v.name);
+		assertEquals("S_MYSQL", v.schemaUri);
+		assertEquals("T_EMPLOYEE", v.targetTableUri);
+		assertEquals("", v.joinCondition);
+		assertEquals("E.SALARY > 10",v.filterCondition);
+		assertEquals(v.groupByClause,"");
+		assertEquals(4, v.columnMappings.size());
+		assertEquals(2, v.mappingSourceTables.size());
+		ColumnMappingVO cm=v.columnMappings.iterator().next();
+		assertEquals("M_EMPLOYEE", cm.mappingUri);
+		assertEquals("EMPLOYEE_ID", cm.columnName);
+		assertEquals("E.EMP_ID", cm.expression);
+		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		assertEquals("M_EMPLOYEE", mst.mappingUri);
+		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("E", mst.alias);
+	}
+	
+	
+	public void testGetMapping_3() {
+		testVO_3(new MappingDao("resources/builderTestFiles/model_3").getMapping("M_EMPLOYEE"));
+	}
+
+	private void testVO_3(MappingVO v) {
+		assertEquals("M_EMPLOYEE", v.uri);
+		assertEquals("M_EMPLOYEE", v.name);
+		assertEquals("S_HSQL", v.schemaUri);
+		assertEquals("T_EMPLOYEE", v.targetTableUri);
+		assertEquals("", v.joinCondition);
+		assertEquals("", v.filterCondition);
+		assertEquals(v.groupByClause,"E.HAIR_COLOR");
+		assertEquals(4, v.columnMappings.size());
+		assertEquals(2, v.mappingSourceTables.size());
+		ColumnMappingVO cm=v.columnMappings.iterator().next();
+		assertEquals("M_EMPLOYEE", cm.mappingUri);
+		assertEquals("EMPLOYEE_ID", cm.columnName);
+		assertEquals("E.EMP_ID", cm.expression);
+		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		assertEquals("M_EMPLOYEE", mst.mappingUri);
+		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("E", mst.alias);
+	}
+	
+	public void testGetMapping_4() {
+		testVO_4(new MappingDao("resources/builderTestFiles/model_4").getMapping("M_EMPLOYEE"));
+	}
+
+	private void testVO_4(MappingVO v) {
+		assertEquals("M_EMPLOYEE", v.uri);
+		assertEquals("M_EMPLOYEE", v.name);
+		assertEquals("S_HSQL", v.schemaUri);
+		assertEquals("T_EMPLOYEE", v.targetTableUri);
+		assertEquals("E.ID = D.ID", v.joinCondition);
+		assertEquals("S.SALARY > 100", v.filterCondition);
+		assertEquals(v.groupByClause,"E.HAIR_COLOR");
+		assertEquals(6, v.columnMappings.size());
+		assertEquals(2, v.mappingSourceTables.size());
+		ColumnMappingVO cm=v.columnMappings.iterator().next();
+		assertEquals("M_EMPLOYEE", cm.mappingUri);
+		assertEquals("EMPLOYEE_ID", cm.columnName);
+		assertEquals("E.EMP_ID", cm.expression);
+		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		assertEquals("M_EMPLOYEE", mst.mappingUri);
+		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("E", mst.alias);
+	}
+	
+	public void testGetMapping_5() {
+		testVO_5(new MappingDao("resources/builderTestFiles/model_5").getMapping("M_EMPLOYEE"));
+	}
+
+	private void testVO_5(MappingVO v) {
+		assertEquals("M_EMPLOYEE", v.uri);
+		assertEquals("M_EMPLOYEE", v.name);
+		assertEquals("S_HSQL", v.schemaUri);
+		assertEquals("T_EMPLOYEE", v.targetTableUri);
+		assertEquals("E.DEPARTMENT_ID = D.ID AND E.SALARY_ID = S.ID", v.joinCondition);
+		assertEquals("", v.filterCondition);
+		assertEquals(v.groupByClause,"");
+		assertEquals(5, v.columnMappings.size());
+		assertEquals(3, v.mappingSourceTables.size());
+		ColumnMappingVO cm=v.columnMappings.iterator().next();
+		assertEquals("M_EMPLOYEE", cm.mappingUri);
+		assertEquals("EMPLOYEE_ID", cm.columnName);
+		assertEquals("E.EMP_ID", cm.expression);
+		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		assertEquals("M_EMPLOYEE", mst.mappingUri);
+		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("E", mst.alias);
+	}
+	
+	
+	
+	
 }
