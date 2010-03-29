@@ -4,12 +4,15 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.TableDao;
 import org.dirigent.metafacade.builder.vo.TableVO;
 
 public class TestTableDao extends TestCase {
 	public void testGetTables_1() {
-		Iterator<TableVO> tables = new TableDao("resources/builderTestFiles/model_1").getTables().iterator();
+		String path = "resources/builderTestFiles/model_1";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Iterator<TableVO> tables = new TableDao().getTables().iterator();
 		testVO_1_0(tables.next());
 		testVO_1_1(tables.next());
 		testVO_1_2(tables.next());
@@ -43,7 +46,9 @@ public class TestTableDao extends TestCase {
 	 * model 2
 	 */
 	public void testGetTables_2() {
-		Iterator<TableVO> tables = new TableDao("resources/builderTestFiles/model_2").getTables().iterator();
+		String path = "resources/builderTestFiles/model_2";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Iterator<TableVO> tables = new TableDao().getTables().iterator();
 		testVO_2_0(tables.next());
 		testVO_2_1(tables.next());
 		testVO_2_2(tables.next());
@@ -72,7 +77,9 @@ public class TestTableDao extends TestCase {
 	 * model 3 
 	 */
 	public void testGetTables_3() {
-		Iterator<TableVO> tables = new TableDao("resources/builderTestFiles/model_3").getTables().iterator();
+		String path = "resources/builderTestFiles/model_3";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Iterator<TableVO> tables = new TableDao().getTables().iterator();
 		testVO_3_0(tables.next());
 		testVO_3_1(tables.next());
 		testVO_3_2(tables.next());
@@ -100,7 +107,9 @@ public class TestTableDao extends TestCase {
 	 * model 4
 	 */
 	public void testGetTables_4() {
-		Iterator<TableVO> tables = new TableDao("resources/builderTestFiles/model_4").getTables().iterator();
+		String path = "resources/builderTestFiles/model_4";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Iterator<TableVO> tables = new TableDao().getTables().iterator();
 		testVO_4_0(tables.next());
 		testVO_4_1(tables.next());
 		testVO_4_2(tables.next());
@@ -128,7 +137,9 @@ public class TestTableDao extends TestCase {
 	 * model 5 
 	 */
 	public void testGetTables_5() {
-		Iterator<TableVO> tables = new TableDao("resources/builderTestFiles/model_5").getTables().iterator();  
+		String path = "resources/builderTestFiles/model_5";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Iterator<TableVO> tables = new TableDao().getTables().iterator();  
 		testVO_5_0(tables.next());
 		testVO_5_1(tables.next());
 		testVO_5_2(tables.next());

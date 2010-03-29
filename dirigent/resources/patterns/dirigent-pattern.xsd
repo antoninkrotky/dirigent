@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/dirigent-pattern/" targetNamespace="http://www.example.org/dirigent-pattern/">
+    <complexType name="Pattern">
+    	<sequence>
+    		<element name="Documentation" type="string"></element>
+    		<element name="Parameter" type="tns:Parameter"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="PatternStep" type="tns:PatternStep"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+
+    	</sequence>
+
+    	<attribute name="name" type="string"></attribute>
+    </complexType>
+
+    <element name="Pattern" type="tns:Pattern"></element>
+
+    <complexType name="PatternStep">
+    	<sequence>
+    		<element name="Documentation" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="Template" type="string"></element>
+    	</sequence>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="type" type="string"></attribute>
+    </complexType>
+    
+    <complexType name="Parameter">
+    	<sequence>
+    		<element name="Documentation" type="string"></element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="defaultValue" type="string"></attribute>
+    </complexType>
+</schema>

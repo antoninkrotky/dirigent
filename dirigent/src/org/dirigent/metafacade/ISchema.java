@@ -1,6 +1,6 @@
 package org.dirigent.metafacade;
 
-public interface Schema extends Element {	
+public interface ISchema extends IElement {	
 	public String getJdbcDriver();
 	public String getJdbcUrl();
 	public String getUsername();

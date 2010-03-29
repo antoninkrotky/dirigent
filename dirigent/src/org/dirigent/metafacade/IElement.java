@@ -1,6 +1,6 @@
 package org.dirigent.metafacade;
 
-public interface Element {
+public interface IElement {
 	public String getUri();
 	public String getName();
 }

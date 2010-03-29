@@ -2,6 +2,7 @@ package org.dirigent.metafacade.builder.csv.test;
 
 import junit.framework.TestCase;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.MappingDao;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
@@ -10,7 +11,9 @@ import org.dirigent.metafacade.builder.vo.MappingVO;
 public class TestMappingDao extends TestCase {
 
 	public void testGetMapping_1() {
-		testVO_1(new MappingDao("resources/builderTestFiles/model_1").getMapping("M_EMPLOYEE"));
+		String path = "resources/builderTestFiles/model_1";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_1(new MappingDao().getMapping("M_EMPLOYEE"));
 	}
 	public void testGetMappings_1() {
 		testVO_1(new MappingDao().getMappings().iterator().next());
@@ -38,7 +41,9 @@ public class TestMappingDao extends TestCase {
 	}
 	
 	public void testGetMapping_2() {
-		testVO_2(new MappingDao("resources/builderTestFiles/model_2").getMapping("M_EMPLOYEE"));
+		String path = "resources/builderTestFiles/model_2";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_2(new MappingDao().getMapping("M_EMPLOYEE"));
 	}
 
 	private void testVO_2(MappingVO v) {
@@ -63,7 +68,9 @@ public class TestMappingDao extends TestCase {
 	
 	
 	public void testGetMapping_3() {
-		testVO_3(new MappingDao("resources/builderTestFiles/model_3").getMapping("M_EMPLOYEE"));
+		String path = "resources/builderTestFiles/model_3";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_3(new MappingDao().getMapping("M_EMPLOYEE"));
 	}
 
 	private void testVO_3(MappingVO v) {
@@ -87,7 +94,9 @@ public class TestMappingDao extends TestCase {
 	}
 	
 	public void testGetMapping_4() {
-		testVO_4(new MappingDao("resources/builderTestFiles/model_4").getMapping("M_EMPLOYEE"));
+		String path = "resources/builderTestFiles/model_4";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_4(new MappingDao().getMapping("M_EMPLOYEE"));
 	}
 
 	private void testVO_4(MappingVO v) {
@@ -111,7 +120,9 @@ public class TestMappingDao extends TestCase {
 	}
 	
 	public void testGetMapping_5() {
-		testVO_5(new MappingDao("resources/builderTestFiles/model_5").getMapping("M_EMPLOYEE"));
+		String path = "resources/builderTestFiles/model_5";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_5(new MappingDao().getMapping("M_EMPLOYEE"));
 	}
 
 	private void testVO_5(MappingVO v) {

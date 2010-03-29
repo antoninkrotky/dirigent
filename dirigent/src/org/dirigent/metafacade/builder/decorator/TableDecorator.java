@@ -2,13 +2,13 @@ package org.dirigent.metafacade.builder.decorator;
 
 import java.util.Collection;
 
-import org.dirigent.metafacade.Column;
-import org.dirigent.metafacade.Schema;
-import org.dirigent.metafacade.Table;
+import org.dirigent.metafacade.IColumn;
+import org.dirigent.metafacade.ISchema;
+import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.TableVO;
 
-public class TableDecorator implements Table {
+public class TableDecorator implements ITable {
 
 	private TableVO table;
 	
@@ -17,14 +17,14 @@ public class TableDecorator implements Table {
 	}
 	
 	@Override
-	public Collection<Column> getColumns() {
+	public Collection<IColumn> getColumns() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Schema getSchema() {
-		return (Schema)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(table.schemaUri);
+	public ISchema getSchema() {
+		return (ISchema)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(table.schemaUri);
 	}
 
 	@Override
@@ -35,6 +35,11 @@ public class TableDecorator implements Table {
 	@Override
 	public String getUri() {
 		return table.uri;
+	}
+
+	@Override
+	public String getFullName() {
+		return getSchema().getSchema()+'.'+getName();
 	}
 
 }

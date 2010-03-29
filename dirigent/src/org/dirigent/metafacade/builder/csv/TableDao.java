@@ -8,16 +8,6 @@ import org.dirigent.metafacade.builder.vo.TableVO;
 
 public class TableDao extends CsvDao<TableVO> {
 	
-	public TableDao() {}
-	
-	/**
-	 * Constructor that takes path to folder with resources (useful for testing)
-	 * @param path
-	 */
-	public TableDao(String path) {
-		CsvDao.path = path; 
-	}
-
 	public TableVO getTable(String uri) {
 		return findVO("select * from Table where URI="
 					+ uri);

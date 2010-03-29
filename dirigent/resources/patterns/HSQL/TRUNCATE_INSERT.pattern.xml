@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd" name="TRUNCATE_INSERT">
+	<Documentation> Load target table using truncate insert pattern. 
+	</Documentation>
+	<Parameter name="TruncateTargetTable" defaultValue="Yes">
+		<Documentation>If Yes target table will be truncated before loading
+			data.</Documentation>
+	</Parameter>
+	<Parameter name="CreateTargetTable" defaultValue="No">
+		<Documentation>If Yes target table will be created before loading
+			data. Table will not be dropped if exists.</Documentation>
+	</Parameter>
+	<PatternStep name="Create target table">
+		<Template> --Not implemented as HSQL does not support CREATE TABLE AS SELECT.</Template>
+	</PatternStep>
+	<PatternStep name="Truncate target table">
+		<Template> DELETE ${element.targetTable.fullName};</Template>
+	</PatternStep>
+	<PatternStep name="Load target table">
+		<Template> INSERT INTO ${element.targetTable.fullName}
+			${element.SQLQuery};</Template>
+	</PatternStep>
+</tns:Pattern>

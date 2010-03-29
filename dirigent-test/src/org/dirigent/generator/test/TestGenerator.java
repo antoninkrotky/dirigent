@@ -6,10 +6,12 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
-import org.dirigent.metafacade.Generatable;
-import org.dirigent.metafacade.Pattern;
-import org.dirigent.metafacade.PatternStep;
+import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.pattern.IPattern;
+import org.dirigent.pattern.IPatternStep;
 import org.dirigent.test.utils.FileComparator;
 
 public class TestGenerator extends TestCase {
@@ -30,29 +32,39 @@ public class TestGenerator extends TestCase {
 
 	public void testGenerate() {
 		Generator.generate(createGeneratable());
-		FileComparator.assertEquals("results/generatorTest/TestGenerator.expected.install.sql",
+		FileComparator.assertEquals("results/generatorTest/TestGenerator.testGenerate.expected.install.sql",
 				new File("output/install.sql"));
 	}
+	
+	public void testGenerateMapping() throws Exception{
+		String path = "resources/builderTestFiles/model_1";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		Generator.generate((IGeneratable)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("M_EMPLOYEE"));
+		FileComparator.assertEquals("results/generatorTest/TestGenerator.testGenerateMapping.expected.install.sql",
+				new File("output/install.sql"));
+	}
+	 
+	
 
 	/**
 	 * Helper method for creating generatable object. MetafacadeFactory should
 	 * be used to create generatable object.
 	 * */
-	private Generatable createGeneratable() {
-		Generatable g = new Generatable() {
+	private IGeneratable createGeneratable() {
+		IGeneratable g = new IGeneratable() {
 
 			public String getName() {
 				return "TestElement";
 			}
 
 			@Override
-			public Pattern getPattern() {
-				return new Pattern() {
+			public IPattern getPattern() {
+				return new IPattern() {
 					@Override
-					public Collection<PatternStep> getSteps() {
-						ArrayList<PatternStep> steps = new ArrayList<PatternStep>(
+					public Collection<IPatternStep> getSteps() {
+						ArrayList<IPatternStep> steps = new ArrayList<IPatternStep>(
 								1);
-						steps.add(new PatternStep() {
+						steps.add(new IPatternStep() {
 
 							@Override
 							public String getTemplate() {

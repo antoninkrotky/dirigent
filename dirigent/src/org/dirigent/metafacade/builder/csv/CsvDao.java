@@ -8,9 +8,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.dirigent.config.DirigentConfig;
+
 public abstract class CsvDao<V> {
 
-	static protected String path = "resources/model"; 
+	private String path; 
+	
+	protected CsvDao(){
+		path=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_PATH);
+		if (path==null) {
+			throw new IllegalStateException("Configuration parameter "+DirigentConfig.MODEL_PATH+" must be set.");
+		}
+	}
 	private Connection connection;
 
 	/**

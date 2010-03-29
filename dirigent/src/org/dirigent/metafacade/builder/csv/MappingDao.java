@@ -8,12 +8,6 @@ import org.dirigent.metafacade.builder.vo.MappingVO;
 
 public class MappingDao extends CsvDao<MappingVO> {
 	
-	public MappingDao() {}
-	
-	public MappingDao(String path) {
-		CsvDao.path = path; 
-	}
-
 	private ColumnMappingDao cmDao = new ColumnMappingDao();
 	private MappingSourceTableDao mstDao = new MappingSourceTableDao();
 
