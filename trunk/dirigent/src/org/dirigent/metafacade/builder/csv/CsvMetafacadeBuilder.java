@@ -2,7 +2,8 @@ package org.dirigent.metafacade.builder.csv;
 
 import java.util.HashMap;
 
-import org.dirigent.metafacade.Element;
+import org.dirigent.config.DirigentConfig;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
@@ -19,8 +20,9 @@ import org.dirigent.metafacade.builder.vo.TableVO;
  * */
 public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 
+
+	private HashMap<String, IElement> elements = new HashMap<String, IElement>();
 	
-	private HashMap<String, Element> elements = new HashMap<String, Element>();
 	private TableDao tableDao;
 	private MappingDao mappingDao;
 	private SchemaDao schemaDao;
@@ -31,20 +33,9 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		schemaDao = new SchemaDao();
 	}
 	
-	/**
-	 * takes path to resources if different tah default 
-	 * default value is resources/model 
-	 * @param path
-	 */
-	public CsvMetafacadeBuilder(String path) {
-		tableDao = new TableDao(path);
-		mappingDao = new MappingDao(path);
-		schemaDao = new SchemaDao(path);
-	}
-	
 	@Override
-	public Element getMetafacade(String uri) {
-		Element element = elements.get(uri);
+	public IElement getMetafacade(String uri) {
+		IElement element = elements.get(uri);
 		if (element == null) {
 			element = getSchema(uri);
 		}
@@ -58,7 +49,7 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		return element;
 	}
 
-	private Element getTable(String uri) {
+	private IElement getTable(String uri) {
 		TableVO v = tableDao.getTable(uri);
 		if (v != null) {
 			return new TableDecorator(v);
@@ -66,7 +57,7 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		return null;
 	}
 
-	private Element getMapping(String uri) {
+	private IElement getMapping(String uri) {
 		MappingVO m = mappingDao.getMapping(uri);
 		if (m != null) {
 			return new MappingDecorator(m);
@@ -74,7 +65,7 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		return null;
 	}
 
-	private Element getSchema(String uri) {
+	private IElement getSchema(String uri) {
 		SchemaVO s = schemaDao.getSchema(uri);
 		if (s != null) {
 			return new SchemaDecorator(s);

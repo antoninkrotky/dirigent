@@ -2,6 +2,7 @@ package org.dirigent.metafacade.builder.csv.test;
 
 import junit.framework.TestCase;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.SchemaDao;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 
@@ -10,14 +11,20 @@ import org.dirigent.metafacade.builder.vo.SchemaVO;
 public class TestSchemaDao extends TestCase {
 
 	public void testGetSchemas_1() {
-		testVO_1(new SchemaDao("resources/builderTestFiles/model_1").getSchemas().iterator().next());
+		String path = "resources/builderTestFiles/model_1";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_1(new SchemaDao().getSchemas().iterator().next());
 	}
 	public void testGetSchema_1() {
-		testVO_1(new SchemaDao("resources/builderTestFiles/model_1").getSchema("S_HSQL"));
+		String path = "resources/builderTestFiles/model_1";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_1(new SchemaDao().getSchema("S_HSQL"));
 	}
 	
 	public void testGetSchemas_2() {
-		testVO_2(new SchemaDao("resources/builderTestFiles/model_2").getSchemas().iterator().next());
+		String path = "resources/builderTestFiles/model_2";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		testVO_2(new SchemaDao().getSchemas().iterator().next());
 	}
 	public void testGetSchema_2() {
 		testVO_2(new SchemaDao().getSchema("S_MYSQL"));

@@ -1,9 +1,9 @@
 package org.dirigent.metafacade.builder.decorator;
 
-import org.dirigent.metafacade.Schema;
+import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 
-public class SchemaDecorator implements Schema {
+public class SchemaDecorator implements ISchema {
 
 	private SchemaVO schema;
 	public SchemaDecorator(SchemaVO schemaVO) {

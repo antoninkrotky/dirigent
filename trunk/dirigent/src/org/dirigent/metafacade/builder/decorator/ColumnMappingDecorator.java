@@ -1,11 +1,11 @@
 package org.dirigent.metafacade.builder.decorator;
 
-import org.dirigent.metafacade.Column;
-import org.dirigent.metafacade.ColumnMapping;
-import org.dirigent.metafacade.Table;
+import org.dirigent.metafacade.IColumn;
+import org.dirigent.metafacade.IColumnMapping;
+import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 
-public class ColumnMappingDecorator implements ColumnMapping {
+public class ColumnMappingDecorator implements IColumnMapping {
 
 	private final ColumnMappingVO columnMapping;
 
@@ -14,9 +14,9 @@ public class ColumnMappingDecorator implements ColumnMapping {
 	}
 	
 	@Override
-	public Column getColumn() {
+	public IColumn getColumn() {
 		//TODO: replace with ColumnDecorator 
-		return new Column(){
+		return new IColumn(){
 			@Override
 			public String getDataType() {
 				// TODO Auto-generated method stub
@@ -35,7 +35,7 @@ public class ColumnMappingDecorator implements ColumnMapping {
 			}
 
 			@Override
-			public Table getTable() {
+			public ITable getTable() {
 				// TODO Auto-generated method stub
 				return null;
 			}

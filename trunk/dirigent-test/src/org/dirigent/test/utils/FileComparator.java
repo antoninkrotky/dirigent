@@ -51,6 +51,7 @@ public class FileComparator {
 						"Couldn't find file to compare so new one has been created. Re-check and re-run failing tests.");
 			}
 			assertEquals(goldenFile, actIn);
+			actIn.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -2,7 +2,7 @@ package org.dirigent.metafacade;
 /**
  * Metafacade representing column of table.
  * */
-public interface Column {
+public interface IColumn {
 	/**
 	 * Name of column.
 	 * */
@@ -14,7 +14,7 @@ public interface Column {
 	/**
 	 * Reference to table metafacade.
 	 * */
-	public Table getTable();
+	public ITable getTable();
 	/**
 	 * Description of table column.
 	 * */

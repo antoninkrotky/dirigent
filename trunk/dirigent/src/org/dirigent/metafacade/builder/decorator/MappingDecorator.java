@@ -6,20 +6,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.dirigent.metafacade.ColumnMapping;
-import org.dirigent.metafacade.Mapping;
-import org.dirigent.metafacade.Schema;
-import org.dirigent.metafacade.Table;
+import org.dirigent.metafacade.IColumnMapping;
+import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.IMapping;
+import org.dirigent.metafacade.ISchema;
+import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
+import org.dirigent.pattern.IPattern;
+import org.dirigent.pattern.builder.PatternBuilder;
 
-public class MappingDecorator implements Mapping {
+public class MappingDecorator implements IMapping, IGeneratable {
 
 	private MappingVO mapping;
-	private Map<String, Table> sourceTables;
-	private Collection<ColumnMapping> columnMappings;
+	private Map<String, ITable> sourceTables;
+	private Collection<IColumnMapping> columnMappings;
 
 	public MappingDecorator(MappingVO mapping) {
 		this.mapping = mapping;
@@ -29,39 +32,39 @@ public class MappingDecorator implements Mapping {
 	}
 
 	private void initColumnMappings() {
-		columnMappings = new ArrayList<ColumnMapping>();
-		Iterator<ColumnMappingVO> i = mapping.columnMappings.iterator();
-		while (i.hasNext()) {
-			columnMappings.add(new ColumnMappingDecorator(i.next()));
+		columnMappings=new ArrayList<IColumnMapping>();
+		Iterator<ColumnMappingVO> i=mapping.columnMappings.iterator();
+		while (i.hasNext()){
+		columnMappings.add(new ColumnMappingDecorator(i.next()));
 		}
 
 	}
 
 	private void initSourceTables() {
-		sourceTables = new HashMap<String, Table>();
+		sourceTables = new HashMap<String, ITable>();
 		Iterator<MappingSourceTableVO> i = mapping.mappingSourceTables
 				.iterator();
 		while (i.hasNext()) {
 			MappingSourceTableVO v = i.next();
-			sourceTables.put(v.alias, (Table) MetafacadeBuilder
+			sourceTables.put(v.alias, (ITable) MetafacadeBuilder
 					.getMetafacadeBuilder().getMetafacade(v.tableUri));
 		}
 	}
 
 	@Override
-	public Schema getSchema() {
-		return (Schema) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+	public ISchema getSchema() {
+		return (ISchema) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
 				mapping.schemaUri);
 	}
 
 	@Override
-	public Map<String, Table> getSourceTables() {
+	public Map<String, ITable> getSourceTables() {
 		return sourceTables;
 	}
 
 	@Override
-	public Table getTargetTable() {
-		return (Table) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+	public ITable getTargetTable() {
+		return (ITable) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
 				mapping.targetTableUri);
 	}
 
@@ -76,7 +79,7 @@ public class MappingDecorator implements Mapping {
 	}
 
 	@Override
-	public Collection<ColumnMapping> getColumnMappings() {
+	public Collection<IColumnMapping> getColumnMappings() {
 		return columnMappings;
 	}
 
@@ -121,7 +124,7 @@ public class MappingDecorator implements Mapping {
 		Iterator<String> i = getSourceTables().keySet().iterator();
 		while (i.hasNext()) {
 			String alias = i.next();
-			Table table = getSourceTables().get(alias);
+			ITable table = getSourceTables().get(alias);
 			sb.append('\t');
 			sb.append(table.getSchema().getSchema());
 			sb.append('.');
@@ -138,9 +141,9 @@ public class MappingDecorator implements Mapping {
 
 	public String getColumns() {
 		StringBuffer sb = new StringBuffer();
-		Iterator<ColumnMapping> i = getColumnMappings().iterator();
+		Iterator<IColumnMapping> i = getColumnMappings().iterator();
 		while (i.hasNext()) {
-			ColumnMapping m = i.next();
+			IColumnMapping m = i.next();
 			sb.append('\t');
 			sb.append(m.getExpression());
 			sb.append(" AS \"");
@@ -152,6 +155,12 @@ public class MappingDecorator implements Mapping {
 			sb.append('\n');
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public IPattern getPattern() {
+		//TODO:Get pattern name from model.
+		return PatternBuilder.getPatternBuilder().getPattern("HSQL/TRUNCATE_INSERT.pattern.xml");
 	}
 
 }

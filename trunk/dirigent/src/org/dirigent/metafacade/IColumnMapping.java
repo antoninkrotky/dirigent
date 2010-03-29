@@ -2,7 +2,7 @@ package org.dirigent.metafacade;
 /**
  * Metafacade representing column mapping.
  * */
-public interface ColumnMapping {
+public interface IColumnMapping {
 	/**
 	 * Expression used to populate column.
 	 * */
@@ -11,5 +11,5 @@ public interface ColumnMapping {
 	/**
 	 * Reference to target column metafacade.
 	 * */
-	public Column getColumn();
+	public IColumn getColumn();
 }
