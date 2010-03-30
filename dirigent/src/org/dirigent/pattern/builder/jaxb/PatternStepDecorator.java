@@ -19,5 +19,9 @@ public class PatternStepDecorator implements IPatternStep {
 	public String getTemplate() {
 		return step.getTemplate();
 	}
+	@Override
+	public String getType() {
+		return step.getType();
+	}
 
 }

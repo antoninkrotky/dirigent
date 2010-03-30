@@ -12,13 +12,13 @@
 		<Documentation>If Yes target table will be created before loading
 			data. Table will not be dropped if exists.</Documentation>
 	</Parameter>
-	<PatternStep name="Create target table">
+	<PatternStep name="Create target table" type="JDBCStatement">
 		<Template> --Not implemented as HSQL does not support CREATE TABLE AS SELECT.</Template>
 	</PatternStep>
-	<PatternStep name="Truncate target table">
+	<PatternStep name="Truncate target table" type="JDBCStatement">
 		<Template> DELETE FROM ${element.targetTable.fullName};</Template>
 	</PatternStep>
-	<PatternStep name="Load target table">
+	<PatternStep name="Load target table" type="JDBCStatement">
 		<Template> INSERT INTO ${element.targetTable.fullName}
 			${element.SQLQuery};</Template>
 	</PatternStep>

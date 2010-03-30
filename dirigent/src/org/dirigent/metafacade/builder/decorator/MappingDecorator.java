@@ -159,8 +159,7 @@ public class MappingDecorator implements IMapping, IGeneratable {
 
 	@Override
 	public IPattern getPattern() {
-		//TODO:Get pattern name from model.
-		return PatternBuilder.getPatternBuilder().getPattern("HSQL/TRUNCATE_INSERT.pattern.xml");
+		return PatternBuilder.getPatternBuilder().getPattern(mapping.pattern+".pattern.xml");
 	}
 
 }

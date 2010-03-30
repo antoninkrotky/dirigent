@@ -23,11 +23,12 @@ public class MappingDao extends CsvDao<MappingVO> {
 		MappingVO v = new MappingVO();
 		v.uri = res.getString(1);
 		v.name = res.getString(2);
-		v.schemaUri = res.getString(3);
-		v.targetTableUri = res.getString(4);
-		v.joinCondition = res.getString(5);
-		v.filterCondition = res.getString(6);
-		v.groupByClause = res.getString(7);
+		v.pattern=res.getString(3);
+		v.schemaUri = res.getString(4);
+		v.targetTableUri = res.getString(5);
+		v.joinCondition = res.getString(6);
+		v.filterCondition = res.getString(7);
+		v.groupByClause = res.getString(8);		
 		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
 		v.mappingSourceTables = mstDao
 				.getMappingSourceTablesByMappingUri(v.uri);

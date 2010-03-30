@@ -1,2 +1,2 @@
-"URI","Name","SchemaURI","TargetTableURI","JoinCondition","FilterCondition","GrouByClause"
-"M_EMPLOYEE","M_EMPLOYEE","S_HSQL","T_EMPLOYEE","E.DEPARTMENT_ID = D.ID AND E.SALARY_ID = S.ID",,
+"URI","Name","Pattern","SchemaURI","TargetTableURI","JoinCondition","FilterCondition","GrouByClause"
+"M_EMPLOYEE","M_EMPLOYEE","HSQL/TRUNCATE_INSERT_JDBC","S_HSQL","T_EMPLOYEE","E.DEPARTMENT_ID = D.ID AND E.SALARY_ID = S.ID",,
