@@ -1,0 +1,28 @@
+<project name="ant-dirigent" default="generate">
+	<path id="dirigent.classpath">
+		<fileset dir="../dirigent/lib">
+			<include name="*/**.jar" />
+		</fileset>
+		<dirset dir="../dirigent">
+			<include name="bin" />
+			<include name="resources" />
+		</dirset>
+	</path>
+	
+	<!-- 
+	Launch dirigent generator for specified model element.
+	uri - URI of model element to generate.
+	model - Model path. 
+	-->
+	<macrodef name="dirigent">
+		<attribute name="uri" />
+		<attribute name="model" />
+		<sequential>
+			<java classname="org.dirigent.Dirigent" classpathref="dirigent.classpath"
+				fork="true">
+				<arg value="@{model}" />
+				<arg value="@{uri}" />
+			</java>
+		</sequential>
+	</macrodef>
+</project>

@@ -2,7 +2,6 @@ package org.dirigent.metafacade.builder.csv;
 
 import java.util.HashMap;
 
-import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;

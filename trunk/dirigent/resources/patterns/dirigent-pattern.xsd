@@ -23,7 +23,7 @@
     		<element name="Template" type="string"></element>
     	</sequence>
         <attribute name="name" type="string"></attribute>
-        <attribute name="type" type="string"></attribute>
+        <attribute name="type" type="tns:PatternStepType" default="File"></attribute>
     </complexType>
     
     <complexType name="Parameter">
@@ -32,5 +32,13 @@
     	</sequence>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="defaultValue" type="string"></attribute>
-    </complexType>
+     </complexType>
+
+    <simpleType name="PatternStepType">
+    	<restriction base="string">
+    		<enumeration value="File"></enumeration>
+    		<enumeration value="JDBCStatement"></enumeration>
+    	</restriction>
+    </simpleType>
+
 </schema>

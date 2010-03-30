@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dirigent-test" default="default">
+	<!--
+	Before commit test.
+	Runs all jUnit tests.
+	Generates selected elements from test models. (Requires running HSQLDB.)
+	-->
+	<import file="ant-dirigent.xml"/>
+	<path id="dirigent.test.classpath">
+		<filelist>
+			<file name="lib/junit.jar" />
+		</filelist>
+		<dirset dir=".">
+			<include name="bin" />
+		</dirset>
+	</path>
+
+	<target name="junit" description="Run all jUnit tests.">
+		<junit printsummary="true" haltonerror="true" haltonfailure="true" showoutput="true" >
+			<classpath refid="dirigent.classpath" />
+			<classpath refid="dirigent.test.classpath" />
+			<formatter type="plain" />
+
+			<batchtest fork="no" todir="output">
+				<fileset dir="src">
+					<include name="**/Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="generate" description="Generate test model elements.">
+		<dirigent uri="M_EMPLOYEE" model="resources/builderTestFiles/model_1" />
+	</target>
+
+	<target name="default" depends="junit,generate"/>
+</project>

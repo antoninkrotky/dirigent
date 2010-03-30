@@ -3,6 +3,7 @@ package org.dirigent.metafacade.builder.vo;
 import java.util.Collection;
 
 public class MappingVO extends VO{
+	public String pattern;
 	public String name;
 	public String schemaUri;
 	public String targetTableUri;
