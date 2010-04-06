@@ -11,8 +11,8 @@ public class MappingSourceTableDao extends CsvDao<MappingSourceTableVO> {
 	public Collection<MappingSourceTableVO> getMappingSourceTablesByMappingUri(String uri) {
 		return findVOs("select * from MappingSourceTable where MapingURI="+uri);
 	}
-	
-	@Override
+
+	@Override 
 	protected MappingSourceTableVO createVO(ResultSet res) throws SQLException {
 		MappingSourceTableVO v=new MappingSourceTableVO();
 		v.mappingUri=res.getString(1);
@@ -20,5 +20,8 @@ public class MappingSourceTableDao extends CsvDao<MappingSourceTableVO> {
 		v.alias=res.getString(3);
 		return v;
 	}
+
+
+
 
 }

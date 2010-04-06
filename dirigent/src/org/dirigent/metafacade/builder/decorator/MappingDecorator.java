@@ -119,9 +119,12 @@ public class MappingDecorator implements IMapping, IGeneratable {
 		return sb.toString();
 	}
 
+	//TODO generate sub-queries 
 	public String getFromClause() {
 		StringBuffer sb = new StringBuffer("FROM\n");
 		Iterator<String> i = getSourceTables().keySet().iterator();
+		Iterator<IColumnMapping> j = getColumnMappings().iterator();
+		
 		while (i.hasNext()) {
 			String alias = i.next();
 			ITable table = getSourceTables().get(alias);
@@ -136,6 +139,16 @@ public class MappingDecorator implements IMapping, IGeneratable {
 			}
 			sb.append('\n');
 		}
+		
+		while (j.hasNext()) {
+			IColumnMapping column = j.next(); 
+			if (column.hasCountWithSubquery()) {
+				sb.append(','); 
+				sb.append(column.getCountSubqueryExpression());
+				sb.append('\n'); 
+			}
+		}
+		
 		return sb.toString();
 	}
 

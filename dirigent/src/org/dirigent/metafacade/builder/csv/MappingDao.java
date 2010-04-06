@@ -14,7 +14,7 @@ public class MappingDao extends CsvDao<MappingVO> {
 	public MappingVO getMapping(String uri) {
 		return findVO("select * from Mapping where URI=" + uri);
 	}
-
+	
 	public Collection<MappingVO> getMappings() {
 		return findVOs("select * from Mapping");
 	}
