@@ -177,7 +177,58 @@ public class TestTableDao extends TestCase {
 		assertEquals("T_SALARY", v.uri);
 	}
 	
+	public void testGetTable_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		
+		testVO_6_0(new TableDao().getTable("TS_sf_guard_permission"));
+		testVO_6_1(new TableDao().getTable("TS_sf_guard_remember_key"));
+		testVO_6_2(new TableDao().getTable("TS_sf_guard_user"));
+		testVO_6_3(new TableDao().getTable("TT_album"));
+		testVO_6_4(new TableDao().getTable("TT_articles"));
+		testVO_6_5(new TableDao().getTable("TT_category"));
+	}
 	
+	public void testGetSchemasCount_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		
+		assertEquals(34, new TableDao().getTables().size()); 
+	}
 	
+	private void testVO_6_0(TableVO v) {
+		assertEquals("S_SOURCE", v.schemaUri);
+		assertEquals("sf_guard_permission", v.name);
+		assertEquals("TS_sf_guard_permission", v.uri);
+	}
 	
+	private void testVO_6_1(TableVO v) {
+		assertEquals("S_SOURCE", v.schemaUri);
+		assertEquals("sf_guard_remember_key", v.name);
+		assertEquals("TS_sf_guard_remember_key", v.uri);
+	}
+	
+	private void testVO_6_2(TableVO v) {
+		assertEquals("S_SOURCE", v.schemaUri);
+		assertEquals("sf_guard_user", v.name);
+		assertEquals("TS_sf_guard_user", v.uri);
+	}
+	
+	private void testVO_6_3(TableVO v) {
+		assertEquals("S_TARGET", v.schemaUri);
+		assertEquals("album", v.name);
+		assertEquals("TT_album", v.uri);
+	}
+	
+	private void testVO_6_4(TableVO v) {
+		assertEquals("S_TARGET", v.schemaUri);
+		assertEquals("articles", v.name);
+		assertEquals("TT_articles", v.uri);
+	}
+	
+	private void testVO_6_5(TableVO v) {
+		assertEquals("S_TARGET", v.schemaUri);
+		assertEquals("category", v.name);
+		assertEquals("TT_category", v.uri);
+	}
 }

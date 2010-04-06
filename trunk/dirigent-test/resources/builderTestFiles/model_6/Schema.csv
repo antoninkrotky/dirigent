@@ -1,0 +1,3 @@
+"URI","Name","Schema","Username","Password","JdbcUrl","JdbcDriver"
+"S_TARGET","CaballinusTarget","caballinus_target","root","root","jdbc:hsqldb:hsql://localhost:3306/caballinus_target","org.hsqldb.jdbcDriver"
+"S_SOURCE","CaballinusSource","caballinus_source","root","root","jdbc:hsqldb:hsql://localhost:3306/caballinus_source","org.hsqldb.jdbcDriver"

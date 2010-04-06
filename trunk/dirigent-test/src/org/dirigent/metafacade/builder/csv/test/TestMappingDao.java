@@ -145,6 +145,17 @@ public class TestMappingDao extends TestCase {
 		assertEquals("E", mst.alias);
 	}
 	
+	public void testGetMapping_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		MappingVO v = new MappingDao().getMapping("M_category");
+		assertEquals(16, v.columnMappings.size());
+		assertEquals(1, v.mappingSourceTables.size());
+		ColumnMappingVO cm=v.columnMappings.iterator().next();
+		assertEquals("M_category", cm.mappingUri);
+		
+	}
+	
 	
 	
 	

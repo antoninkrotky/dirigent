@@ -103,7 +103,28 @@ public class TestMetafacadeBuilder extends TestCase {
 		FileComparator
 				.assertEquals(
 						"results/builderTests/TestMetafacadeBuilder.expected.query.5.sql",
-						((IMapping) mfb.getMetafacade("M_EMPLOYEE"))
+						 ((IMapping) mfb.getMetafacade("M_EMPLOYEE"))
+								.getSQLQuery());
+	}
+	
+	/**
+	 * more selects, count and hash functions
+	 */
+	public void testGetMetafacadeBuilder_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		
+		MetafacadeBuilder mfb = MetafacadeBuilder.getMetafacadeBuilder();
+		assertNotNull(mfb);
+		assertTrue(mfb instanceof CsvMetafacadeBuilder);
+		assertNotNull(mfb.getMetafacade("S_SOURCE"));
+		assertNotNull(mfb.getMetafacade("S_TARGET"));
+		//assertNotNull(mfb.getMetafacade("T_album"));
+		//assertNotNull(mfb.getMetafacade("M_EMPLOYEE"));
+		FileComparator
+				.assertEquals(
+						"results/builderTests/TestMetafacadeBuilder.expected.query.6.sql",
+						((IMapping) mfb.getMetafacade("M_category"))
 								.getSQLQuery());
 	}
 }

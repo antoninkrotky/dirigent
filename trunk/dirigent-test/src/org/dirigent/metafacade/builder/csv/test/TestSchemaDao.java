@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.SchemaDao;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
+import java.util.Iterator;
 
 
 
@@ -30,9 +31,6 @@ public class TestSchemaDao extends TestCase {
 		testVO_2(new SchemaDao().getSchema("S_MYSQL"));
 	}
 
-	
-	
-	
 	private void testVO_1(SchemaVO v) {
 		assertEquals("S_HSQL", v.uri);
 		assertEquals("TestSchema", v.name);
@@ -52,4 +50,43 @@ public class TestSchemaDao extends TestCase {
 		assertEquals("jdbc:hsqldb:hsql://localhost/dirigent-demo", v.jdbcUrl);
 		assertEquals("org.hsqldb.jdbcDriver", v.jdbcDriver);
 	}
+	
+
+	public void testGetSchema_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		
+		testVO_6_1(new SchemaDao().getSchema("S_SOURCE"));
+		testVO_6_2(new SchemaDao().getSchema("S_TARGET"));
+	}
+	
+	public void testGetSchemas_6() {
+		String path = "resources/builderTestFiles/model_6";
+		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		
+		Iterator<SchemaVO> iterator = new SchemaDao().getSchemas().iterator();
+		testVO_6_2(iterator.next());
+		testVO_6_1(iterator.next());
+	}
+	
+	private void testVO_6_1(SchemaVO v) {
+		assertEquals("S_SOURCE", v.uri);
+		assertEquals("CaballinusSource", v.name);
+		assertEquals("caballinus_source", v.schema);
+		assertEquals("root", v.userName);
+		assertEquals("root", v.password);
+		assertEquals("jdbc:hsqldb:hsql://localhost:3306/caballinus_source", v.jdbcUrl);
+		assertEquals("org.hsqldb.jdbcDriver", v.jdbcDriver);
+	}
+	
+	private void testVO_6_2(SchemaVO v) {
+		assertEquals("S_TARGET", v.uri);
+		assertEquals("CaballinusTarget", v.name);
+		assertEquals("caballinus_target", v.schema);
+		assertEquals("root", v.userName);
+		assertEquals("root", v.password);
+		assertEquals("jdbc:hsqldb:hsql://localhost:3306/caballinus_target", v.jdbcUrl);
+		assertEquals("org.hsqldb.jdbcDriver", v.jdbcDriver);
+	}
+	
 }
