@@ -10,13 +10,13 @@ In case you find any mistake or easier way how to debug plugins, let me know, pl
 
 I assume you created run/debug configuration as described in HowToSetupKettleProjectUnderEclipse. 
 
- # deploy plugin to plugins directory of Kettle (see link [1])
+ # deploy plugin to plugins directory of Kettle (see link #1)
  # add .jar file to kettle project's classpath (run configuration -> classpath) 
  # add .jar file to kettle project's build path 
  # TBD - _currently I am getting error message that breakpoint line couldn't be set_
 
 = Links =
 
-[1] [http://wiki.pentaho.com/display/EAI/Writing+your+own+Pentaho+Data+Integration+Plug-In How To Write Pentaho Plugins On Pentaho Wiki]
-[2] [http://wiki.pentaho.com/display/EAI/How+to+debug+a+Kettle+4+plugin How To Debug Kettle 4+ Plugins on Pentaho wiki]
-[3] HowToBuildDirigent
+ # [http://wiki.pentaho.com/display/EAI/Writing+your+own+Pentaho+Data+Integration+Plug-In How To Write Pentaho Plugins On Pentaho Wiki]
+ # [http://wiki.pentaho.com/display/EAI/How+to+debug+a+Kettle+4+plugin How To Debug Kettle 4+ Plugins on Pentaho wiki]
+ # HowToBuildDirigent
