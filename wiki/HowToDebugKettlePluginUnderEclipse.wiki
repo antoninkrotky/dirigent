@@ -1,3 +1,4 @@
+#labels Phase-Deploy
 #how to setup eclipse run/debug configuration in order to debug kettle plugins 
 
 = How To Debug Kettle Plugin Under Eclipse - DRAFT =
@@ -8,12 +9,14 @@ In case you find any mistake or easier way how to debug plugins, let me know, pl
 
 = Details =
 
-I assume you created run/debug configuration as described in HowToSetupKettleProjectUnderEclipse. 
+I assume you have checked out kettle. This instructions are for this plugin and configuration is for plugin project, not for kettle. 
 
- # deploy plugin to plugins directory of Kettle (see link #1)
- # add .jar file to kettle project's classpath (run configuration -> classpath) 
- # add .jar file to kettle project's build path 
- # TBD - _currently I am getting error message that breakpoint line couldn't be set_
+ * follow information on [http://pentahodev.blogspot.com/2009/08/developdebug-kettle-plugin-in-eclipse.html this blog]
+ * then set VM variables in your run/debug configuration as below. Use correct path for swt.jar according to your OS. 
+
+{{{-Djava.library.path=libswt/linux/x86_64 -DKETTLE_PLUGIN_CLASSES=org.dirigent.kettle.ui.DirigentPluginDialog,org.dirigent.kettle.DirigentPlugin,org.dirigent.kettle.DirigentPluginData,org.dirigent.kettle.DirigentPluginMeta}}}
+ * make sure swt.jar is on build path only once and it's correct
+ * build plugin (HowToBuildDirigentPlugin)
 
 = Links =
 
