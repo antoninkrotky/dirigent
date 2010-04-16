@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="DIRIGENT plugin"
+   iconfile="dirigent.png"
+   description="DIRIGENT Plugin"
+   tooltip="This is Data Generator Integration Plugin for Kettle"
+   category="Input"
+   classname="org.dirigent.kettle.DirigentPluginMeta">
+   <libraries>
+    <library name="dirigent.jar"/>
+    </libraries>
+    
+   <localized_category>
+     <category locale="en_US">Input</category>
+   </localized_category>
+   <localized_description>
+     <description locale="en_US">DIRIGENT</description>
+   </localized_description>
+   <localized_tooltip>
+     <tooltip locale="en_US">This is Data Integration Generator Plugin (version 1)</tooltip>
+   </localized_tooltip>
+   
+</plugin>

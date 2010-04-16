@@ -1,0 +1,144 @@
+<project name="DirigentKettlePlugin" default="default" basedir=".">
+
+	<description>
+	      DIRIGENT Kettle Plugin build file
+	    </description>
+
+	<tstamp prefix="start" />
+
+	<!-- system properties to use -->
+	<property name="cr" value="${line.separator}" />
+
+	<!-- set global properties for this build -->
+
+	<property name="src" location="src" />
+	<property name="classes" location="classes" />
+	<property name="lib" location="lib" />
+	<property name="velocity" location="lib/velocity" />
+	<property name="hsqldb" location="lib/hsqldb" />
+	<property name="csv-jdbc" location="lib/csv-jdbc" />
+	<property name="distrib" location="distrib" />
+	<property name="libext" location="libext" />
+	<property name="libswt" location="libswt" />
+	<property name="deploydir" location="deploy" />
+
+	<property name="plugin-dir" location="plugins/steps/Dirigent" />
+
+
+	<target name="init" description="create timestamp and directories">
+		<echo>Init...</echo>
+
+		<tstamp />
+		<mkdir dir="${classes}" />
+		<mkdir dir="${distrib}" />
+		<mkdir dir="${plugin-dir}" />
+	</target>
+
+	<!--
+	       ==========================
+	            Compile the code
+	       ==========================
+	  -->
+
+	<target name="compile" depends="init" description="compile the source ">
+		<echo>Compiling DIRIGENT Kettle Plugin ...</echo>
+		<!-- 
+		 DO NOT DELETE/CHANGE EXISTING JAVAC SETTINGS UNLESS YOU EXACTLY KNOW WHAT AND 
+		 WHY ARE YOU DOING. 
+		-->
+		<javac 
+			srcdir="${src}" 
+			destdir="${classes}"
+			debug="true">			
+			<classpath id="cpath">
+				<fileset dir="${velocity}" includes="*.jar" />
+				<fileset dir="${hsqldb}" includes="*.jar" />
+				<fileset dir="${csv-jdbc}" includes="*.jar" />
+				<fileset dir="${libext}" includes="*.jar" />
+				<fileset dir="${libswt}" includes="*.jar" />
+				<fileset dir="${libswt}/win32/" includes="*.jar" /> 
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- ==========================
+	          Copy additional files
+	       ==========================
+	  -->
+
+	<target name="copy" depends="compile" description="copy images etc to classes directory">
+		<echo>Copying images etc to classes directory...</echo>
+		<copy todir="${classes}">
+			<fileset dir="${src}" includes="**/*.png,**/*.xml,**/*.properties" />
+		</copy>
+	</target>
+
+	<!--
+	       ==========================
+	                library
+	       ==========================
+	  -->
+
+	<target name="dirigent" depends="compile, copy" description="generate the DIRIGENT Kettle Plugin library dummy.jar">
+		<echo>Generating the Kettle library dirigent.jar ...</echo>
+		<jar jarfile="${lib}/dirigent.jar" basedir="${classes}" includes="**/*" />
+	</target>
+
+	<!--
+	       ==========================
+	           distrib for plugin
+	       ==========================
+	  -->
+
+	<target name="distrib" depends="dirigent" description="Create the distribution package...">
+		<echo>Copying libraries to distrib directory...</echo>
+		<copy todir="${distrib}">
+			<fileset dir="${lib}" includes="**/*.jar" />
+		</copy>
+	</target>
+
+	<!--
+	       ==========================
+	            deploy to Kettle
+	       ==========================
+	  -->
+
+	<target name="deploy" depends="distrib" description="Deploy distribution...">
+		<echo>deploying plugin...</echo>
+		<copy todir="${deploydir}">
+			<fileset dir="${distrib}" includes="**/*.*" />
+		</copy>
+	</target>
+
+
+	<target name="copy-to-kettle" depends="distrib" description="Copy to Kettle plugin dir ... ">
+		<echo>Copying to Kettle plugin dir ... </echo>
+		<copy todir="${plugin-dir}">
+			<fileset dir="${distrib}" includes="**/*.*" />
+		</copy>
+	</target>
+
+
+
+	<!--
+	       ==========================
+	          Default target: all
+	       ==========================
+	  -->
+	<target name="build" depends="deploy, copy-to-kettle" description="default = build all" />
+	<target name="default" depends="clean, build" description="default = build all" />
+	
+	<!--
+	       ==========================
+	              C L E A N
+	       ==========================
+	  -->
+
+	<target name="clean" description="clean up generated files">
+		<echo>Cleaning up generated files</echo>
+		<delete dir="${classes}"></delete>
+		<delete dir="${deploydir}"></delete>
+		<delete dir="${plugin-dir}"></delete>
+	</target>
+
+</project>
