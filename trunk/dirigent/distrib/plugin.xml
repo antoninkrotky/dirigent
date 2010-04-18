@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
    id="DIRIGENT plugin"
-   iconfile="dirigent.png"
+   iconfile="icon.png"
    description="DIRIGENT Plugin"
    tooltip="This is Data Generator Integration Plugin for Kettle"
    category="Input"

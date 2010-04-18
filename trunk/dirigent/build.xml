@@ -30,6 +30,8 @@
 
 		<tstamp />
 		<mkdir dir="${classes}" />
+		<mkdir dir="${lib}"/>
+		<mkdir dir="${deploydir}" />
 		<mkdir dir="${distrib}" />
 		<mkdir dir="${plugin-dir}" />
 	</target>
@@ -49,7 +51,9 @@
 		<javac 
 			srcdir="${src}" 
 			destdir="${classes}"
-			debug="true">			
+			debug="true"
+			optimize="false">			
+			
 			<classpath id="cpath">
 				<fileset dir="${velocity}" includes="*.jar" />
 				<fileset dir="${hsqldb}" includes="*.jar" />
@@ -114,7 +118,7 @@
 	<target name="copy-to-kettle" depends="distrib" description="Copy to Kettle plugin dir ... ">
 		<echo>Copying to Kettle plugin dir ... </echo>
 		<copy todir="${plugin-dir}">
-			<fileset dir="${distrib}" includes="**/*.*" />
+			<fileset dir="${distrib}" includes="**/*.xml, **/*.png" />
 		</copy>
 	</target>
 
@@ -134,11 +138,10 @@
 	       ==========================
 	  -->
 
-	<target name="clean" description="clean up generated files">
-		<echo>Cleaning up generated files</echo>
-		<delete dir="${classes}"></delete>
-		<delete dir="${deploydir}"></delete>
-		<delete dir="${plugin-dir}"></delete>
-	</target>
+	<target name="clean"  description="clean up generated files" >
+		    <delete dir="${classes}"/>
+		    <delete dir="${deploydir}"/>
+		    <delete dir="${plugin-dir}"/>
+		  </target>
 
 </project>

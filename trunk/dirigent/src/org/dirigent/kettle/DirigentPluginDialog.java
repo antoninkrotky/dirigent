@@ -3,7 +3,6 @@ package org.dirigent.kettle;
 
 
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -75,6 +74,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		int middle = props.getMiddlePct();
 		int margin = Const.MARGIN;
 
+		//stepname 
 		wlStepname=new Label(shell, SWT.RIGHT);
 		wlStepname.setText(Messages.getString("DirigentPluginDialog.Stepname.Label")); //$NON-NLS-1$
  		props.setLook(wlStepname);
@@ -99,25 +99,14 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 				.getString("DirigentPluginDialog.InputFile.Label"));
 		props.setLook(wlFilename);
 		FormData fdlFilename = new FormData();
-		fdlFilename.top = new FormAttachment(0, margin);
+		fdlFilename.top = new FormAttachment(lastControl, margin);
 		fdlFilename.left = new FormAttachment(0, 0);
 		fdlFilename.right = new FormAttachment(middle, -margin);
 		wlFilename.setLayoutData(fdlFilename);
-		wFilename = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
-				| SWT.BORDER);
-		props.setLook(wFilename);
-		wFilename.addModifyListener(lsMod);
-		FormData fdFilename = new FormData();
-		fdFilename.top = new FormAttachment(0, margin);
-		fdFilename.left = new FormAttachment(middle, 0);
-		fdFilename.right = new FormAttachment(100, 0);
-		wFilename.setLayoutData(fdFilename);
-		lastControl = wFilename;
-
-		// The filename browse button
-		//
+		
 		wbbFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
 		props.setLook(wbbFilename);
+		
 		wbbFilename.setText(Messages.getString("System.Button.Browse"));
 		wbbFilename.setToolTipText(Messages
 				.getString("System.Tooltip.BrowseForFileOrDirAndAdd"));
@@ -125,25 +114,40 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		fdbFilename.top = new FormAttachment(lastControl, margin);
 		fdbFilename.right = new FormAttachment(100, 0);
 		wbbFilename.setLayoutData(fdbFilename);
+		
+		wFilename = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
+				| SWT.BORDER);
+		props.setLook(wFilename);
+		wFilename.addModifyListener(lsMod);
+		FormData fdFilename = new FormData();
+		fdFilename.top = new FormAttachment(lastControl, margin);
+		fdFilename.left = new FormAttachment(middle, 0);
+		fdFilename.right = new FormAttachment(wbbFilename, 0);
+		wFilename.setLayoutData(fdFilename);
+		lastControl = wFilename;
 
+		
+
+		//delimiter 
 		Label wlDelimiter = new Label(shell, SWT.RIGHT);
 		wlDelimiter.setText(Messages
-				.getString("DirigentPluginDialog.Delimiter.Label")); //$NON-NLS-1$
+				.getString(Messages.getString("DirigentPluginDialog.Delimiter.Label"))); 
 		props.setLook(wlDelimiter);
 		FormData fdlDelimiter = new FormData();
 		fdlDelimiter.top = new FormAttachment(lastControl, margin);
 		fdlDelimiter.left = new FormAttachment(0, 0);
 		fdlDelimiter.right = new FormAttachment(middle, -margin);
 		wlDelimiter.setLayoutData(fdlDelimiter);
-		wbDelimiter = new Button(shell, SWT.PUSH | SWT.CENTER);
-		props.setLook(wbDelimiter);
-		wbDelimiter.setText(Messages
-				.getString("DirigentPluginDialog.Delimiter.Button"));
-		FormData fdbDelimiter = new FormData();
-		fdbDelimiter.top = new FormAttachment(lastControl, margin);
-		fdbDelimiter.right = new FormAttachment(100, 0);
-		wbDelimiter.setLayoutData(fdbDelimiter);
-		wDelimiter = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
+		
+		wbDelimiter=new Button(shell, SWT.PUSH| SWT.CENTER);
+        props.setLook(wbDelimiter);
+        wbDelimiter.setText(Messages.getString("DirigentPluginDialog.Delimiter.Button"));
+        FormData fdbDelimiter=new FormData();
+        fdbDelimiter.top  = new FormAttachment(lastControl, margin);
+        fdbDelimiter.right= new FormAttachment(100, 0);        
+        wbDelimiter.setLayoutData(fdbDelimiter);
+		
+        wDelimiter = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
 				| SWT.BORDER);
 		props.setLook(wDelimiter);
 		wDelimiter.addModifyListener(lsMod);
