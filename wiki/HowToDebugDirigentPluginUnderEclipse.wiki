@@ -1,7 +1,7 @@
 #labels Phase-Deploy
 #how to setup eclipse run/debug configuration in order to debug kettle plugins 
 
-= How To Debug Kettle Plugin Under Eclipse - DRAFT =
+= How To Debug Kettle Plugin Under Eclipse =
 
 Once you set up Kettle run/debug configuration under Eclipse you may want to debug plugin, for example this one ;) (sources for plugin have not been committed yet). This document is here for you then and for everybody else who suffers from lack of documentation for Kettle. 
 

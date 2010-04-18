@@ -1,0 +1,20 @@
+#labels Phase-Deploy
+#how to build this plugin  
+
+= How To Run From Sources =
+
+== Build == 
+
+ #  use ant job
+ ## ant to clean, build 
+ ## ant build to build without clean 
+ ## ant clean to clean without build 
+ 
+== Run == 
+
+ * copy content of plugins/steps/Dirigent to your <Kettle_instalation_folder>/plugins/steps/Dirigent
+ * run kettle 
+ 
+== Run From Eclipse == 
+
+Follow [HowToDebugDirigentPluginUnderEclipse this page]
