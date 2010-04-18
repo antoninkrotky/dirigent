@@ -1,10 +1,21 @@
-#summary One-sentence summary of this page.
+#content and brief introduction
 
-= Introduction =
+= What is this plugin about =
 
-TBD 
+TBD. Note, this plugin is in development phase and it
 
+= Other Information About Plugin =
 
-= Details =
+== Plugin Information == 
 
-content will be added later
+ * see [HowToBuildDirigentPlugin this page] on how to build this plugin
+ * see [HowToDebugDirigentPluginUnderEclipse this page] on how to debug this plugin under Eclipse
+
+== RoadMap == 
+
+ * see [RoadMap roadmap] on plugin roadmap 
+
+== Kettle == 
+ 
+ * see [HowToSetupKettleProjectUnderEclipse this page] on how to setup project if you want to run Kettle from Eclipse
+  

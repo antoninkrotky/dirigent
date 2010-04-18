@@ -1,0 +1,8 @@
+#road map
+
+= Version 1 =
+
+ * until 25.4.2010 - unstable development release 
+ * 25.4.2010 - beta 
+ * 25.4 - 09.05.2010 - bug fixing and documentation update 
+ * 10.5.2010 - version 1.0 release 
