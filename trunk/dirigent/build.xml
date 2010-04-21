@@ -30,7 +30,7 @@
 
 		<tstamp />
 		<mkdir dir="${classes}" />
-		<mkdir dir="${lib}"/>
+<!--		<mkdir dir="${lib}"/> -->
 		<mkdir dir="${deploydir}" />
 		<mkdir dir="${distrib}" />
 		<mkdir dir="${plugin-dir}" />

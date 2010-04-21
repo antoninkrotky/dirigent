@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.pentaho.di.core.Const;
+import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.ui.core.widget.TextVar;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.pentaho.di.trans.TransMeta;
@@ -70,7 +71,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		formLayout.marginHeight = Const.FORM_MARGIN;
 
 		shell.setLayout(formLayout);
-		shell.setText(Messages.getString("DirigentPluginDialog.Shell.Title"));
+		shell.setText(Messages.getString("DirigentPluginDialog.Shell.Title")); //$NON-NLS-1$
 		int middle = props.getMiddlePct();
 		int margin = Const.MARGIN;
 
@@ -96,7 +97,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		// filename label
 		Label wlFilename = new Label(shell, SWT.RIGHT);
 		wlFilename.setText(Messages
-				.getString("DirigentPluginDialog.InputFile.Label"));
+				.getString("DirigentPluginDialog.InputFile.Label")); //$NON-NLS-1$
 		props.setLook(wlFilename);
 		FormData fdlFilename = new FormData();
 		fdlFilename.top = new FormAttachment(lastControl, margin);
@@ -131,7 +132,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		//delimiter 
 		Label wlDelimiter = new Label(shell, SWT.RIGHT);
 		wlDelimiter.setText(Messages
-				.getString(Messages.getString("DirigentPluginDialog.Delimiter.Label"))); 
+				.getString("DirigentPluginDialog.Delimiter.Label")); //$NON-NLS-1$ 
 		props.setLook(wlDelimiter);
 		FormData fdlDelimiter = new FormData();
 		fdlDelimiter.top = new FormAttachment(lastControl, margin);
@@ -141,7 +142,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		
 		wbDelimiter=new Button(shell, SWT.PUSH| SWT.CENTER);
         props.setLook(wbDelimiter);
-        wbDelimiter.setText(Messages.getString("DirigentPluginDialog.Delimiter.Button"));
+        wbDelimiter.setText(Messages.getString("DirigentPluginDialog.Delimiter.Button")); //$NON-NLS-1$
         FormData fdbDelimiter=new FormData();
         fdbDelimiter.top  = new FormAttachment(lastControl, margin);
         fdbDelimiter.right= new FormAttachment(100, 0);        
@@ -201,7 +202,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 
 		// Some buttons
 		wOK = new Button(shell, SWT.PUSH);
-		wOK.setText(Messages.getString("System.Button.OK")); //$NON-NLS-1$
+		wOK.setText(Messages.getString("DirigentPluginDialog.Button.Run")); //$NON-NLS-1$
 		wCancel = new Button(shell, SWT.PUSH);
 		wCancel.setText(Messages.getString("System.Button.Cancel")); //$NON-NLS-1$
 
@@ -318,5 +319,13 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		getInfo(inputMeta);
 		stepname = wStepname.getText();
 		dispose();
+		try {
+			DirigentTransBuilder.run();
+		} catch (KettleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		
 	}
 }

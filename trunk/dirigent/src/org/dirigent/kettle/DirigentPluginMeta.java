@@ -127,7 +127,4 @@ public class DirigentPluginMeta extends BaseStepMeta implements StepMetaInterfac
 		// TODO Auto-generated method stub
 		
 	}
-	
-
-
 }
