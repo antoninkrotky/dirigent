@@ -13,10 +13,12 @@ import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.logging.LogWriter;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
+import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
 import org.pentaho.di.trans.steps.tableinput.TableInputMeta;
+import org.pentaho.di.trans.steps.tableoutput.TableOutputMeta;
 
 public class DirigentTransBuilder {
 	public static final String[] databasesXML = {
@@ -149,6 +151,29 @@ public class DirigentTransBuilder {
         fromstep.setDraw(true);
         fromstep.setDescription("Reads information from table [" + sourceTableName + "] on database [" + sourceDBInfo + "]");
         transMeta.addStep(fromstep);
+        
+        
+        // Add the TableOutputMeta step...
+        //
+        String tostepname = "write to [" + targetTableName + "]";
+        TableOutputMeta toi = new TableOutputMeta();
+        toi.setDatabaseMeta(targetDBInfo);
+        toi.setTablename(targetTableName);
+        toi.setCommitSize(200);
+        toi.setTruncateTable(true);
+
+        String tostepid = registry.getPluginId(StepPluginType.class, toi);
+        StepMeta tostep = new StepMeta(tostepid, tostepname, (StepMetaInterface) toi);
+        tostep.setLocation(550, 100);
+        tostep.setDraw(true);
+        tostep.setDescription("Write information to table [" + targetTableName + "] on database [" + targetDBInfo + "]");
+        transMeta.addStep(tostep);
+
+        //
+        // Add a hop between the two steps...
+        //
+        TransHopMeta hi = new TransHopMeta(fromstep, tostep);
+        transMeta.addTransHop(hi);
         
 		return transMeta; 
 	}
