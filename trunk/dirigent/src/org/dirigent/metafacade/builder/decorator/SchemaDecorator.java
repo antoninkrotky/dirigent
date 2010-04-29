@@ -2,6 +2,7 @@ package org.dirigent.metafacade.builder.decorator;
 
 import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
+import org.dirigent.metafacade.builder.vo.VO;
 
 public class SchemaDecorator implements ISchema {
 
@@ -44,5 +45,10 @@ public class SchemaDecorator implements ISchema {
 	@Override
 	public String getUri() {
 		return schema.uri;
+	}
+
+	@Override
+	public VO getValueObject() {
+		return schema;
 	}
 }

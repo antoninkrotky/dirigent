@@ -13,6 +13,7 @@ public class TestGenerator extends TestCase {
 		// Set model path
 		String path = "resources/builderTestFiles/model_1";
 		System.setProperty(DirigentConfig.MODEL_PATH, path);
+		System.setProperty("dirigent.model.type", "CSV");
 	}
 
 	

@@ -9,7 +9,11 @@ import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 
 public class TestMappingDao extends TestCase {
-
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.setProperty("dirigent.model.type", "CSV");
+	}
+	
 	public void testGetMapping_1() {
 		String path = "resources/builderTestFiles/model_1";
 		System.setProperty(DirigentConfig.MODEL_PATH, path);

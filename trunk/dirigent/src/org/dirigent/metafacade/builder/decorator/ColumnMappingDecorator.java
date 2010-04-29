@@ -37,11 +37,7 @@ public class ColumnMappingDecorator implements IColumnMapping {
 				return ColumnMappingDecorator.this.columnMapping.columnName;
 			}
 
-			@Override
-			public ITable getTable() {
-				// TODO Auto-generated method stub
-				return null;
-			}
+
 		};
 	}
 

@@ -1,5 +1,6 @@
 package org.dirigent.metafacade.builder.csv;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.dirigent.metafacade.IElement;
@@ -7,6 +8,7 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.decorator.TableDecorator;
+import org.dirigent.metafacade.builder.vo.DomainVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 import org.dirigent.metafacade.builder.vo.TableVO;
@@ -71,5 +73,14 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		}
 		return null;
 	}
+
+	@Override
+	public void save(IElement element) {
+		throw new RuntimeException("Operation save is not supported on "+this.getClass().getName());	
+	}
+
+	@Override
+	public Collection<DomainVO> getDomains() {
+		throw new RuntimeException("Operation getDomains is not supported on "+this.getClass().getName());	}
 
 }
