@@ -11,10 +11,7 @@ public interface IColumn {
 	 * Data type of column. The data type is string in database specific format (f.e.: VARCHAR(255)).
 	 * */
 	public String getDataType();
-	/**
-	 * Reference to table metafacade.
-	 * */
-	public ITable getTable();
+
 	/**
 	 * Description of table column.
 	 * */

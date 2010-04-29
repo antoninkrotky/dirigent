@@ -7,6 +7,7 @@ import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.TableVO;
+import org.dirigent.metafacade.builder.vo.VO;
 
 public class TableDecorator implements ITable {
 
@@ -40,6 +41,16 @@ public class TableDecorator implements ITable {
 	@Override
 	public String getFullName() {
 		return getSchema().getSchema()+'.'+getName();
+	}
+
+	@Override
+	public String getCodeName() {
+		return table.name;
+	}
+
+	@Override
+	public VO getValueObject() {
+		return table;
 	}
 
 }

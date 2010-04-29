@@ -12,13 +12,17 @@ import org.dirigent.test.utils.FileComparator;
  * JUnit test case for MetafacadeBuilder class.
  * */
 public class TestMetafacadeBuilder extends TestCase {
-
+@Override
+protected void setUp() throws Exception {
+	super.setUp();
+	String path = "resources/builderTestFiles/model_1";
+	System.setProperty(DirigentConfig.MODEL_PATH, path);
+	System.setProperty("dirigent.model.type", "CSV");
+}
 	/**
 	 * testing basic join condition
 	 */
 	public void testGetMetafacadeBuilder() {
-		String path = "resources/builderTestFiles/model_1";
-		System.setProperty(DirigentConfig.MODEL_PATH, path);
 		MetafacadeBuilder mfb = MetafacadeBuilder.getMetafacadeBuilder();
 		assertNotNull(mfb);
 		assertTrue(mfb instanceof CsvMetafacadeBuilder);

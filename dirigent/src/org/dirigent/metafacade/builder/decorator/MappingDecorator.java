@@ -15,6 +15,7 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
+import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 
@@ -173,6 +174,11 @@ public class MappingDecorator implements IMapping, IGeneratable {
 	@Override
 	public IPattern getPattern() {
 		return PatternBuilder.getPatternBuilder().getPattern(mapping.pattern+".pattern.xml");
+	}
+
+	@Override
+	public VO getValueObject() {
+		return mapping;
 	}
 
 }
