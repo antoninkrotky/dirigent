@@ -2,7 +2,7 @@
 
 	<description>
 	      DIRIGENT Kettle Plugin build file
-	    </description>
+	</description>
 
 	<tstamp prefix="start" />
 
@@ -20,9 +20,20 @@
 	<property name="distrib" location="distrib" />
 	<property name="libext" location="libext" />
 	<property name="libswt" location="libswt" />
-	<property name="deploydir" location="deploy" />
-
+	<property name="javadoc" location="${distrib}/javadoc" />
 	<property name="plugin-dir" location="plugins/steps/Dirigent" />
+
+
+	<property name="version" value="1.0" description="Version" />
+	<buildnumber />
+	<property name="vendor" value="GEM System International s.r.o." description="Vendor name." />
+	
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
+
+
+
 
 
 	<target name="init" description="create timestamp and directories">
@@ -30,10 +41,41 @@
 
 		<tstamp />
 		<mkdir dir="${classes}" />
-<!--		<mkdir dir="${lib}"/> -->
-		<mkdir dir="${deploydir}" />
+
 		<mkdir dir="${distrib}" />
 		<mkdir dir="${plugin-dir}" />
+		<mkdir dir="${javadoc}" />
+		<mkdir dir="${distrib}/META-INF" />
+	</target>
+
+	<!-- 
+		==========================
+		MANIFEST 
+		==========================
+	-->
+	<target name="manifest">
+		<manifest file="${distrib}/META-INF/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<section name="common">
+				<attribute name="Specification-Title" value="${ant.project.name}" />
+				<attribute name="Specification-Version" value="${version}.${build.number}" />
+				<attribute name="Specification-Vendor" value="${vendor}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${version}.${build.number}" />
+				<attribute name="Implementation-Vendor" value="${vendor}" />
+			</section>
+		</manifest>
+	</target>
+
+	<!-- 
+		==========================
+		JAVADOC 
+		==========================
+	-->
+	<target name="javadoc">
+		<mkdir dir="${javadoc}" />
+		<javadoc sourcepath="src" classpathref="classpath" destdir="${javadoc}">
+		</javadoc>
 	</target>
 
 	<!--
@@ -44,23 +86,14 @@
 
 	<target name="compile" depends="init" description="compile the source ">
 		<echo>Compiling DIRIGENT Kettle Plugin ...</echo>
-		<!-- 
-		 DO NOT DELETE/CHANGE EXISTING JAVAC SETTINGS UNLESS YOU EXACTLY KNOW WHAT AND 
-		 WHY ARE YOU DOING. 
-		-->
-		<javac 
-			srcdir="${src}" 
-			destdir="${classes}"
-			debug="true"
-			optimize="false">			
-			
+		<javac srcdir="${src}" destdir="${classes}" debug="true" optimize="false">
 			<classpath id="cpath">
 				<fileset dir="${velocity}" includes="*.jar" />
 				<fileset dir="${hsqldb}" includes="*.jar" />
 				<fileset dir="${csv-jdbc}" includes="*.jar" />
 				<fileset dir="${libext}" includes="*.jar" />
 				<fileset dir="${libswt}" includes="*.jar" />
-				<fileset dir="${libswt}/win32/" includes="*.jar" /> 
+				<fileset dir="${libswt}/win32/" includes="*.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -97,8 +130,14 @@
 	<target name="distrib" depends="dirigent" description="Create the distribution package...">
 		<echo>Copying libraries to distrib directory...</echo>
 		<copy todir="${distrib}">
-			<fileset dir="${lib}" includes="**/*.jar" />
+			<fileset dir="${lib}" includes="**/*.jar, **/*.xml, **/*.png" />
 		</copy>
+		<delete>
+			<fileset dir="${lib}">
+				<include name="dirigent.jar" />
+			</fileset>
+		</delete>
+
 	</target>
 
 	<!--
@@ -106,14 +145,6 @@
 	            deploy to Kettle
 	       ==========================
 	  -->
-
-	<target name="deploy" depends="distrib" description="Deploy distribution...">
-		<echo>deploying plugin...</echo>
-		<copy todir="${deploydir}">
-			<fileset dir="${distrib}" includes="**/*.*" />
-		</copy>
-	</target>
-
 
 	<target name="copy-to-kettle" depends="distrib" description="Copy to Kettle plugin dir ... ">
 		<echo>Copying to Kettle plugin dir ... </echo>
@@ -129,19 +160,19 @@
 	          Default target: all
 	       ==========================
 	  -->
-	<target name="build" depends="deploy, copy-to-kettle" description="default = build all" />
+	<target name="build" depends="copy-to-kettle, javadoc, manifest" description="default = build all" />
 	<target name="default" depends="clean, build" description="default = build all" />
-	
+
 	<!--
 	       ==========================
 	              C L E A N
 	       ==========================
 	  -->
 
-	<target name="clean"  description="clean up generated files" >
-		    <delete dir="${classes}"/>
-		    <delete dir="${deploydir}"/>
-		    <delete dir="${plugin-dir}"/>
-		  </target>
+	<target name="clean" description="clean up generated files">
+		<delete dir="${classes}" />
+		<delete dir="${plugin-dir}" />
+		<delete dir="${distrib}" />
+	</target>
 
 </project>
