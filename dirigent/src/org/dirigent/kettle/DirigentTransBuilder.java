@@ -17,6 +17,8 @@ import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
+import org.pentaho.di.trans.steps.selectvalues.SelectMetadataChange;
+import org.pentaho.di.trans.steps.selectvalues.SelectValuesMeta;
 import org.pentaho.di.trans.steps.tableinput.TableInputMeta;
 import org.pentaho.di.trans.steps.tableoutput.TableOutputMeta;
 
@@ -149,8 +151,35 @@ public class DirigentTransBuilder {
         StepMeta fromstep = new StepMeta(fromstepid, fromstepname, (StepMetaInterface) tii);
         fromstep.setLocation(150, 100);
         fromstep.setDraw(true);
-        fromstep.setDescription("Reads information from table [" + sourceTableName + "] on database [" + sourceDBInfo + "]");
         transMeta.addStep(fromstep);
+        
+        
+     // add logic to rename fields
+        // Use metadata logic in SelectValues, use SelectValueInfo...
+        //
+        SelectValuesMeta svi = new SelectValuesMeta(); 
+        svi.allocate(0, 0, sourceFields.length);
+        svi.setDefault(); 
+       
+        for (int i = 0; i < sourceFields.length; i++)
+        {
+        		svi.getMeta()[i].setName(sourceFields[i]);
+        		svi.getMeta()[i].setRename(targetFields[i]);
+           
+        }
+
+        String selstepname = "Rename field names";
+        String selstepid = registry.getPluginId(StepPluginType.class, svi);
+        StepMeta selstep = new StepMeta(selstepid, selstepname, (StepMetaInterface) svi);
+        selstep.setLocation(350, 100);
+        selstep.setDraw(true);        
+        transMeta.addStep(selstep);
+
+        // hope from source table to selstep
+        TransHopMeta shi = new TransHopMeta(fromstep, selstep);
+        transMeta.addTransHop(shi);
+        fromstep = selstep;
+
         
         
         // Add the TableOutputMeta step...
@@ -161,12 +190,10 @@ public class DirigentTransBuilder {
         toi.setTablename(targetTableName);
         toi.setCommitSize(200);
         toi.setTruncateTable(true);
-
         String tostepid = registry.getPluginId(StepPluginType.class, toi);
         StepMeta tostep = new StepMeta(tostepid, tostepname, (StepMetaInterface) toi);
         tostep.setLocation(550, 100);
         tostep.setDraw(true);
-        tostep.setDescription("Write information to table [" + targetTableName + "] on database [" + targetDBInfo + "]");
         transMeta.addStep(tostep);
 
         //
