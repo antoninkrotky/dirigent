@@ -21,7 +21,7 @@
 	<property name="libext" location="libext" />
 	<property name="libswt" location="libswt" />
 	<property name="javadoc" location="${distrib}/javadoc" />
-	<property name="plugin-dir" location="plugins/steps/Dirigent" />
+	<property name="plugin-dir" location="plugins/jobentries/Dirigent" />
 
 
 	<property name="version" value="1.0" description="Version" />
@@ -171,7 +171,7 @@
 
 	<target name="clean" description="clean up generated files">
 		<delete dir="${classes}" />
-		<delete dir="${plugin-dir}" />
+		<delete dir="plugins" />
 		<delete dir="${distrib}" />
 	</target>
 
