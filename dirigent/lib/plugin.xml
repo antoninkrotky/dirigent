@@ -4,14 +4,14 @@
    iconfile="icon.png"
    description="DIRIGENT Plugin"
    tooltip="This is Data Generator Integration Plugin for Kettle"
-   category="Input"
+   category="General"
    classname="org.dirigent.kettle.DirigentPluginMeta">
    <libraries>
     <library name="dirigent.jar"/>
     </libraries>
     
    <localized_category>
-     <category locale="en_US">Input</category>
+     <category locale="en_US">General</category>
    </localized_category>
    <localized_description>
      <description locale="en_US">DIRIGENT</description>
