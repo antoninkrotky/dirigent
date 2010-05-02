@@ -5,7 +5,7 @@
    description="DIRIGENT Plugin"
    tooltip="This is Data Generator Integration Plugin for Kettle"
    category="General"
-   classname="org.dirigent.kettle.DirigentPluginMeta">
+   classname="org.dirigent.kettle.JobEntryDirigentPlugin">
    <libraries>
     <library name="dirigent.jar"/>
     </libraries>

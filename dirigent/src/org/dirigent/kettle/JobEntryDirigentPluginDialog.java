@@ -1,7 +1,4 @@
 package org.dirigent.kettle;
-
-
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -14,6 +11,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -21,50 +19,57 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.pentaho.di.core.Const;
-import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.job.JobMeta;
+import org.pentaho.di.job.entry.JobEntryDialogInterface;
+import org.pentaho.di.job.entry.JobEntryInterface;
+import org.pentaho.di.repository.Repository;
+import org.pentaho.di.ui.core.PropsUI;
+import org.pentaho.di.ui.core.gui.WindowProperty;
 import org.pentaho.di.ui.core.widget.TextVar;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.pentaho.di.trans.TransMeta;
+import org.pentaho.di.ui.job.dialog.JobDialog;
+import org.pentaho.di.ui.job.entry.JobEntryDialog;
 import org.pentaho.di.ui.trans.step.BaseStepDialog;
-import org.pentaho.di.trans.step.BaseStepMeta;
-import org.pentaho.di.trans.step.StepDialogInterface;
 
-public class DirigentPluginDialog extends BaseStepDialog implements
-		StepDialogInterface {
+public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobEntryDialogInterface {
 
-	private DirigentPluginMeta inputMeta;
+	private Label wlStepname; 
+	private FormData fdlStepname, fdStepname; 
+	private Text wStepname; 
+	private TextVar wFilename, wDelimiter, wEnclosure;
+	private Button wbbFilename, wbDelimiter, wHeaderPresent, wOK, wCancel; // Browse for a file
+	private Listener lsOK, lsCancel;
+	private SelectionAdapter lsDef; 
 
-	private TextVar wFilename;
 	
-	private Button wbbFilename; // Browse for a file
 	
-	private Button wbDelimiter;
-	private TextVar wDelimiter;
-	private TextVar wEnclosure;
-	private Button wHeaderPresent;
+	private boolean changed; 
+	private JobEntryDirigentPlugin jobEntry; 
 
-	public DirigentPluginDialog(Shell parent, Object in, TransMeta transMeta,
-			String sname) {
-		super(parent, (BaseStepMeta) in, transMeta, sname);
-		inputMeta = (DirigentPluginMeta) in;
+	public JobEntryDirigentPluginDialog(Shell parent, JobEntryInterface jobEntryInt, Repository rep, JobMeta jobMeta)
+	{
+			super(parent, jobEntryInt, rep, jobMeta);
+			props=PropsUI.getInstance();
+			this.jobEntry=(JobEntryDirigentPlugin) jobEntryInt;
+	
+			if (this.jobEntry.getName() == null) this.jobEntry.setName(jobEntryInt.getName());
 	}
 
 	@Override
-	public String open() {
+	public JobEntryInterface open() {
 		Shell parent = getParent();
 		Display display = parent.getDisplay();
 
 		shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MIN
 				| SWT.MAX);
 		props.setLook(shell);
-		setShellImage(shell, inputMeta);
+		JobDialog.setShellImage(shell, jobEntry);
 
 		ModifyListener lsMod = new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				inputMeta.setChanged();
+				jobEntry.setChanged();
 			}
 		};
-		changed = inputMeta.hasChanged();
+		changed = jobEntry.hasChanged();
 
 		FormLayout formLayout = new FormLayout();
 		formLayout.marginWidth = Const.FORM_MARGIN;
@@ -116,7 +121,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		fdbFilename.right = new FormAttachment(100, 0);
 		wbbFilename.setLayoutData(fdbFilename);
 		
-		wFilename = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
+		wFilename = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
 				| SWT.BORDER);
 		props.setLook(wFilename);
 		wFilename.addModifyListener(lsMod);
@@ -148,7 +153,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
         fdbDelimiter.right= new FormAttachment(100, 0);        
         wbDelimiter.setLayoutData(fdbDelimiter);
 		
-        wDelimiter = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
+        wDelimiter = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
 				| SWT.BORDER);
 		props.setLook(wDelimiter);
 		wDelimiter.addModifyListener(lsMod);
@@ -169,7 +174,7 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		fdlEnclosure.left = new FormAttachment(0, 0);
 		fdlEnclosure.right = new FormAttachment(middle, -margin);
 		wlEnclosure.setLayoutData(fdlEnclosure);
-		wEnclosure = new TextVar(transMeta, shell, SWT.SINGLE | SWT.LEFT
+		wEnclosure = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
 				| SWT.BORDER);
 		props.setLook(wEnclosure);
 		wEnclosure.addModifyListener(lsMod);
@@ -202,11 +207,11 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 
 		// Some buttons
 		wOK = new Button(shell, SWT.PUSH);
-		wOK.setText(Messages.getString("DirigentPluginDialog.Button.Run")); //$NON-NLS-1$
+		wOK.setText(Messages.getString("System.Button.OK")); //$NON-NLS-1$
 		wCancel = new Button(shell, SWT.PUSH);
 		wCancel.setText(Messages.getString("System.Button.Cancel")); //$NON-NLS-1$
 
-		setButtonPositions(new Button[] { wOK, wCancel, }, margin, null);
+		BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK, wCancel, }, margin, null);
 		// Add listeners
 		lsCancel = new Listener() {
 			public void handleEvent(Event e) {
@@ -264,68 +269,72 @@ public class DirigentPluginDialog extends BaseStepDialog implements
 		});
 
 		// Set the shell size, based upon previous time...
-		setSize();
+		BaseStepDialog.setSize(shell);
 
-		getData();
-		inputMeta.setChanged(changed);
-
+		getData(jobEntry);
+		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-		return stepname;
+		return jobEntry;
 	}
 
-	// Read data from input (TextFileInputInfo)
-	public void getData() {
-		getData(inputMeta);
+
+	public void getData(JobEntryDirigentPlugin jobEntry) {
+		wStepname.selectAll(); 
+		wFilename.setText(Const.NVL(jobEntry.getFilename(), ""));
+		wDelimiter.setText(Const.NVL(jobEntry.getDelimiter(), ""));
+		wEnclosure.setText(Const.NVL(jobEntry.getEnclosure(), ""));
+		wHeaderPresent.setSelection(jobEntry.isHeaderPresent());
 	}
-
-	public void getData(DirigentPluginMeta inputMeta) {
-		wStepname.setText(stepname);
-		wFilename.setText(Const.NVL(inputMeta.getFilename(), ""));
-
-		wDelimiter.setText(Const.NVL(inputMeta.getDelimiter(), ""));
-		wEnclosure.setText(Const.NVL(inputMeta.getEnclosure(), ""));
-		wHeaderPresent.setSelection(inputMeta.isHeaderPresent());
-
-		wStepname.selectAll();
-
-	}
-
-	private void getInfo(DirigentPluginMeta inputMeta) {
-		inputMeta.setFilename(wFilename.getText());
-		
-		inputMeta.setDelimiter(wDelimiter.getText());
-		inputMeta.setEnclosure(wEnclosure.getText());
-		inputMeta.setHeaderPresent(wHeaderPresent.getSelection());
-		
-    	
-		
-		inputMeta.setChanged();
+	
+	public void dispose()
+	{
+		WindowProperty winprop = new WindowProperty(shell);
+		props.setScreen(winprop);
+		shell.dispose();
 	}
 	
 	private void cancel() {
-		stepname = null;
-		inputMeta.setChanged(changed);
+		jobEntry.setChanged(changed);
+		jobEntry=null;
 		dispose();
 	}
 
 	private void ok() {
-		if (Const.isEmpty(wStepname.getText()))
-			return;
-
-		getInfo(inputMeta);
-		stepname = wStepname.getText();
-		dispose();
-		try {
-			DirigentTransBuilder.run();
-		} catch (KettleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		
+		jobEntry.setName(wStepname.getText());
+        jobEntry.setFilename(wFilename.getText());
+		jobEntry.setDelimiter(wDelimiter.getText());
+		jobEntry.setEnclosure(wEnclosure.getText());
+		jobEntry.setHeaderPresent(wHeaderPresent.getEnabled());
+		jobEntry.setChanged(); 
+		dispose();		
 	}
+	
+	public String toString()
+	{
+		return this.getClass().getName();
+	}
+	
+	public boolean evaluates()
+	{
+		return true;
+	}
+
+	public boolean isUnconditional()
+	{
+		return true;
+	}
+	
+	public boolean isTrue(){
+		return true;
+	}
+	
+	public boolean isFalse(){
+		return true;
+	}
+
 }
+
