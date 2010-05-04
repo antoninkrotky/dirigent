@@ -36,7 +36,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	private FormData fdlStepname, fdStepname; 
 	private Text wStepname; 
 	private TextVar wFilename, wDelimiter, wEnclosure;
-	private Button wbbFilename, wbDelimiter, wHeaderPresent, wOK, wCancel; // Browse for a file
+	private Button wbbFilename, wbDelimiter, wOK, wCancel; // Browse for a file
 	private Listener lsOK, lsCancel;
 	private SelectionAdapter lsDef; 
 
@@ -185,25 +185,6 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		wEnclosure.setLayoutData(fdEnclosure);
 		lastControl = wEnclosure;
 
-		// header row?
-		//
-		Label wlHeaderPresent = new Label(shell, SWT.RIGHT);
-		wlHeaderPresent.setText(Messages
-				.getString("DirigentPluginDialog.HeaderPresent.Label")); //$NON-NLS-1$
-		props.setLook(wlHeaderPresent);
-		FormData fdlHeaderPresent = new FormData();
-		fdlHeaderPresent.top = new FormAttachment(lastControl, margin);
-		fdlHeaderPresent.left = new FormAttachment(0, 0);
-		fdlHeaderPresent.right = new FormAttachment(middle, -margin);
-		wlHeaderPresent.setLayoutData(fdlHeaderPresent);
-		wHeaderPresent = new Button(shell, SWT.CHECK);
-		props.setLook(wHeaderPresent);
-		FormData fdHeaderPresent = new FormData();
-		fdHeaderPresent.top = new FormAttachment(lastControl, margin);
-		fdHeaderPresent.left = new FormAttachment(middle, 0);
-		fdHeaderPresent.right = new FormAttachment(100, 0);
-		wHeaderPresent.setLayoutData(fdHeaderPresent);
-		lastControl = wHeaderPresent;
 
 		// Some buttons
 		wOK = new Button(shell, SWT.PUSH);
@@ -221,7 +202,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		lsOK = new Listener() {
 			public void handleEvent(Event e) {
 				ok();
-			}
+ 			}
 		};
 
 		wCancel.addListener(SWT.Selection, lsCancel);
@@ -281,13 +262,12 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		return jobEntry;
 	}
 
-
+	
 	public void getData(JobEntryDirigentPlugin jobEntry) {
-		wStepname.selectAll(); 
+		wStepname.setText(Const.NVL(jobEntry.getName(), "")); 
 		wFilename.setText(Const.NVL(jobEntry.getFilename(), ""));
 		wDelimiter.setText(Const.NVL(jobEntry.getDelimiter(), ""));
 		wEnclosure.setText(Const.NVL(jobEntry.getEnclosure(), ""));
-		wHeaderPresent.setSelection(jobEntry.isHeaderPresent());
 	}
 	
 	public void dispose()
@@ -308,7 +288,6 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
         jobEntry.setFilename(wFilename.getText());
 		jobEntry.setDelimiter(wDelimiter.getText());
 		jobEntry.setEnclosure(wEnclosure.getText());
-		jobEntry.setHeaderPresent(wHeaderPresent.getEnabled());
 		jobEntry.setChanged(); 
 		dispose();		
 	}

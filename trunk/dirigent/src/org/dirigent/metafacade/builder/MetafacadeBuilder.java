@@ -16,8 +16,7 @@ public abstract class MetafacadeBuilder {
 	
 	
 	/**
-	 * Gets MetafacadeBuilder implementation. Currently CSVMetafacadeBuilder is
-	 * the only implementation.
+	 * Gets MetafacadeBuilder implementation.
 	 * 
 	 * @return MetafacadeBuilder implementation
 	 * */

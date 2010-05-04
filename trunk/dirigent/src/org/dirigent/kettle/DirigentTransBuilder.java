@@ -1,15 +1,19 @@
 package org.dirigent.kettle;
 
-import java.io.DataOutputStream; 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 
+import org.dirigent.metafacade.builder.vo.SchemaVO;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.KettleEnvironment;
+import org.pentaho.di.core.database.DatabaseInterface;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.logging.LogChannel;
 import org.pentaho.di.core.logging.LogWriter;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.plugins.StepPluginType;
@@ -17,65 +21,61 @@ import org.pentaho.di.trans.TransHopMeta;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
-import org.pentaho.di.trans.steps.selectvalues.SelectMetadataChange;
 import org.pentaho.di.trans.steps.selectvalues.SelectValuesMeta;
 import org.pentaho.di.trans.steps.tableinput.TableInputMeta;
 import org.pentaho.di.trans.steps.tableoutput.TableOutputMeta;
 
 public class DirigentTransBuilder {
-	public static final String[] databasesXML = {
-			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<connection>"
-					+ "<name>target</name>" + "<server>localhost</server>"
-					+ "<type>MSSQL</type>" + "<access>Native</access>"
-					+ "<database>test</database>" + "<port>1433</port>"
-					+ "<username>matt</username>" + "<password>abcd</password>"
-					+ "</connection>",
-
-			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<connection>"
-					+ "<name>source</name>" + "<server>localhost</server>"
-					+ "<type>MYSQL</type>" + "<access>Native</access>"
-					+ "<database>test</database>" + "<port>3306</port>"
-					+ "<username>matt</username>" + "<password>abcd</password>"
-					+ "</connection>" };
-
-	public static void run() throws KettleException {
+	private String outputFileName = "NewTrans.xml";
+	private TransMeta transMeta = new TransMeta();
+	private LogChannel log = new LogChannel(this); 
+	
+	public void createDBConnection(SchemaVO schema) 
+	throws KettleException {
 		KettleEnvironment.init();
+		
+		log.logDetailed("Creating database connection " + schema.uri); 
+		
+		
+		DatabaseMeta databaseMeta = new DatabaseMeta(); 
+		databaseMeta.setName(schema.uri); 
+		databaseMeta.setName(schema.name); 
+		databaseMeta.setUsername(schema.userName); 
+		databaseMeta.setPassword(schema.password); 
+		String[] parsedUrl = parseUrl(schema.jdbcUrl); 
+		databaseMeta.setHostname(parsedUrl[0]); 
+		databaseMeta.setAccessType(DatabaseMeta.getAccessType(parsedUrl[2])); 
+		databaseMeta.setDBPort(parsedUrl[1]);
+		databaseMeta.setDatabaseType(parsedUrl[3]); 
+		
+		transMeta.addDatabase(databaseMeta); 
+	}
+	
+	/**
+	 * I need to create regular expression to parse many different urls   
+	 * @todo create regular expression   
+	 * @param String url
+	 * @return String[]
+	 */
+	private String[] parseUrl(String url) {
+		String[] tempArray = {"localhost", "3306", "JDBC", "HSQLDB"}; 
+		return tempArray; 
+	}
 
-		// Init the logging...
-		LogWriter.getInstance("TransBuilder.log", true,
-				LogWriter.LOG_LEVEL_DETAILED);
-
-		// The parameters we want, optionally this can be
-		String fileName = "NewTrans.xml";
-		String transformationName = "Test Transformation";
-		String sourceDatabaseName = "source";
-		String sourceTableName = "Customer";
-		String sourceFields[] = { "customernr", "Name", "firstname", "lang",
-				"sex", "street", "housnr", "bus", "zipcode", "location",
-				"country", "date_of_birth" };
-
-		String targetDatabaseName = "target";
-		String targetTableName = "Cust";
-		String targetFields[] = { "CustNo", "LastName", "FirstName", "Lang",
-				"gender", "Street", "Housno", "busno", "ZipCode", "City",
-				"Country", "BirthDate" };
-
-		TransMeta transMeta = buildTransformation(transformationName,
-				sourceDatabaseName, targetDatabaseName, sourceTableName,
-				sourceFields, targetTableName, targetFields);
-
+	public void finish() throws KettleException {
 		String xml = transMeta.getXML();
 		DataOutputStream dos;
 		try {
-			dos = new DataOutputStream(new FileOutputStream(new File(fileName)));
+			dos = new DataOutputStream(new FileOutputStream(new File(
+					outputFileName)));
 			dos.write(xml.getBytes("UTF-8"));
 			dos.close();
-			System.out.println("Saved transformation to file: " + fileName);
+			System.out.println("Saved transformation to file: "
+					+ outputFileName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class DirigentTransBuilder {
 	 * @param transformationName
 	 * @throws KettleException
 	 */
-	private static TransMeta buildTransformation(String transformationName,
+	private TransMeta buildTransformation(String transformationName,
 			String sourceDatabaseName, String targetDatabaseName,
 			String sourceTableName, String[] sourceFields,
 			String targetTableName, String[] targetFields)
@@ -92,12 +92,7 @@ public class DirigentTransBuilder {
 		TransMeta transMeta = new TransMeta();
 		transMeta.setName(transformationName);
 
-		// Add the database connections
-		for (int i = 0; i < databasesXML.length; i++) {
-			DatabaseMeta databaseMeta = new DatabaseMeta(databasesXML[i]);
-			transMeta.addDatabase(databaseMeta);
-		}
-
+		
 		DatabaseMeta sourceDBInfo = transMeta.findDatabase(sourceDatabaseName);
 		DatabaseMeta targetDBInfo = transMeta.findDatabase(targetDatabaseName);
 
