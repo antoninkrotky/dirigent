@@ -50,7 +50,7 @@ public class DimensionDao extends EADao<DimensionVO> {
 	@Override
 	public void update(DimensionVO v) {
 		Object[] o = new Object[] { v.name, v.codeName, v.description, v.uri };
-		String sql = "UPDATE t_object SET Name=?, Alias=?, t_object.Note=? WHERE ea_guid=?";
+		String sql = "UPDATE t_object SET \"name\"=?, \"alias\"=?, \"note\"=? WHERE ea_guid=?";
 		int r=executeUpdate(sql, o);
 		if (r != 1) {
 				throw new RuntimeException("Update failed. " + r

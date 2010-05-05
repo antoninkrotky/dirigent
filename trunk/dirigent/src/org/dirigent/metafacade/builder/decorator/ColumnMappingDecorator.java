@@ -43,34 +43,9 @@ public class ColumnMappingDecorator implements IColumnMapping {
 
 	@Override
 	public String getExpression() {
-		if (columnMapping.md5 == true) {
-			return "md5(" + columnMapping.expression + ")";
-		}
-		if (columnMapping.sh1 == true) {
-			return "sh1(" + columnMapping.expression + ")";
-		}
-		if (!columnMapping.countAlias.equals("")) {
-			return columnMapping.countAlias + "." + columnMapping.columnName;
-		}
 		return columnMapping.expression;
 	}
 
-	@Override
-	public String getCountSubqueryExpression() {
-		return "(SELECT COUNT(" + getCountColumnExpression(columnMapping.countColumn) + ") AS "
-				+ columnMapping.columnName 
-				+ getFromAndWhereExpression(columnMapping.expression) +  
-				" GROUP BY ("
-				+ getCountColumnExpression(columnMapping.countColumn) + ") " + ") "
-				+ columnMapping.countAlias;
-	}
-
-	@Override
-	public boolean hasCountWithSubquery() {
-		if (!columnMapping.countAlias.equals(""))
-			return true;
-		return false;
-	}
 
 	//TODO this way of getting subqueries should change later 
 	private String getCountColumnExpression(String expression) {

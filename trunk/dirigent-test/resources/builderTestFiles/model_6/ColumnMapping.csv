@@ -1,4 +1,4 @@
-"MappingURI","ColumnName","Expression","CountColumn","CountAlias","MD5","SH1"
+"MappingURI","ColumnName","Expression"
 "M_album","id","A.ID",,,,
 "M_album","title","A.TITLE",,,,
 "M_album","text","A.TEXT",,,,
@@ -23,6 +23,6 @@
 "M_category","show_top","C.SHOW_TOP",,,,
 "M_category","disable_menu","C.DISABLE_MENU",,,,
 "M_category","disable_pomoc","C.DISABLE_POMOC",,,,
-"M_category","hash_md5","C.ID",,,1,
-"M_category","subcategories_count","TS_category.id = TS_subcategory.subcategory_id","TS_category.id","CF1",,
-"M_category","hash_sh1",,,,,"true"
+"M_category","hash_md5","md5(C.ID)",,,,
+"M_category","subcategories_count","(SELECT COUNT(category.id) AS subcategories_count FROM category, subcategory WHERE category.id = subcategory.subcategory_id GROUP BY (category.id) )",,,,
+"M_category","hash_sh1","sh1(C.ID)",,,,

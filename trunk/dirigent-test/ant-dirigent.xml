@@ -1,4 +1,4 @@
-<project name="ant-dirigent" default="generate">
+<project name="ant-dirigent">
 	<path id="dirigent.classpath">
 		<fileset dir="../dirigent/lib">
 			<include name="*/**.jar" />

@@ -5,15 +5,15 @@
 	<classpathentry kind="lib" path="lib/csv-jdbc/csvjdbc.jar"/>
 	<classpathentry kind="lib" path="lib/hsqldb/hsqldb.jar"/>
 	<classpathentry kind="lib" path="resources"/>
-	<classpathentry kind="lib" path="libswt/linux/x86_64/swt.jar"/>
-	<classpathentry kind="lib" path="libswt/commands.jar"/>
-	<classpathentry kind="lib" path="libswt/common.jar"/>
-	<classpathentry kind="lib" path="libswt/jface.jar"/>
-	<classpathentry kind="lib" path="libswt/runtime.jar"/>
-	<classpathentry kind="lib" path="libext/kettle-core.jar" sourcepath="/Kettle trunk"/>
-	<classpathentry kind="lib" path="libext/kettle-db.jar" sourcepath="/Kettle trunk/src-db"/>
-	<classpathentry kind="lib" path="libext/kettle-engine.jar" sourcepath="/home/felipee/CVUT/xd36bap/kettle/trunk"/>
-	<classpathentry kind="lib" path="libext/kettle-ui-swt.jar" sourcepath="/home/felipee/CVUT/xd36bap/kettle/trunk"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_16"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-core.jar"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-db.jar"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-engine.jar"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-ui-swt.jar"/>
+	<classpathentry kind="lib" path="lib/ext/swt/commands.jar"/>
+	<classpathentry kind="lib" path="lib/ext/swt/common.jar"/>
+	<classpathentry kind="lib" path="lib/ext/swt/jface.jar"/>
+	<classpathentry kind="lib" path="lib/ext/swt/runtime.jar"/>
+	<classpathentry kind="lib" path="lib/ext/swt/win32/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

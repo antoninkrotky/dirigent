@@ -1,0 +1,4 @@
+Testsuite: org.dirigent.generator.pattern.builder.xml.test.TestXmlPatternBuilder
+Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0,11 sec
+
+Testcase: testXMLPatternBuilder took 0,09 sec

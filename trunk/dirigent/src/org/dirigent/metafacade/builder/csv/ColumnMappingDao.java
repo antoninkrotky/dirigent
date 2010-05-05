@@ -20,12 +20,6 @@ public class ColumnMappingDao extends CsvDao<ColumnMappingVO> {
 		v.mappingUri = res.getString(1);
 		v.columnName = res.getString(2);
 		v.expression = res.getString(3);
-		
-		v.countAlias = res.getString(5);
-		v.countColumn = res.getString(4);
-		
-		v.md5 = this.evaluateBooleanValue(res.getString(6));
-		v.sh1 = this.evaluateBooleanValue(res.getString(7));
 		return v;
 	}
 

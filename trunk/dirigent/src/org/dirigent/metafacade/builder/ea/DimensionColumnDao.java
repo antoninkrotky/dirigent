@@ -56,7 +56,7 @@ public class DimensionColumnDao extends EADao<DimensionColumnVO> {
 	@Override
 	public void insert(DimensionColumnVO v) {
 		v.uri=generateGUID();
-		executeUpdate("insert into t_attribute (\"Name\",\"Notes\",\"Classifier\",\"Type\",\"Object_ID\",\"ea_guid\",\"Stereotype\") values (?,?,?,?,?,?,?)", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,new BigDecimal(v.tableId),v.uri,"BIDimensionColumn"});
+		executeUpdate("insert into t_attribute (\"name\",\"notes\",\"classifier\",\"type\",\"object_id\",\"ea_guid\",\"stereotype\") values (?,?,?,?,?,?,?)", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,new BigDecimal(v.tableId),v.uri,"BIDimensionColumn"});
 		v.id=getColumn(v.uri).id;
 		attributeTagDao.merge(v.id, "scdColumnType", v.scdColumnType);
 	}

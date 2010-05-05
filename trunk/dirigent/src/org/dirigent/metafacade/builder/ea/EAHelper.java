@@ -33,6 +33,7 @@ public class EAHelper {
 	private Connection createConnection(String name) {
 		try {
 			return DriverManager.getConnection("jdbc:odbc:DIRIGENT");
+			//return DriverManager.getConnection("jdbc:odbc:earepository");
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to create jdbc connection.", e);
 		}

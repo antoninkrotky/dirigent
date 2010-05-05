@@ -1,0 +1,9 @@
+Testsuite: org.dirigent.metafacade.builder.csv.test.TestSchemaDao
+Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0 sec
+
+Testcase: testGetSchemas_1 took 0 sec
+Testcase: testGetSchema_1 took 0 sec
+Testcase: testGetSchemas_2 took 0 sec
+Testcase: testGetSchema_2 took 0 sec
+Testcase: testGetSchema_6 took 0 sec
+Testcase: testGetSchemas_6 took 0 sec
