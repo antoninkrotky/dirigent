@@ -66,7 +66,7 @@
 	<!-- ================================= 
           Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru.             
          ================================= -->
-	<target name="default" depends="javadoc,create-jar,kettle-plugin" description="Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru." >
+	<target name="default" depends="doc,create-jar,kettle-plugin" description="Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru." >
 		
 		<delete dir="${tmp.dir}"/>
 	</target>
@@ -155,6 +155,9 @@
 	<target name="doc" depends="javadoc">
 		<copy todir="${doc.target.dir}">
 			<fileset dir="${doc.src.dir}"/>
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset file="${doc.src.dir}/README.txt"/>
 		</copy>
 	</target>
 </project>
