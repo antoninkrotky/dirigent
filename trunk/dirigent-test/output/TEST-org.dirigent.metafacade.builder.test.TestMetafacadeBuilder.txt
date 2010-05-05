@@ -1,9 +1,0 @@
-Testsuite: org.dirigent.metafacade.builder.test.TestMetafacadeBuilder
-Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0,09 sec
-
-Testcase: testGetMetafacadeBuilder took 0 sec
-Testcase: testGetMetafacadeBuilder_2 took 0,05 sec
-Testcase: testGetMetafacadeBuilder_3 took 0 sec
-Testcase: testGetMetafacadeBuilder_4 took 0,02 sec
-Testcase: testGetMetafacadeBuilder_5 took 0 sec
-Testcase: testGetMetafacadeBuilder_6 took 0,02 sec
