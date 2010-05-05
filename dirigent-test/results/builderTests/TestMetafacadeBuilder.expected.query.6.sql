@@ -13,10 +13,9 @@ SELECT
 	C.DISABLE_MENU AS "disable_menu",
 	C.DISABLE_POMOC AS "disable_pomoc",
 	md5(C.ID) AS "hash_md5",
-	CF1.subcategories_count AS "subcategories_count",
-	sh1() AS "hash_sh1"
+	(SELECT COUNT(category.id) AS subcategories_count FROM category, subcategory WHERE category.id = subcategory.subcategory_id GROUP BY (category.id) ) AS "subcategories_count",
+	sh1(C.ID) AS "hash_sh1"
 FROM
 	caballinus_source.category C
-,(SELECT COUNT(category.id) AS subcategories_count FROM category, subcategory WHERE category.id = subcategory.subcategory_id GROUP BY (category.id) ) CF1
 WHERE
 	(1=1)

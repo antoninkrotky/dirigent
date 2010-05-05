@@ -1,0 +1,16 @@
+Testsuite: org.dirigent.generator.test.TestGenerator
+Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0,25 sec
+------------- Standard Error -----------------
+5.5.2010 18:46:32 org.dirigent.generator.Generator generate
+INFO: Starting generation of element M_EMPLOYEE
+5.5.2010 18:46:32 org.dirigent.executor.JDBCStatementExecutor execute
+INFO: Step Create target table executed sucessfully. 0 rows affected.
+5.5.2010 18:46:32 org.dirigent.executor.JDBCStatementExecutor execute
+INFO: Step Truncate target table executed sucessfully. 3 rows affected.
+5.5.2010 18:46:32 org.dirigent.executor.JDBCStatementExecutor execute
+INFO: Step Load target table executed sucessfully. 3 rows affected.
+5.5.2010 18:46:32 org.dirigent.generator.Generator generate
+INFO: Element M_EMPLOYEE sucesfully generated.
+------------- ---------------- ---------------
+
+Testcase: testGenerateMapping took 0,25 sec

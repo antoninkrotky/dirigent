@@ -7,7 +7,8 @@
    category="General"
    classname="org.dirigent.kettle.JobEntryDirigentPlugin">
    <libraries>
-    <library name="dirigent.jar"/>
+    	<library name="dirigent_1.0.jar"/>
+    	<library name="lib/*.jar"/>
     </libraries>
     
    <localized_category>

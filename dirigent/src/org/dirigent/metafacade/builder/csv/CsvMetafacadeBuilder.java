@@ -10,6 +10,7 @@ import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.decorator.TableDecorator;
 import org.dirigent.metafacade.builder.vo.DomainVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
+import org.dirigent.metafacade.builder.vo.ObjectVO;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 import org.dirigent.metafacade.builder.vo.TableVO;
 
@@ -21,9 +22,8 @@ import org.dirigent.metafacade.builder.vo.TableVO;
  * */
 public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 
-
 	private HashMap<String, IElement> elements = new HashMap<String, IElement>();
-	
+
 	private TableDao tableDao;
 	private MappingDao mappingDao;
 	private SchemaDao schemaDao;
@@ -33,7 +33,7 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		mappingDao = new MappingDao();
 		schemaDao = new SchemaDao();
 	}
-	
+
 	@Override
 	public IElement getMetafacade(String uri) {
 		IElement element = elements.get(uri);
@@ -76,11 +76,21 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 
 	@Override
 	public void save(IElement element) {
-		throw new RuntimeException("Operation save is not supported on "+this.getClass().getName());	
+		throw new RuntimeException("Operation save is not supported on "
+				+ this.getClass().getName());
 	}
 
 	@Override
 	public Collection<DomainVO> getDomains() {
-		throw new RuntimeException("Operation getDomains is not supported on "+this.getClass().getName());	}
+		throw new RuntimeException("Operation getDomains is not supported on "
+				+ this.getClass().getName());
+	}
+
+	@Override
+	public Collection<ObjectVO> getChildObjects(ObjectVO object) {
+		throw new RuntimeException(
+				"Operation getChildObjects is not supported on "
+						+ this.getClass().getName());
+	}
 
 }

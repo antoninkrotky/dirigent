@@ -1,60 +1,124 @@
-<project name="DirigentKettlePlugin" default="default" basedir=".">
+<?xml version="1.0" encoding="UTF-8"?>
 
-	<description>
-	      DIRIGENT Kettle Plugin build file
-	</description>
-
-	<tstamp prefix="start" />
-
-	<!-- system properties to use -->
-	<property name="cr" value="${line.separator}" />
-
-	<!-- set global properties for this build -->
-
-	<property name="src" location="src" />
-	<property name="classes" location="classes" />
-	<property name="lib" location="lib" />
-	<property name="velocity" location="lib/velocity" />
-	<property name="hsqldb" location="lib/hsqldb" />
-	<property name="csv-jdbc" location="lib/csv-jdbc" />
-	<property name="distrib" location="distrib" />
-	<property name="libext" location="libext" />
-	<property name="libswt" location="libswt" />
-	<property name="javadoc" location="${distrib}/javadoc" />
-	<property name="plugin-dir" location="plugins/jobentries/Dirigent" />
-
-
-	<property name="version" value="1.0" description="Version" />
-	<buildnumber />
-	<property name="vendor" value="GEM System International s.r.o." description="Vendor name." />
+<!-- ====================================================================== 
+     ant-java    
+     Obecný build script pro JAVA projekty. Importuje ant-generic.                                                              
+     ====================================================================== -->
+<project name="dirigent" default="default">
 	
-	<path id="classpath">
-		<fileset dir="${lib}" includes="**/*.jar" />
-	</path>
+
+	<property name="src.dir" value="src" />
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="build" />
+	<property name="tmp.dir" value="${build.dir}/tmp" />	
+	<property name="version" value="1.0" description="Project version. Override this property in your build script."/>
+	<buildnumber/>
+	<property name="vendor" value="DIRIGENT" description="Vendor name."/>
+	<property name="doc.target.dir" value="${build.dir}/doc" />
+	<property name="doc.src.dir" value="doc" />
+	<property name="doc.target.dir" value="${build.dir}/doc" />
+	<property name="javadoc.dir" value="${doc.target.dir}/javadoc" />
+	<property name="tmp.bin.dir" value="${tmp.dir}/bin" />
+	<property name="kettle-plugin.dir" value="${build.dir}/plugins/jobentries/Dirigent" />
+	
 
 
 
-
-
-	<target name="init" description="create timestamp and directories">
-		<echo>Init...</echo>
-
-		<tstamp />
-		<mkdir dir="${classes}" />
-
-		<mkdir dir="${distrib}" />
-		<mkdir dir="${plugin-dir}" />
-		<mkdir dir="${javadoc}" />
-		<mkdir dir="${distrib}/META-INF" />
+	
+	
+	<target name="clean">
+		<delete dir="${build.dir}">
+		</delete>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${tmp.dir}" />
+	</target>
+	
+	<target name="drop-temp">
+		<delete dir="${tmp.dir}"/>
 	</target>
 
-	<!-- 
-		==========================
-		MANIFEST 
-		==========================
-	-->
+	
+	
+	<macrodef name="svnLog" description="Replace token in target file with svn revision log.">
+		<attribute name="file"/>
+		<attribute name="token"/>
+		<attribute name="limit" default="20"/>
+		<sequential>
+			<exec command="svn" outputproperty="svn.log">
+				<arg line="log -l @{limit}" />
+			</exec>
+			<replace file="@{file}" value="${svn.log}" token="@{token}">
+			</replace>
+		</sequential>
+	</macrodef>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<description>
+            Generic build file for java projects.
+    </description>
+
+
+
+
+	<!-- ================================= 
+          Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru.             
+         ================================= -->
+	<target name="default" depends="javadoc,create-jar,kettle-plugin" description="Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru." >
+		
+		<delete dir="${tmp.dir}"/>
+	</target>
+	
+	<target name="kettle-plugin">
+		<copy todir="${kettle-plugin.dir}/lib" flatten="true">
+			<fileset dir="${lib.dir}">
+				<include name="*/**.jar"/>
+				<exclude name="ext"/>
+			</fileset>
+		</copy>
+		<copy todir="${kettle-plugin.dir}">
+			<fileset dir="${src.dir}">
+				<include name="icon.png"/>
+				<include name="plugin.xml"/>
+			</fileset>
+			<fileset dir="${build.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>	
+	</target>
+
+
+	<!-- ================================= 
+          Vytvoří javadoc.             
+         ================================= -->
+	<target name="javadoc" depends="clean">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc sourcepath="src" classpathref="classpath" destdir="${javadoc.dir}">
+		</javadoc>
+	</target>
+
+	<!-- ================================= 
+          Zkompiluje obsah zdrojové složky.             
+         ================================= -->
+	<target name="compile" depends="clean">
+		<mkdir dir="${tmp.bin.dir}" />
+		<echo message="${toString:classpath}"/>
+		<javac srcdir="${src.dir}" classpathref="classpath" destdir="${tmp.bin.dir}" debug="true"/>
+		<copy todir="${tmp.bin.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<mkdir dir="${tmp.bin.dir}/META-INF" />
+	</target>
+
+	<!-- ================================= 
+          Vytvoří manifest.             
+         ================================= -->
 	<target name="manifest">
-		<manifest file="${distrib}/META-INF/MANIFEST.MF">
+		<manifest file="${tmp.bin.dir}/META-INF/MANIFEST.MF">
 			<attribute name="Built-By" value="${user.name}" />
 			<section name="common">
 				<attribute name="Specification-Title" value="${ant.project.name}" />
@@ -67,112 +131,30 @@
 		</manifest>
 	</target>
 
-	<!-- 
-		==========================
-		JAVADOC 
-		==========================
-	-->
-	<target name="javadoc">
-		<mkdir dir="${javadoc}" />
-		<javadoc sourcepath="src" classpathref="classpath" destdir="${javadoc}">
-		</javadoc>
+	<!-- ================================= 
+          Vytvoří jar se zkompilovanými třídami.             
+         ================================= -->
+	<target name="create-jar" depends="compile,manifest">
+		<jar destfile="${build.dir}/${ant.project.name}_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF" />
 	</target>
 
-	<!--
-	       ==========================
-	            Compile the code
-	       ==========================
-	  -->
 
-	<target name="compile" depends="init" description="compile the source ">
-		<echo>Compiling DIRIGENT Kettle Plugin ...</echo>
-		<javac srcdir="${src}" destdir="${classes}" debug="true" optimize="false">
-			<classpath id="cpath">
-				<fileset dir="${velocity}" includes="*.jar" />
-				<fileset dir="${hsqldb}" includes="*.jar" />
-				<fileset dir="${csv-jdbc}" includes="*.jar" />
-				<fileset dir="${libext}" includes="*.jar" />
-				<fileset dir="${libswt}" includes="*.jar" />
-				<fileset dir="${libswt}/win32/" includes="*.jar" />
-			</classpath>
-		</javac>
+
+	<!-- ================================= 
+          Vytvoří jeden jar se zkompilovanými třídami projektu a všemi závislostmi (obsahem jar souborů v lib adresáři).             
+         ================================= -->
+	<target name="create-nodep-jar" depends="create-jar">
+		<unjar dest="${tmp.bin.dir}" overwrite="true">
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</unjar>
+		<antcall target="manifest" />
+		<jar destfile="${build.dir}/${ant.project.name}-nodep_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF" />
+		
 	</target>
-
-	<!-- ==========================
-	          Copy additional files
-	       ==========================
-	  -->
-
-	<target name="copy" depends="compile" description="copy images etc to classes directory">
-		<echo>Copying images etc to classes directory...</echo>
-		<copy todir="${classes}">
-			<fileset dir="${src}" includes="**/*.png,**/*.xml,**/*.properties" />
+	
+	<target name="doc" depends="javadoc">
+		<copy todir="${doc.target.dir}">
+			<fileset dir="${doc.src.dir}"/>
 		</copy>
 	</target>
-
-	<!--
-	       ==========================
-	                library
-	       ==========================
-	  -->
-
-	<target name="dirigent" depends="compile, copy" description="generate the DIRIGENT Kettle Plugin library dummy.jar">
-		<echo>Generating the Kettle library dirigent.jar ...</echo>
-		<jar jarfile="${lib}/dirigent.jar" basedir="${classes}" includes="**/*" />
-	</target>
-
-	<!--
-	       ==========================
-	           distrib for plugin
-	       ==========================
-	  -->
-
-	<target name="distrib" depends="dirigent" description="Create the distribution package...">
-		<echo>Copying libraries to distrib directory...</echo>
-		<copy todir="${distrib}">
-			<fileset dir="${lib}" includes="**/*.jar, **/*.xml, **/*.png" />
-		</copy>
-		<delete>
-			<fileset dir="${lib}">
-				<include name="dirigent.jar" />
-			</fileset>
-		</delete>
-
-	</target>
-
-	<!--
-	       ==========================
-	            deploy to Kettle
-	       ==========================
-	  -->
-
-	<target name="copy-to-kettle" depends="distrib" description="Copy to Kettle plugin dir ... ">
-		<echo>Copying to Kettle plugin dir ... </echo>
-		<copy todir="${plugin-dir}">
-			<fileset dir="${distrib}" includes="**/*.xml, **/*.png" />
-		</copy>
-	</target>
-
-
-
-	<!--
-	       ==========================
-	          Default target: all
-	       ==========================
-	  -->
-	<target name="build" depends="copy-to-kettle, javadoc, manifest" description="default = build all" />
-	<target name="default" depends="clean, build" description="default = build all" />
-
-	<!--
-	       ==========================
-	              C L E A N
-	       ==========================
-	  -->
-
-	<target name="clean" description="clean up generated files">
-		<delete dir="${classes}" />
-		<delete dir="plugins" />
-		<delete dir="${distrib}" />
-	</target>
-
 </project>

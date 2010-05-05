@@ -1,0 +1,5 @@
+Testsuite: org.dirigent.metafacade.builder.ea.test.TestEAMetafacadeBuilder
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0,12 sec
+
+Testcase: testGetDimension took 0,12 sec
+Testcase: testGetChildObjects took 0 sec

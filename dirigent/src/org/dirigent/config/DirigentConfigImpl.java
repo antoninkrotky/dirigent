@@ -7,6 +7,7 @@ public class DirigentConfigImpl extends DirigentConfig {
 	private Properties p;
 	
 	protected DirigentConfigImpl() {
+		
 		p=new Properties(System.getProperties());		
 	}
 	@Override

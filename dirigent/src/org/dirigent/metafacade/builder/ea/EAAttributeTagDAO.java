@@ -18,7 +18,7 @@ public class EAAttributeTagDAO extends EADao<String> {
 	
 	public void merge(long attributeId,String property, String value) {		
 		executeUpdate("delete from t_attributetag where ElementID=? and Property=?", new Object[]{new BigDecimal(attributeId),property});
-		executeUpdate("insert into t_attributetag  (\"ElementID\",\"Property\",\"Value\") values (?,?,?)", new Object[]{new BigDecimal(attributeId),property,value});
+		executeUpdate("insert into t_attributetag  (\"elementid\",\"property\",\"value\") values (?,?,?)", new Object[]{new BigDecimal(attributeId),property,value});
 	}
 
 

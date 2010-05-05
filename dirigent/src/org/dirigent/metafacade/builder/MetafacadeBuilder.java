@@ -7,6 +7,7 @@ import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.DomainVO;
+import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
  * Abstract MetafacadeBuilder factory.
@@ -44,5 +45,7 @@ public abstract class MetafacadeBuilder {
 	public abstract void save(IElement element);
 
 	public abstract Collection<DomainVO> getDomains();
+
+	public abstract Collection<ObjectVO> getChildObjects(ObjectVO object) ;
 
 }

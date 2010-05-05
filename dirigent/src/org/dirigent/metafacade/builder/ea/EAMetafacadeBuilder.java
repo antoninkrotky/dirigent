@@ -8,6 +8,7 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.DimensionDecorator;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 import org.dirigent.metafacade.builder.vo.DomainVO;
+import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
@@ -15,9 +16,10 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	private DimensionDao dimensionDao = new DimensionDao();
 	private DomainDao domainDao = new DomainDao();
 
+
 	@Override
 	public IElement getMetafacade(String uri) {
-		EAObjectVO v = objectDao.getObject(uri);
+		ObjectVO v = objectDao.getObject(uri);
 		if (v != null) {
 			if ("Class".equals(v.type) && "BIDimension".equals(v.stereotype)) {
 				return new DimensionDecorator(dimensionDao.getDimension(uri));
@@ -40,6 +42,11 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	@Override
 	public Collection<DomainVO> getDomains() {
 		return domainDao.getDomains();
+	}
+
+	@Override
+	public Collection<ObjectVO> getChildObjects(ObjectVO object) {
+		return objectDao.getChildObjects(object);
 	}
 
 }

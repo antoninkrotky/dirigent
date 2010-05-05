@@ -13,15 +13,4 @@ public interface IColumnMapping {
 	 * */
 	public IColumn getColumn();
 	
-	/**
-	 * String may be null if no sub-query is needed
-	 * @return String 
-	 */
-	public String getCountSubqueryExpression();
-	
-	/**
-	 * true if count function needs sub-query in form clause
-	 * @return boolean 
-	 */
-	public boolean hasCountWithSubquery(); 
 }
