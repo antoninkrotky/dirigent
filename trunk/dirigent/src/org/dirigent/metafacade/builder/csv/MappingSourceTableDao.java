@@ -5,11 +5,16 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
+import org.dirigent.metafacade.builder.vo.SchemaVO;
 
 public class MappingSourceTableDao extends CsvDao<MappingSourceTableVO> {
 
 	public Collection<MappingSourceTableVO> getMappingSourceTablesByMappingUri(String uri) {
 		return findVOs("select * from MappingSourceTable where MapingURI="+uri);
+	}
+	
+	public Collection<MappingSourceTableVO> getMappings() {
+		return findVOs("select * from MappingSourceTable");
 	}
 
 	@Override 

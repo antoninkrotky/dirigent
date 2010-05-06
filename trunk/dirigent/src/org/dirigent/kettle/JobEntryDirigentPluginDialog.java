@@ -35,8 +35,8 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	private Label wlStepname; 
 	private FormData fdlStepname, fdStepname; 
 	private Text wStepname; 
-	private TextVar wFilename, wDelimiter, wEnclosure;
-	private Button wbbFilename, wbDelimiter, wOK, wCancel; // Browse for a file
+	private TextVar wFilename, wDelimiter, wEnclosure, wOutputFilename;
+	private Button wbbFilename, wbDelimiter, wOK, wCancel, wbbOutputFilename; // Browse for a file
 	private Listener lsOK, lsCancel;
 	private SelectionAdapter lsDef; 
 
@@ -99,7 +99,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		wStepname.setLayoutData(fdStepname);
 		Control lastControl = wStepname;
 		
-		// filename label
+		// source folder label
 		Label wlFilename = new Label(shell, SWT.RIGHT);
 		wlFilename.setText(Messages
 				.getString("DirigentPluginDialog.InputFile.Label")); //$NON-NLS-1$
@@ -131,6 +131,39 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		fdFilename.right = new FormAttachment(wbbFilename, 0);
 		wFilename.setLayoutData(fdFilename);
 		lastControl = wFilename;
+
+		// output file 
+		Label wlOutputFilename = new Label(shell, SWT.RIGHT);
+		wlOutputFilename.setText(Messages
+				.getString("DirigentPluginDialog.OutputFile.Label")); //$NON-NLS-1$
+		props.setLook(wlOutputFilename);
+		FormData fdlOutputFilename = new FormData();
+		fdlOutputFilename.top = new FormAttachment(lastControl, margin);
+		fdlOutputFilename.left = new FormAttachment(0, 0);
+		fdlOutputFilename.right = new FormAttachment(middle, -margin);
+		wlOutputFilename.setLayoutData(fdlOutputFilename);
+		
+		wbbOutputFilename= new Button(shell, SWT.PUSH | SWT.CENTER);
+		props.setLook(wbbOutputFilename);
+		
+		wbbOutputFilename.setText(Messages.getString("System.Button.Browse"));
+		wbbOutputFilename.setToolTipText(Messages
+				.getString("System.Tooltip.BrowseForFileOrDirAndAdd"));
+		FormData fdbOutputFilename = new FormData();
+		fdbOutputFilename.top = new FormAttachment(lastControl, margin);
+		fdbOutputFilename.right = new FormAttachment(100, 0);
+		wbbOutputFilename.setLayoutData(fdbOutputFilename);
+		
+		wOutputFilename = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
+				| SWT.BORDER);
+		props.setLook(wOutputFilename);
+		wOutputFilename.addModifyListener(lsMod);
+		FormData fdOutputFilename = new FormData();
+		fdOutputFilename.top = new FormAttachment(lastControl, margin);
+		fdOutputFilename.left = new FormAttachment(middle, 0);
+		fdOutputFilename.right = new FormAttachment(wbbOutputFilename, 0);
+		wOutputFilename.setLayoutData(fdOutputFilename);
+		lastControl = wOutputFilename;
 
 		
 
@@ -217,6 +250,8 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		// wStepname.addSelectionListener( lsDef );
 		if (wFilename != null)
 			wFilename.addSelectionListener(lsDef);
+		if (wOutputFilename != null)
+			wOutputFilename.addSelectionListener(lsDef);
 		wDelimiter.addSelectionListener(lsDef);
 		wEnclosure.addSelectionListener(lsDef);
 
@@ -238,6 +273,19 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 					String objectname = dialog.open();
 					if (objectname != null)
 						wFilename.setText(objectname);
+				}
+			});
+		}
+		
+		if (wbbOutputFilename!= null) {
+			// Listen to the browse button next to the file name
+			wbbOutputFilename.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent event) {
+					org.eclipse.swt.widgets.FileDialog dialog = new org.eclipse.swt.widgets.FileDialog(shell,
+							SWT.OPEN);
+					String objectname = dialog.open();
+					if (objectname != null)
+						wOutputFilename.setText(objectname);
 				}
 			});
 		}
@@ -266,6 +314,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	public void getData(JobEntryDirigentPlugin jobEntry) {
 		wStepname.setText(Const.NVL(jobEntry.getName(), "")); 
 		wFilename.setText(Const.NVL(jobEntry.getFilename(), ""));
+		wOutputFilename.setText(Const.NVL(jobEntry.getOutput(), ""));
 		wDelimiter.setText(Const.NVL(jobEntry.getDelimiter(), ""));
 		wEnclosure.setText(Const.NVL(jobEntry.getEnclosure(), ""));
 	}
@@ -286,6 +335,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	private void ok() {
 		jobEntry.setName(wStepname.getText());
         jobEntry.setFilename(wFilename.getText());
+        jobEntry.setOutput(wOutputFilename.getText());
 		jobEntry.setDelimiter(wDelimiter.getText());
 		jobEntry.setEnclosure(wEnclosure.getText());
 		jobEntry.setChanged(); 
