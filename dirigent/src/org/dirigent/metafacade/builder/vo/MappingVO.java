@@ -9,7 +9,8 @@ public class MappingVO extends VO{
 	public String targetTableUri;
 	public String joinCondition;
 	public String filterCondition;
+	public String havingClause;
 	public String groupByClause;
 	public Collection<ColumnMappingVO> columnMappings;
-	public Collection<MappingSourceTableVO> mappingSourceTables;
+	public Collection<MappingSourceTableVO> mappingSourceTables;	
 }

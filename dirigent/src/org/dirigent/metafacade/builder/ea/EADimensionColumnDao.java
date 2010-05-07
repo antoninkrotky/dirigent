@@ -10,9 +10,9 @@ import java.util.Iterator;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 
-public class DimensionColumnDao extends EADao<DimensionColumnVO> {
+public class EADimensionColumnDao extends EADao<DimensionColumnVO> {
 	private EAAttributeTagDAO attributeTagDao = new EAAttributeTagDAO();
-	private DomainDao doaminDao = new DomainDao();
+	private EADomainDao doaminDao = new EADomainDao();
 
 	@Override
 	protected DimensionColumnVO createVO(ResultSet res) throws SQLException {

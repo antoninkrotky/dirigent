@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 
-public class DimensionDao extends EADao<DimensionVO> {
+public class EADimensionDao extends EADao<DimensionVO> {
 
 	private EAObjectPropertyDAO objectPropertyDao = new EAObjectPropertyDAO();
-	private DimensionColumnDao columnsDao = new DimensionColumnDao();
+	private EADimensionColumnDao columnsDao = new EADimensionColumnDao();
 
 	@Override
 	protected DimensionVO createVO(ResultSet res) throws SQLException {
@@ -22,7 +22,8 @@ public class DimensionDao extends EADao<DimensionVO> {
 		v.id = res.getLong(5);
 		v.scdType = Integer.valueOf(objectPropertyDao.getObjectProperty(v.id,
 				"slowlyChangingDimensionType"));
-		// v.schemaUri;
+		//TODO: set schema uri
+		v.schemaUri="schema:default";
 		v.columns = columnsDao.getColumns(v.id);
 		return v;
 	}

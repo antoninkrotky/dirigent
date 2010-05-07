@@ -23,8 +23,6 @@ import org.pentaho.di.repository.ObjectId;
 import org.pentaho.di.repository.Repository;
 import org.w3c.dom.Node;
 
-import sun.util.logging.resources.logging;
-
 public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		JobEntryInterface {
 

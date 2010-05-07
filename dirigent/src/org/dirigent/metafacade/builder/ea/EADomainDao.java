@@ -8,7 +8,7 @@ import java.util.Collection;
 import org.dirigent.metafacade.builder.vo.DomainVO;
 
 
-public class DomainDao extends EADao<DomainVO> {
+public class EADomainDao extends EADao<DomainVO> {
 
 	private EAObjectPropertyDAO objectPropertyDao=new EAObjectPropertyDAO();
 	

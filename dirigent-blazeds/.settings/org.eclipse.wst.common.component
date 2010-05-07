@@ -3,10 +3,14 @@
     <wb-module deploy-name="dirigent-blazeds">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/dirigent/dirigent">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/dirigent/lib/ea/eaapi.jar">
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/dirigent/lib/hsqldb/hsqldb.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/dirigent/lib/velocity/velocity-1.6.2-dep.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="dirigent-blazeds"/>
