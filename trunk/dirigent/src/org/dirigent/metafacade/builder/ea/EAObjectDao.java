@@ -22,6 +22,17 @@ public class EAObjectDao extends EADao<ObjectVO> {
 		return v;
 	}
 
+	public ObjectVO getMappingTarget(long mappingId) {
+		return findVO(
+				"select eo.object_id,eo.object_type,eo.name,eo.stereotype,eo.ea_guid"
+						+ " from t_connector c,t_object so,t_object eo"
+						+ " where	c.stereotype='BIMappingTarget'"
+						+ " and c.start_object_id=so.object_id"
+						+ " and c.end_object_id=eo.object_id"
+						+ " and so.object_id=?", new Object[] { new BigDecimal(
+						mappingId) });
+	}
+
 	public ObjectVO getObject(String guid) {
 		return findVO(
 				"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where ea_guid=?",
