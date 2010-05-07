@@ -13,9 +13,9 @@ public class MappingSourceTableDao extends CsvDao<MappingSourceTableVO> {
 		return findVOs("select * from MappingSourceTable where MapingURI="+uri);
 	}
 	
-	public Collection<MappingSourceTableVO> getMappings() {
-		return findVOs("select * from MappingSourceTable");
-	}
+//	public Collection<MappingSourceTableVO> getMappings() {
+//		return findVOs("select * from MappingSourceTable");
+//	}
 
 	@Override 
 	protected MappingSourceTableVO createVO(ResultSet res) throws SQLException {
