@@ -4,7 +4,11 @@
 	<classpathentry kind="lib" path="lib/velocity/velocity-1.6.2-dep.jar"/>
 	<classpathentry kind="lib" path="lib/csv-jdbc/csvjdbc.jar"/>
 	<classpathentry kind="lib" path="lib/hsqldb/hsqldb.jar"/>
-	<classpathentry kind="lib" path="resources"/>
+	<classpathentry kind="lib" path="resources">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/ext/kettle/kettle-core.jar"/>
 	<classpathentry kind="lib" path="lib/ext/kettle/kettle-db.jar"/>
 	<classpathentry kind="lib" path="lib/ext/kettle/kettle-engine.jar" sourcepath="/Kettle trunk"/>
@@ -13,7 +17,7 @@
 	<classpathentry kind="lib" path="lib/ext/swt/common.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/jface.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/runtime.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_16"/>
 	<classpathentry kind="lib" path="lib/ext/swt/linux/x86_64/swt.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

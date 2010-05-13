@@ -8,7 +8,7 @@ public abstract class DirigentConfig {
 			config = new DirigentConfigImpl();
 		}
 		return config;*/
-		//TODO: Enable lazy initialisation but fix test before.
+		//TODO: Enable lazy initialisation but fix tests before.
 		return new DirigentConfigImpl();
 	}
 
@@ -16,4 +16,5 @@ public abstract class DirigentConfig {
 
 	public static final String MODEL_PATH = "dirigent.model.path";
 	public static final String SCHEMA_PREFIX = "dirigent.schema.";
+	public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
 }

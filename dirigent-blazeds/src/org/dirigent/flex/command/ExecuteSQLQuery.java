@@ -39,27 +39,41 @@ public class ExecuteSQLQuery implements ICommand {
 		ISchema schema = (ISchema) MetafacadeBuilder.getMetafacadeBuilder()
 				.getMetafacade(schemaUri);
 		Connection c = getConnection(schema);
+		ExecuteSQLQueryResult result = new ExecuteSQLQueryResult();
 		try {
 			PreparedStatement stmt = c.prepareStatement(query);
-			ResultSet res = stmt.executeQuery();
-			int columnCount=res.getMetaData().getColumnCount();
-			ExecuteSQLQueryResult result=new ExecuteSQLQueryResult();
-			result.columnNames=new String[columnCount];
-			result.rows=new ArrayList<Object[]>(100);
-			for (int i = 0; i <result.columnNames.length ; i++) {
-				result.columnNames[i]=res.getMetaData().getColumnLabel(i+1);
-			}
-			
-			while (res.next()) {
-				Object[] row=new Object[columnCount];
-				for (int i = 0; i < row.length; i++) {
-					row[i]=res.getObject(i+1);
+			boolean isResultset = stmt.execute();
+			if (isResultset) {
+				ResultSet res = stmt.executeQuery();
+				int columnCount = res.getMetaData().getColumnCount();
+				result.columnNames = new String[columnCount];
+				result.rows = new ArrayList<Object[]>(100);
+				for (int i = 0; i < result.columnNames.length; i++) {
+					result.columnNames[i] = res.getMetaData().getColumnLabel(
+							i + 1);
 				}
-				result.rows.add(row);
-				if (result.rows.size()==100) {
-					break;
+
+				while (res.next()) {
+					Object[] row = new Object[columnCount];
+					for (int i = 0; i < row.length; i++) {
+						row[i] = res.getObject(i + 1);
+					}
+					result.rows.add(row);
+					if (result.rows.size() == 100) {
+						break;
+					}					
 				}
+				res.close();
+			} else {
+
+				result.columnNames = new String[] { "Message" };
+				result.rows = new ArrayList<Object[]>(1);
+				result.rows
+						.add(new Object[] { "Statement executed sucesfully. "
+								+ stmt.getUpdateCount() + " rows updated." });
+
 			}
+			stmt.close();
 			return result;
 		} catch (SQLException e) {
 			throw new RuntimeException("Cannot execute query.", e);

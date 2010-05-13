@@ -20,6 +20,7 @@
 	</PatternStep>
 	<PatternStep name="Load target table" type="JDBCStatement">
 		<Template> INSERT INTO ${element.targetTable.fullName}
+			(${element.targetColumnList})
 			${element.SQLQuery};</Template>
 	</PatternStep>
 </tns:Pattern>

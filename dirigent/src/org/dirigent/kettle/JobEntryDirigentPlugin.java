@@ -166,7 +166,7 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 //				transbuilder.createDBConnection(new SchemaDao().getSchema(schemaUri));
 				
 				System.setProperty(DirigentConfig.MODEL_PATH, model);
-				System.setProperty("dirigent.model.type", "CSV");
+				System.setProperty("dirigent.model.type", "EA");
 				String[] args = {model, uri};
 				Dirigent.main(args);
 				

@@ -5,11 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
+import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 
-public class EAMappingSourceTableDao extends EADao<MappingSourceTableVO> {
+public class EAMappingSourceDao extends EADao<MappingSourceVO> {
 
-	public Collection<MappingSourceTableVO> getSourceTables(long mappingId) {
+	private EAConnectorPropertyDAO connectorPropertyDao=new EAConnectorPropertyDAO();
+	
+	public Collection<MappingSourceVO> getMappingSources(long mappingId) {
 		return findVOs(
 				"select c.connector_id,c.name,c.ea_guid,so.ea_guid,eo.ea_guid"
 						+ " from t_connector c,t_object so,t_object eo"
@@ -20,30 +22,32 @@ public class EAMappingSourceTableDao extends EADao<MappingSourceTableVO> {
 	}
 
 	@Override
-	protected MappingSourceTableVO createVO(ResultSet res) throws SQLException {
-		MappingSourceTableVO v=new MappingSourceTableVO();
+	protected MappingSourceVO createVO(ResultSet res) throws SQLException {
+		MappingSourceVO v=new MappingSourceVO();
 		v.id=res.getLong(1);
 		v.alias=res.getString(2);
 		v.uri=res.getString(3);
 		v.mappingUri=res.getString(4);
-		v.tableUri=res.getString(5);		
+		v.sourceUri=res.getString(5);
+		v.joinType=connectorPropertyDao.getObjectProperty(v.id, "joinType");
+		v.joinCondition=connectorPropertyDao.getObjectProperty(v.id, "joinCondition");
 		return v;
 	}
 
 	@Override
-	public void delete(MappingSourceTableVO v) {
+	public void delete(MappingSourceVO v) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void insert(MappingSourceTableVO v) {
+	public void insert(MappingSourceVO v) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(MappingSourceTableVO v) {
+	public void update(MappingSourceVO v) {
 		// TODO Auto-generated method stub
 
 	}

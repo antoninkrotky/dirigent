@@ -30,7 +30,7 @@ public class MappingDao extends CsvDao<MappingVO> {
 		v.filterCondition = res.getString(7);
 		v.groupByClause = res.getString(8);		
 		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
-		v.mappingSourceTables = mstDao
+		v.sources = mstDao
 				.getMappingSourceTablesByMappingUri(v.uri);
 		return v;
 	}
