@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.MappingDao;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
-import org.dirigent.metafacade.builder.vo.MappingSourceTableVO;
+import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 
 public class TestMappingDao extends TestCase {
@@ -32,14 +32,14 @@ public class TestMappingDao extends TestCase {
 		assertEquals(v.filterCondition,"");
 		assertEquals(v.groupByClause,"");
 		assertEquals(4, v.columnMappings.size());
-		assertEquals(2, v.mappingSourceTables.size());
+		assertEquals(2, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_EMPLOYEE", cm.mappingUri);
 		assertEquals("EMPLOYEE_ID", cm.columnName);
 		assertEquals("E.EMP_ID", cm.expression);
-		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		MappingSourceVO mst=v.sources.iterator().next();
 		assertEquals("M_EMPLOYEE", mst.mappingUri);
-		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("T_EMP", mst.sourceUri);
 		assertEquals("E", mst.alias);
 		
 	}
@@ -59,14 +59,14 @@ public class TestMappingDao extends TestCase {
 		assertEquals("E.SALARY > 10",v.filterCondition);
 		assertEquals(v.groupByClause,"");
 		assertEquals(4, v.columnMappings.size());
-		assertEquals(2, v.mappingSourceTables.size());
+		assertEquals(2, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_EMPLOYEE", cm.mappingUri);
 		assertEquals("EMPLOYEE_ID", cm.columnName);
 		assertEquals("E.EMP_ID", cm.expression);
-		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		MappingSourceVO mst=v.sources.iterator().next();
 		assertEquals("M_EMPLOYEE", mst.mappingUri);
-		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("T_EMP", mst.sourceUri);
 		assertEquals("E", mst.alias);
 	}
 	
@@ -86,14 +86,14 @@ public class TestMappingDao extends TestCase {
 		assertEquals("", v.filterCondition);
 		assertEquals(v.groupByClause,"E.HAIR_COLOR");
 		assertEquals(4, v.columnMappings.size());
-		assertEquals(2, v.mappingSourceTables.size());
+		assertEquals(2, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_EMPLOYEE", cm.mappingUri);
 		assertEquals("EMPLOYEE_ID", cm.columnName);
 		assertEquals("E.EMP_ID", cm.expression);
-		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		MappingSourceVO mst=v.sources.iterator().next();
 		assertEquals("M_EMPLOYEE", mst.mappingUri);
-		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("T_EMP", mst.sourceUri);
 		assertEquals("E", mst.alias);
 	}
 	
@@ -112,14 +112,14 @@ public class TestMappingDao extends TestCase {
 		assertEquals("S.SALARY > 100", v.filterCondition);
 		assertEquals(v.groupByClause,"E.HAIR_COLOR");
 		assertEquals(6, v.columnMappings.size());
-		assertEquals(2, v.mappingSourceTables.size());
+		assertEquals(2, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_EMPLOYEE", cm.mappingUri);
 		assertEquals("EMPLOYEE_ID", cm.columnName);
 		assertEquals("E.EMP_ID", cm.expression);
-		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		MappingSourceVO mst=v.sources.iterator().next();
 		assertEquals("M_EMPLOYEE", mst.mappingUri);
-		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("T_EMP", mst.sourceUri);
 		assertEquals("E", mst.alias);
 	}
 	
@@ -138,14 +138,14 @@ public class TestMappingDao extends TestCase {
 		assertEquals("", v.filterCondition);
 		assertEquals(v.groupByClause,"");
 		assertEquals(5, v.columnMappings.size());
-		assertEquals(3, v.mappingSourceTables.size());
+		assertEquals(3, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_EMPLOYEE", cm.mappingUri);
 		assertEquals("EMPLOYEE_ID", cm.columnName);
 		assertEquals("E.EMP_ID", cm.expression);
-		MappingSourceTableVO mst=v.mappingSourceTables.iterator().next();
+		MappingSourceVO mst=v.sources.iterator().next();
 		assertEquals("M_EMPLOYEE", mst.mappingUri);
-		assertEquals("T_EMP", mst.tableUri);
+		assertEquals("T_EMP", mst.sourceUri);
 		assertEquals("E", mst.alias);
 	}
 	
@@ -154,7 +154,7 @@ public class TestMappingDao extends TestCase {
 		System.setProperty(DirigentConfig.MODEL_PATH, path);
 		MappingVO v = new MappingDao().getMapping("M_category");
 		assertEquals(16, v.columnMappings.size());
-		assertEquals(1, v.mappingSourceTables.size());
+		assertEquals(1, v.sources.size());
 		ColumnMappingVO cm=v.columnMappings.iterator().next();
 		assertEquals("M_category", cm.mappingUri);
 		

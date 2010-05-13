@@ -28,13 +28,14 @@ public class FileComparator {
 			try {
 				goldenFile = new FileInputStream(new File(expected));
 			} catch (FileNotFoundException fnf) {
-				createGoldenFile(expected, actual);
+				createGoldenFile(expected, actual);				
 				throw new AssertionFailedError(
 						"Couldn't find file to compare so new one has been created. Re-check and re-run failing tests.");
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		System.out.println("Actual query:\n"+actual);
 		assertEquals(goldenFile, inputStream);
 
 	}

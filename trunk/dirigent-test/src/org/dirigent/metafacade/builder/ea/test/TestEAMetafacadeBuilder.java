@@ -20,8 +20,8 @@ public class TestEAMetafacadeBuilder extends TestCase{
 	}
 
 	public void testGetDimension() {
-		IDimension d=(IDimension)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{3B3D53A6-68CF-473c-B050-F110D81C2D9D}");
-		assertEquals("ODBORNOST", d.getName());
+		IDimension d=(IDimension)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{83E9E3A0-2E6A-42f5-BCCD-718731E2AB8D}");
+		assertEquals("DEPARTMENT", d.getName());
 	}
 	
 	public void testGetChildObjects() {
@@ -32,13 +32,13 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		assertEquals("Model", c.iterator().next().name);
 		//package
 		ObjectVO object=new ObjectVO();
-		object.id=4;
+		object.id=1;
 		object.type="Package";
 		c=MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(object);
 		
 		assertNotNull("No objects returned.",c);
 		assertTrue("No objects returned.",c.size()>0);
-		assertEquals("POPLATEK_ZP", c.iterator().next().name);
+		assertEquals("Domains", c.iterator().next().name);
 
 	}
 }

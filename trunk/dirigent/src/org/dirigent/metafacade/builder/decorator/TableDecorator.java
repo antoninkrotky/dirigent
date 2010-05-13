@@ -53,4 +53,9 @@ public class TableDecorator implements ITable {
 		return table;
 	}
 
+	@Override
+	public String getSQLQuery() {
+		return "SELECT * from "+getFullName();
+	}
+
 }
