@@ -6,4 +6,6 @@ public interface IPatternStep {
 	public String getName();
 	public String getType();
 	public String getTemplate();
+	public String getCondition();
+	public boolean isIgnoreErrors();
 }

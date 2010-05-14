@@ -19,13 +19,19 @@
 
     <complexType name="PatternStep">
     	<sequence>
-    		<element name="Documentation" type="string" maxOccurs="1" minOccurs="0"></element>
+    		<element name="Documentation" type="string" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
     		<element name="Template" type="string"></element>
     	</sequence>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="type" type="tns:PatternStepType" default="File"></attribute>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="type" type="tns:PatternStepType"
+    		default="File">
+    	</attribute>
+    	<attribute name="condition" type="string"></attribute>
+    	<attribute name="ignoreErrors" type="boolean"></attribute>
     </complexType>
-    
+
     <complexType name="Parameter">
     	<sequence>
     		<element name="Documentation" type="string"></element>
