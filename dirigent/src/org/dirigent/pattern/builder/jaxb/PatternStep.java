@@ -52,8 +52,30 @@ public class PatternStep {
     protected String name;
     @XmlAttribute
     protected String type;
+    @XmlAttribute
+    protected String condition;
+    @XmlAttribute
+    protected boolean ignoreErrors;
 
-    /**
+
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public boolean isIgnoreErrors() {
+		return ignoreErrors;
+	}
+
+	public void setIgnoreErrors(boolean ignoreErrors) {
+		this.ignoreErrors = ignoreErrors;
+	}
+
+	/**
      * Gets the value of the documentation property.
      * 
      * @return

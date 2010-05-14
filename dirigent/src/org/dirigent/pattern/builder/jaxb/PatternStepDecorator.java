@@ -24,4 +24,14 @@ public class PatternStepDecorator implements IPatternStep {
 		return step.getType();
 	}
 
+	@Override
+	public String getCondition() {
+		return step.getCondition();
+	}
+
+	@Override
+	public boolean isIgnoreErrors() {
+		return step.isIgnoreErrors();
+	}
+
 }
