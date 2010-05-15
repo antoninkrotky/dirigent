@@ -1,5 +1,7 @@
 package org.dirigent.kettle;
+
 import org.eclipse.swt.SWT;
+
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Combo;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.job.JobMeta;
 import org.pentaho.di.job.entry.JobEntryDialogInterface;
@@ -30,28 +33,29 @@ import org.pentaho.di.ui.job.dialog.JobDialog;
 import org.pentaho.di.ui.job.entry.JobEntryDialog;
 import org.pentaho.di.ui.trans.step.BaseStepDialog;
 
-public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobEntryDialogInterface {
+public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
+		JobEntryDialogInterface {
 
-	private Label wlStepname; 
-	private FormData fdlStepname, fdStepname; 
-	private Text wStepname; 
-	private TextVar wModel, wURI, wOutputFilename;
-	private Button wbbModel, wOK, wCancel; 
+	private Label wlStepname;
+	private FormData fdlStepname, fdStepname;
+	private Text wStepname;
+	private TextVar wModel, wURI;
+	private Button wbbModel, wOK, wCancel;
 	private Listener lsOK, lsCancel;
-	private SelectionAdapter lsDef; 
+	private SelectionAdapter lsDef;
+	private Combo wModelType;
 
-	
-	
-	private boolean changed; 
-	private JobEntryDirigentPlugin jobEntry; 
+	private boolean changed;
+	private JobEntryDirigentPlugin jobEntry;
 
-	public JobEntryDirigentPluginDialog(Shell parent, JobEntryInterface jobEntryInt, Repository rep, JobMeta jobMeta)
-	{
-			super(parent, jobEntryInt, rep, jobMeta);
-			props=PropsUI.getInstance();
-			this.jobEntry=(JobEntryDirigentPlugin) jobEntryInt;
-	
-			if (this.jobEntry.getName() == null) this.jobEntry.setName(jobEntryInt.getName());
+	public JobEntryDirigentPluginDialog(Shell parent,
+			JobEntryInterface jobEntryInt, Repository rep, JobMeta jobMeta) {
+		super(parent, jobEntryInt, rep, jobMeta);
+		props = PropsUI.getInstance();
+		this.jobEntry = (JobEntryDirigentPlugin) jobEntryInt;
+
+		if (this.jobEntry.getName() == null)
+			this.jobEntry.setName(jobEntryInt.getName());
 	}
 
 	@Override
@@ -80,25 +84,26 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		int middle = props.getMiddlePct();
 		int margin = Const.MARGIN;
 
-		//stepname 
-		wlStepname=new Label(shell, SWT.RIGHT);
-		wlStepname.setText(Messages.getString("DirigentPluginDialog.Stepname.Label")); //$NON-NLS-1$
- 		props.setLook(wlStepname);
-		fdlStepname=new FormData();
+		// stepname
+		wlStepname = new Label(shell, SWT.RIGHT);
+		wlStepname.setText(Messages
+				.getString("DirigentPluginDialog.Stepname.Label")); //$NON-NLS-1$
+		props.setLook(wlStepname);
+		fdlStepname = new FormData();
 		fdlStepname.left = new FormAttachment(0, 0);
-		fdlStepname.right= new FormAttachment(middle, -margin);
-		fdlStepname.top  = new FormAttachment(0, margin);
+		fdlStepname.right = new FormAttachment(middle, -margin);
+		fdlStepname.top = new FormAttachment(0, margin);
 		wlStepname.setLayoutData(fdlStepname);
-		wStepname=new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
- 		props.setLook(wStepname);
+		wStepname = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+		props.setLook(wStepname);
 		wStepname.addModifyListener(lsMod);
-		fdStepname=new FormData();
+		fdStepname = new FormData();
 		fdStepname.left = new FormAttachment(middle, 0);
-		fdStepname.top  = new FormAttachment(0, margin);
-		fdStepname.right= new FormAttachment(100, 0);
+		fdStepname.top = new FormAttachment(0, margin);
+		fdStepname.right = new FormAttachment(100, 0);
 		wStepname.setLayoutData(fdStepname);
 		Control lastControl = wStepname;
-		
+
 		// source folder label
 		Label wlModel = new Label(shell, SWT.RIGHT);
 		wlModel.setText(Messages
@@ -109,10 +114,10 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		fdlModel.left = new FormAttachment(0, 0);
 		fdlModel.right = new FormAttachment(middle, -margin);
 		wlModel.setLayoutData(fdlModel);
-		
+
 		wbbModel = new Button(shell, SWT.PUSH | SWT.CENTER);
 		props.setLook(wbbModel);
-		
+
 		wbbModel.setText(Messages.getString("System.Button.Browse"));
 		wbbModel.setToolTipText(Messages
 				.getString("System.Tooltip.BrowseForFileOrDirAndAdd"));
@@ -120,7 +125,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		fdbModel.top = new FormAttachment(lastControl, margin);
 		fdbModel.right = new FormAttachment(100, 0);
 		wbbModel.setLayoutData(fdbModel);
-		
+
 		wModel = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
 				| SWT.BORDER);
 		props.setLook(wModel);
@@ -133,8 +138,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		lastControl = wModel;
 
 		Label wlURI = new Label(shell, SWT.RIGHT);
-		wlURI.setText(Messages
-				.getString("DirigentPluginDialog.URI.Label")); //$NON-NLS-1$ 
+		wlURI.setText(Messages.getString("DirigentPluginDialog.URI.Label")); //$NON-NLS-1$ 
 		props.setLook(wlURI);
 		FormData fdlURI = new FormData();
 		fdlURI.top = new FormAttachment(lastControl, margin);
@@ -142,8 +146,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		fdlURI.right = new FormAttachment(middle, -margin);
 		wlURI.setLayoutData(fdlURI);
 
-		wURI = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
-				| SWT.BORDER);
+		wURI = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
 		props.setLook(wURI);
 		wURI.addModifyListener(lsMod);
 		FormData fdURI = new FormData();
@@ -152,48 +155,39 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		fdURI.right = new FormAttachment(100, 0);
 		wURI.setLayoutData(fdURI);
 		lastControl = wURI;
-		
-		// output file 
-//		Label wlOutputFilename = new Label(shell, SWT.RIGHT);
-//		wlOutputFilename.setText(Messages
-//				.getString("DirigentPluginDialog.OutputFile.Label")); //$NON-NLS-1$
-//		props.setLook(wlOutputFilename);
-//		FormData fdlOutputFilename = new FormData();
-//		fdlOutputFilename.top = new FormAttachment(lastControl, margin);
-//		fdlOutputFilename.left = new FormAttachment(0, 0);
-//		fdlOutputFilename.right = new FormAttachment(middle, -margin);
-//		wlOutputFilename.setLayoutData(fdlOutputFilename);
-//		
-//		wbbOutputFilename= new Button(shell, SWT.PUSH | SWT.CENTER);
-//		props.setLook(wbbOutputFilename);
-//		
-//		wbbOutputFilename.setText(Messages.getString("System.Button.Browse"));
-//		wbbOutputFilename.setToolTipText(Messages
-//				.getString("System.Tooltip.BrowseForFileOrDirAndAdd"));
-//		FormData fdbOutputFilename = new FormData();
-//		fdbOutputFilename.top = new FormAttachment(lastControl, margin);
-//		fdbOutputFilename.right = new FormAttachment(100, 0);
-//		wbbOutputFilename.setLayoutData(fdbOutputFilename);
-//		
-//		wOutputFilename = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
-//				| SWT.BORDER);
-//		props.setLook(wOutputFilename);
-//		wOutputFilename.addModifyListener(lsMod);
-//		FormData fdOutputFilename = new FormData();
-//		fdOutputFilename.top = new FormAttachment(lastControl, margin);
-//		fdOutputFilename.left = new FormAttachment(middle, 0);
-//		fdOutputFilename.right = new FormAttachment(wbbOutputFilename, 0);
-//		wOutputFilename.setLayoutData(fdOutputFilename);
-//		lastControl = wOutputFilename;
 
-		
+		Label wlModelType = new Label(shell, SWT.RIGHT);
+		wlModelType.setText(Messages
+				.getString("DirigentPluginDialog.ModelType.Label")); //$NON-NLS-1$ 
+		props.setLook(wlModelType);
+		FormData fdlModelType = new FormData();
+		fdlModelType.top = new FormAttachment(lastControl, margin);
+		fdlModelType.left = new FormAttachment(0, 0);
+		fdlModelType.right = new FormAttachment(middle, -margin);
+		wlModelType.setLayoutData(fdlModelType);
+
+		wModelType = new Combo(shell, SWT.DROP_DOWN);
+		wModelType
+				.add(Messages.getString("DirigentPluginDialog.ModelType.CSV"));
+		wModelType.add(Messages.getString("DirigentPluginDialog.ModelType.EA"));
+
+		props.setLook(wModelType);
+		wModelType.addModifyListener(lsMod);
+		FormData fdModelType = new FormData();
+		fdModelType.top = new FormAttachment(lastControl, margin);
+		fdModelType.left = new FormAttachment(middle, 0);
+		fdModelType.right = new FormAttachment(100, 0);
+		wModelType.setLayoutData(fdModelType);
+		lastControl = wModelType;
+
 		// Some buttons
 		wOK = new Button(shell, SWT.PUSH);
 		wOK.setText(Messages.getString("System.Button.OK")); //$NON-NLS-1$
 		wCancel = new Button(shell, SWT.PUSH);
 		wCancel.setText(Messages.getString("System.Button.Cancel")); //$NON-NLS-1$
 
-		BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK, wCancel, }, margin, null);
+		BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK,
+				wCancel, }, margin, null);
 		// Add listeners
 		lsCancel = new Listener() {
 			public void handleEvent(Event e) {
@@ -203,7 +197,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		lsOK = new Listener() {
 			public void handleEvent(Event e) {
 				ok();
- 			}
+			}
 		};
 
 		wCancel.addListener(SWT.Selection, lsCancel);
@@ -215,15 +209,10 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 			}
 		};
 
-		// wStepname.addSelectionListener( lsDef );
 		if (wModel != null)
 			wModel.addSelectionListener(lsDef);
-		if (wOutputFilename != null)
-			wOutputFilename.addSelectionListener(lsDef);
-		wURI.addSelectionListener(lsDef);
-//		wEnclosure.addSelectionListener(lsDef);
 
-	
+		wURI.addSelectionListener(lsDef);
 
 		if (wbbModel != null) {
 			// Listen to the browse button next to the file name
@@ -237,19 +226,6 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 				}
 			});
 		}
-//		
-//		if (wbbOutputFilename!= null) {
-//			// Listen to the browse button next to the file name
-//			wbbOutputFilename.addSelectionListener(new SelectionAdapter() {
-//				public void widgetSelected(SelectionEvent event) {
-//					org.eclipse.swt.widgets.FileDialog dialog = new org.eclipse.swt.widgets.FileDialog(shell,
-//							SWT.OPEN);
-//					String objectname = dialog.open();
-//					if (objectname != null)
-//						wOutputFilename.setText(objectname);
-//				}
-//			});
-//		}
 
 		// Detect X or ALT-F4 or something that kills this window...
 		shell.addShellListener(new ShellAdapter() {
@@ -262,7 +238,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		BaseStepDialog.setSize(shell);
 
 		getData(jobEntry);
-		
+
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -271,57 +247,53 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 		return jobEntry;
 	}
 
-	
 	public void getData(JobEntryDirigentPlugin jobEntry) {
-		wStepname.setText(Const.NVL(jobEntry.getName(), "")); 
+		wStepname.setText(Const.NVL(jobEntry.getName(), ""));
 		wModel.setText(Const.NVL(jobEntry.getModel(), ""));
 		wURI.setText(Const.NVL(jobEntry.getUri(), ""));
+		wModelType.setText(Const.NVL(jobEntry.getModelType(), ""));
 
 	}
-	
-	public void dispose()
-	{
+
+	public void dispose() {
 		WindowProperty winprop = new WindowProperty(shell);
 		props.setScreen(winprop);
 		shell.dispose();
 	}
-	
+
 	private void cancel() {
 		jobEntry.setChanged(changed);
-		jobEntry=null;
+		jobEntry = null;
 		dispose();
 	}
 
 	private void ok() {
 		jobEntry.setName(wStepname.getText());
-        jobEntry.setModel(wModel.getText());
+		jobEntry.setModel(wModel.getText());
 		jobEntry.setUri(wURI.getText());
-		jobEntry.setChanged(); 
-		dispose();		
+		jobEntry.setModelType(wModelType.getText());
+		jobEntry.setChanged();
+		dispose();
 	}
-	
-	public String toString()
-	{
+
+	public String toString() {
 		return this.getClass().getName();
 	}
-	
-	public boolean evaluates()
-	{
+
+	public boolean evaluates() {
 		return true;
 	}
 
-	public boolean isUnconditional()
-	{
+	public boolean isUnconditional() {
 		return true;
 	}
-	
-	public boolean isTrue(){
+
+	public boolean isTrue() {
 		return true;
 	}
-	
-	public boolean isFalse(){
+
+	public boolean isFalse() {
 		return true;
 	}
 
 }
-
