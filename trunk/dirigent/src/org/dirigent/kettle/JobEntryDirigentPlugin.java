@@ -23,8 +23,10 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 
 	private static final String MODEL = "model";
 	private static final String URI = "uri";
+	private static final String MODEL_TYPE = "modelType"; 
 	private String model;
 	private String uri;
+	private String modelType; 
 	private LogChannel log = new LogChannel(this);
 
 	public JobEntryDirigentPlugin(String n) {
@@ -60,6 +62,16 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	public Object getValue() {
 		return null;
 	}
+	
+	
+
+	public String getModelType() {
+		return modelType;
+	}
+
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
+	}
 
 	@Override
 	public String getXML() {
@@ -69,6 +81,7 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 
 		retval.append("      " + XMLHandler.addTagValue(MODEL, model));
 		retval.append("      " + XMLHandler.addTagValue(URI, uri));
+		retval.append("      " + XMLHandler.addTagValue(MODEL_TYPE, modelType));
 		return retval.toString();
 	}
 
@@ -80,6 +93,7 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			super.loadXML(entrynode, databases, slaveServers);
 			model = XMLHandler.getTagValue(entrynode, MODEL);
 			uri = XMLHandler.getTagValue(entrynode, URI);
+			modelType = XMLHandler.getTagValue(entrynode, MODEL_TYPE);
 		} catch (KettleXMLException xe) {
 			throw new KettleXMLException(
 					"Unable to load file exists job entry from XML node", xe);
@@ -94,6 +108,7 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			super.loadRep(rep, id_jobentry, databases, slaveServers);
 			model = rep.getJobEntryAttributeString(id_jobentry, MODEL);
 			uri = rep.getJobEntryAttributeString(id_jobentry, URI);
+			modelType = rep.getJobEntryAttributeString(id_jobentry, MODEL_TYPE);
 
 		} catch (KettleException dbe) {
 			throw new KettleException(
@@ -108,7 +123,8 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			super.saveRep(rep, id_job);
 			rep.saveJobEntryAttribute(id_job, getObjectId(), MODEL, model);
 			rep.saveJobEntryAttribute(id_job, getObjectId(), URI, uri);
-
+			rep.saveJobEntryAttribute(id_job, getObjectId(), MODEL_TYPE, modelType);
+			
 		} catch (KettleDatabaseException dbe) {
 			throw new KettleException(
 					"unable to save jobentry of type 'file exists' to the repository for id_job="
@@ -126,19 +142,18 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		try {
 
 			System.setProperty(DirigentConfig.MODEL_PATH, model);
-			System.setProperty("dirigent.model.type", "EA");
+			System.setProperty("dirigent.model.type", modelType);
 			String[] args = { model, uri };
 			Dirigent.main(args);
 
 		} catch (NullPointerException npe) {
-			logDetailed(toString(), "Exception encountered: "
+			log.logDetailed("Exception encountered: "
 					+ npe.getMessage());
 			result.setResult(false);
 			return result;
 
 		} catch (RuntimeException rex) {
-			log
-					.logDetailed("RunTime Exception encountered. A problem with model? This maybe an error in your database/schema settings as a result of SQLException. Message: \n"
+			log.logDetailed("RunTime Exception encountered. A problem with model? This maybe an error in your database/schema settings as a result of SQLException. Message: \n"
 							+ rex.getMessage());
 			log.logDetailed("Finishing DIRIGENT Job with no success");
 			result.setResult(false);
