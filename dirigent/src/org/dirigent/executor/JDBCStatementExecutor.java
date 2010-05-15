@@ -52,8 +52,8 @@ public class JDBCStatementExecutor implements IStepExecutor {
 					.getUsername(), schema.getPassword());
 		} catch (Exception e) {
 			throw new RuntimeException(
-					"Unable to create connection for schema URI"
-							+ schema.getUri());
+					"Unable to create connection for schema URI: "
+							+ schema.getUri() + "/n details: " + e.getMessage());
 		}
 	}
 

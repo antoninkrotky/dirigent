@@ -36,7 +36,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	private FormData fdlStepname, fdStepname; 
 	private Text wStepname; 
 	private TextVar wModel, wURI, wOutputFilename;
-	private Button wbbModel, wOK, wCancel, wbbOutputFilename; // Browse for a file or folder
+	private Button wbbModel, wOK, wCancel; 
 	private Listener lsOK, lsCancel;
 	private SelectionAdapter lsDef; 
 
@@ -274,10 +274,9 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	
 	public void getData(JobEntryDirigentPlugin jobEntry) {
 		wStepname.setText(Const.NVL(jobEntry.getName(), "")); 
-		wModel.setText(Const.NVL(jobEntry.getFilename(), ""));
-//		wOutputFilename.setText(Const.NVL(jobEntry.getOutput(), ""));
+		wModel.setText(Const.NVL(jobEntry.getModel(), ""));
 		wURI.setText(Const.NVL(jobEntry.getUri(), ""));
-//		wEnclosure.setText(Const.NVL(jobEntry.getEnclosure(), ""));
+
 	}
 	
 	public void dispose()
@@ -296,7 +295,6 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements JobE
 	private void ok() {
 		jobEntry.setName(wStepname.getText());
         jobEntry.setModel(wModel.getText());
-//        jobEntry.setOutput(wOutputFilename.getText());
 		jobEntry.setUri(wURI.getText());
 		jobEntry.setChanged(); 
 		dispose();		
