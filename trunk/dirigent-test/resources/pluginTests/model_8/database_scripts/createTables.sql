@@ -1,0 +1,21 @@
+create table EMP
+(
+EMP_ID int PRIMARY KEY,
+EMP_FIRST_NAME varchar(255) NOT NULL,
+LAST_NAME varchar(255) NOT NULL,
+DEPT_ID int NOT NULL
+); 
+
+create table DEPT
+(
+DEPT_ID int PRIMARY KEY,
+DEPT_NAME varchar(255) NOT NULL
+); 
+
+create table EMPLOYEE
+(
+EMPLOYEE_ID int,
+EMPLOYEE_NAME varchar(255) NOT NULL,
+DEPARTMENT_ID int NOT NULL,
+DEPARTMENT_NAME varchar(255) NOT NULL
+);
