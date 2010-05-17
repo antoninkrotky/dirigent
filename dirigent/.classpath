@@ -9,10 +9,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/ext/kettle/kettle-core.jar"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-core.jar" sourcepath="/Kettle trunk"/>
 	<classpathentry kind="lib" path="lib/ext/kettle/kettle-db.jar"/>
 	<classpathentry kind="lib" path="lib/ext/kettle/kettle-engine.jar" sourcepath="/Kettle trunk"/>
-	<classpathentry kind="lib" path="lib/ext/kettle/kettle-ui-swt.jar"/>
+	<classpathentry kind="lib" path="lib/ext/kettle/kettle-ui-swt.jar" sourcepath="/Kettle trunk"/>
 	<classpathentry kind="lib" path="lib/ext/swt/commands.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/common.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/jface.jar"/>
