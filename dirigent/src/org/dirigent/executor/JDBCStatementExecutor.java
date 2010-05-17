@@ -23,6 +23,12 @@ public class JDBCStatementExecutor implements IStepExecutor {
 					"Instance of ISchemaProvider is required in argument gen.");
 		}
 		Connection c = getConnection(((ISchemaProvider) gen).getSchema());
+		//set autocommit to false 
+		try {
+			c.setAutoCommit(false);
+		} catch (SQLException e1) {
+			l.log(Level.WARNING, "Unable to set autocommit to false. Check your DB settings.", e1);
+		} 
 		String sql = TemplateHelper.generateTemplate(gen, step);
 		try {
 			PreparedStatement stmt = c.prepareStatement(sql);

@@ -4,7 +4,7 @@
 "M_album","text","A.TEXT",,,,
 "M_album","priority","A.PRIORITY",,,,
 "M_album","hidden","A.HIDDEN",,,,
-"M_album","subcategory_id","A.SUBID",,,,
+"M_album","subcategory_id","A.SUBCATEGORY_ID",,,,
 "M_articles","id","B.ID",,,,
 "M_articles","title","B.TITLE",,,,
 "M_articles","text","B.PEREX || ' \n' || B.TEXT",,,,
