@@ -48,6 +48,7 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 	private boolean changed;
 	private JobEntryDirigentPlugin jobEntry;
 
+	
 	public JobEntryDirigentPluginDialog(Shell parent,
 			JobEntryInterface jobEntryInt, Repository rep, JobMeta jobMeta) {
 		super(parent, jobEntryInt, rep, jobMeta);
@@ -294,6 +295,14 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 
 	public boolean isFalse() {
 		return true;
+	}
+	
+	public JobEntryDirigentPlugin getJobEntry() {
+		return jobEntry;
+	}
+
+	public void setJobEntry(JobEntryDirigentPlugin jobEntry) {
+		this.jobEntry = jobEntry;
 	}
 
 }

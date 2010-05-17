@@ -1,16 +1,21 @@
 package org.dirigent.kettle;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import org.dirigent.Dirigent;
 import org.dirigent.config.DirigentConfig;
+
 import org.pentaho.di.cluster.SlaveServer;
 import org.pentaho.di.core.Result;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleDatabaseException;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.exception.KettleXMLException;
-import org.pentaho.di.core.logging.LogChannel;
 import org.pentaho.di.core.xml.XMLHandler;
 import org.pentaho.di.job.entry.JobEntryBase;
 import org.pentaho.di.job.entry.JobEntryInterface;
@@ -23,11 +28,10 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 
 	private static final String MODEL = "model";
 	private static final String URI = "uri";
-	private static final String MODEL_TYPE = "modelType"; 
+	private static final String MODEL_TYPE = "modelType";
 	private String model;
 	private String uri;
-	private String modelType; 
-	private LogChannel log = new LogChannel(this);
+	private String modelType;
 
 	public JobEntryDirigentPlugin(String n) {
 		super(n, "");
@@ -62,8 +66,6 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	public Object getValue() {
 		return null;
 	}
-	
-	
 
 	public String getModelType() {
 		return modelType;
@@ -123,8 +125,9 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			super.saveRep(rep, id_job);
 			rep.saveJobEntryAttribute(id_job, getObjectId(), MODEL, model);
 			rep.saveJobEntryAttribute(id_job, getObjectId(), URI, uri);
-			rep.saveJobEntryAttribute(id_job, getObjectId(), MODEL_TYPE, modelType);
-			
+			rep.saveJobEntryAttribute(id_job, getObjectId(), MODEL_TYPE,
+					modelType);
+
 		} catch (KettleDatabaseException dbe) {
 			throw new KettleException(
 					"unable to save jobentry of type 'file exists' to the repository for id_job="
@@ -135,34 +138,71 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	@Override
 	public Result execute(Result prevResult, int nr) throws KettleException {
 
+		Logger logger = Logger.getLogger("org.dirigent");
+		Handler lmh = new Handler() {
+
+			@Override
+			public void publish(LogRecord record) {
+				int logLevel = record.getLevel().intValue();
+				String message = record.getMessage();
+				
+				if (logLevel == 1000) {
+					logError(message); 
+				}
+				if (logLevel == 900) {
+					logMinimal(message); 
+				}
+				if (logLevel == 800) {
+					logBasic(message); 
+				}  
+				if (logLevel < 800 && logLevel >= 500) {
+					logDetailed(message); 
+				}
+				if (logLevel < 500 && logLevel >= 300) {
+					logDebug(message); 
+				}
+				if (logLevel < 300) {
+					logRowlevel(message);
+				}
+				
+
+			}
+
+			@Override
+			public void flush() {
+			}
+
+			@Override
+			public void close() throws SecurityException {
+			}
+		};
+
+		logger.addHandler(lmh);
+
 		Result result = new Result(nr);
 		result.setResult(false);
-		log.logDetailed("Starting DIRIGENT Job ");
+
+		logger.log(Level.INFO, "Starting DIRIGENT Job ");
 
 		try {
 
 			System.setProperty(DirigentConfig.MODEL_PATH, model);
 			System.setProperty("dirigent.model.type", modelType);
 			String[] args = { model, uri };
+
 			Dirigent.main(args);
 
-		} catch (NullPointerException npe) {
-			log.logDetailed("Exception encountered: "
-					+ npe.getMessage());
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage() + " caused by " + e.getCause()); 
+			result.setNrErrors(result.getEntryNr() + 1);
 			result.setResult(false);
 			return result;
 
-		} catch (RuntimeException rex) {
-			log.logDetailed("RunTime Exception encountered. A problem with model? This maybe an error in your database/schema settings as a result of SQLException. Message: \n"
-							+ rex.getMessage());
-			log.logDetailed("Finishing DIRIGENT Job with no success");
-			result.setResult(false);
-			result.setNrErrors(result.getNrErrors() + 1);
-			return result;
 		}
 
 		result.setResult(true);
-		logDetailed(toString(), "Finishing DIRIGENT Job ");
+		logger.log(Level.INFO, "Finishing DIRIGENT Job with "
+				+ result.getNrErrors() + " errors");
 		return result;
 	}
 
