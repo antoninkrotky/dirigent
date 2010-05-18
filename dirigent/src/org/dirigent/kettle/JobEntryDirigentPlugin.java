@@ -187,7 +187,7 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		try {
 
 			System.setProperty(DirigentConfig.MODEL_PATH, model);
-			System.setProperty("dirigent.model.type", modelType);
+			System.setProperty(DirigentConfig.MODEL_TYPE, modelType);
 			String[] args = { model, uri };
 
 			Dirigent.main(args);

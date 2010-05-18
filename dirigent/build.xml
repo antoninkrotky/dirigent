@@ -21,11 +21,6 @@
 	<property name="tmp.bin.dir" value="${tmp.dir}/bin" />
 	<property name="kettle-plugin.dir" value="${build.dir}/plugins/jobentries/Dirigent" />
 	
-
-
-
-	
-	
 	<target name="clean">
 		<delete dir="${build.dir}">
 		</delete>
@@ -156,7 +151,7 @@
 		<copy todir="${doc.target.dir}">
 			<fileset dir="${doc.src.dir}"/>
 		</copy>
-		<copy todir="${build.dir}">
+		<copy todir="${buillsd.dir}">
 			<fileset file="${doc.src.dir}/README.txt"/>
 		</copy>
 	</target>

@@ -5,7 +5,7 @@
 	Runs all jUnit tests.
 	Generates selected elements from test models. (Requires running HSQLDB.)
 	-->
-	<import file="ant-dirigent.xml"/>
+	<import file="ant-dirigent.xml" />
 	<path id="dirigent.test.classpath">
 		<filelist>
 			<file name="lib/junit.jar" />
@@ -16,7 +16,7 @@
 	</path>
 
 	<target name="junit" description="Run all jUnit tests.">
-		<junit printsummary="true" haltonerror="true" haltonfailure="true" showoutput="true" >
+		<junit printsummary="true" haltonerror="true" haltonfailure="true" showoutput="true">
 			<classpath refid="dirigent.classpath" />
 			<classpath refid="dirigent.test.classpath" />
 			<formatter type="plain" />
@@ -30,8 +30,12 @@
 	</target>
 
 	<target name="generate" description="Generate test model elements.">
-		<dirigent uri="M_EMPLOYEE" model="resources/builderTestFiles/model_1" />
+		<dirigent uri="M_EMPLOYEE" model="resources/builderTestFiles/model_1" modelType="CSV"/>
 	</target>
 
-	<target name="default" depends="junit,generate"/>
+	<target name="generate-custom" description="Generate custom">
+		<dirigent uri="@{uri}" model="@{model}" modelType="@{model}"/>
+	</target>
+
+	<target name="default" depends="junit,generate" />
 </project>
