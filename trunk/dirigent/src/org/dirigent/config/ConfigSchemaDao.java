@@ -15,7 +15,7 @@ public class ConfigSchemaDao {
 		v.jdbcUrl=c.getProperty(DirigentConfig.SCHEMA_PREFIX+v.name+".jdbcUrl");
 		v.userName=c.getProperty(DirigentConfig.SCHEMA_PREFIX+v.name+".userName");
 		v.password=c.getProperty(DirigentConfig.SCHEMA_PREFIX+v.name+".password");
-		v.schema=c.getProperty(DirigentConfig.SCHEMA_PREFIX+v.name+".schema");		
+		v.schema=c.getProperty(DirigentConfig.SCHEMA_PREFIX+v.name+".schema");	
 		return v;
 	}
 

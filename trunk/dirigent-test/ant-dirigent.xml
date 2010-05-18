@@ -15,11 +15,13 @@
 	model - Model path. 
 	-->
 	<macrodef name="dirigent">
+		<attribute name="modelType" />
 		<attribute name="uri" />
 		<attribute name="model" />
 		<sequential>
 			<java classname="org.dirigent.Dirigent" classpathref="dirigent.classpath"
 				fork="true">
+				<sysproperty key="dirigent.model.type" value="@{modelType}"/>
 				<arg value="@{model}" />
 				<arg value="@{uri}" />
 			</java>
