@@ -17,5 +17,8 @@ public abstract class DirigentConfig {
 	public static final String MODEL_PATH = "dirigent.model.path";
 	public static final String SCHEMA_PREFIX = "dirigent.schema.";
 	public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
+	public static final String DEFAULT_PATTERN_DIMENSION = "dirigent.pattern.default.dimension";
 	public static final String MODEL_TYPE = "dirigent.model.type"; 
+
 }
+

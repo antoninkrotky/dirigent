@@ -18,6 +18,6 @@
 	<classpathentry kind="lib" path="lib/ext/swt/jface.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/runtime.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/linux/x86_64/swt.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_16"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

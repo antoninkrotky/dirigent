@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IDimensionColumn;
+import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
+import org.dirigent.pattern.IPattern;
+import org.dirigent.pattern.builder.PatternBuilder;
 
-public class DimensionDecorator extends TableDecorator implements IDimension {
+public class DimensionDecorator extends TableDecorator implements IDimension,IGeneratable {
 	private DimensionVO dimension;
 	private Collection<IColumn> columns=new ArrayList<IColumn>();
 	private Collection<IDimensionColumn> dimensionColumns=new ArrayList<IDimensionColumn>();
@@ -39,6 +43,13 @@ public class DimensionDecorator extends TableDecorator implements IDimension {
 	@Override
 	public Collection<IDimensionColumn> getDimensionColumns() {
 		return dimensionColumns;
+	}
+
+	@Override
+	public IPattern getPattern() {		
+		String pattern=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DEFAULT_PATTERN_DIMENSION);
+		return PatternBuilder.getPatternBuilder().getPattern(
+				pattern + ".pattern.xml");
 	}
 
 }
