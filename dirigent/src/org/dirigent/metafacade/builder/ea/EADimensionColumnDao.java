@@ -31,18 +31,21 @@ public class EADimensionColumnDao extends EADao<DimensionColumnVO> {
 
 	public Collection<DimensionColumnVO> getColumns(long id) {
 		return findVOs(
-				"select ID,Name,Notes,Classifier,ea_guid,Object_ID from t_attribute where Object_ID=?",
+				"select ID,Name,Notes,Classifier,ea_guid,Object_ID from t_attribute where Object_ID=? order by pos",
 				new Object[] { new BigDecimal(id) });
 	}
 
 	public void merge(DimensionVO v, Collection<DimensionColumnVO> columns) {
 		Collection<DimensionColumnVO> currentColumns = getColumns(v.id);
 		Iterator<DimensionColumnVO> i = columns.iterator();
+		int index=0;
 		while (i.hasNext()) {
 			DimensionColumnVO c = i.next();
 			currentColumns.remove(c);
 			c.tableId=v.id;
+			c.position=index;
 			merge(c);
+			index++;
 		}
 		// delete column not found in VO
 		delete(currentColumns);
@@ -56,7 +59,7 @@ public class EADimensionColumnDao extends EADao<DimensionColumnVO> {
 	@Override
 	public void insert(DimensionColumnVO v) {
 		v.uri=generateGUID();
-		executeUpdate("insert into t_attribute (\"name\",\"notes\",\"classifier\",\"type\",\"object_id\",\"ea_guid\",\"stereotype\") values (?,?,?,?,?,?,?)", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,new BigDecimal(v.tableId),v.uri,"BIDimensionColumn"});
+		executeUpdate("insert into t_attribute (\"name\",\"notes\",\"classifier\",\"type\",\"object_id\",\"ea_guid\",\"stereotype\",\"pos\") values (?,?,?,?,?,?,?)", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,new BigDecimal(v.tableId),v.uri,"BIDimensionColumn",new BigDecimal(v.position)});
 		v.id=getColumn(v.uri).id;
 		attributeTagDao.merge(v.id, "scdColumnType", v.scdColumnType);
 	}
@@ -69,7 +72,7 @@ public class EADimensionColumnDao extends EADao<DimensionColumnVO> {
 
 	@Override
 	public void update(DimensionColumnVO v) {
-		executeUpdate("update t_attribute set Name=?,Notes=?,Classifier=?,Type=? where ea_guid=?", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,v.uri});
+		executeUpdate("update t_attribute set Name=?,Notes=?,Classifier=?,Type=?,pos=? where ea_guid=?", new Object[]{v.name,v.description,new BigDecimal(v.domain.id),v.domain.name,new BigDecimal(v.position),v.uri});
 		attributeTagDao.merge(v.id, "scdColumnType", v.scdColumnType);
 
 	}

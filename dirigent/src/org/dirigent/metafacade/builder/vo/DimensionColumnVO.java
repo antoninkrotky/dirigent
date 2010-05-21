@@ -7,4 +7,5 @@ public class DimensionColumnVO  extends VO {
 	public String scdColumnType;
 	public DomainVO domain;
 	public long tableId;
+	public int position;
 }
