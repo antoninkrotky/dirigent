@@ -10,7 +10,7 @@ import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 public class EAColumnMappingDao extends EADao<ColumnMappingVO>{
 
 	public Collection<ColumnMappingVO> getCollumnMapping(long mappingId) {
-		return findVOs("select a.name,a.notes,o.ea_guid from t_attribute a,t_object o where a.object_id=o.object_id and a.object_id=?", new Object[]{new BigDecimal(mappingId)});
+		return findVOs("select a.name,a.notes,o.ea_guid from t_attribute a,t_object o where a.object_id=o.object_id and a.object_id=? order by pos", new Object[]{new BigDecimal(mappingId)});
 	}
 	
 	@Override
