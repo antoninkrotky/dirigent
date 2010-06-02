@@ -6,13 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.dirigent.flex.ICommand;
 import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
-
-import flex.messaging.io.ArrayCollection;
 
 public class ExecuteSQLQuery implements ICommand {
 	public String query;

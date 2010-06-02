@@ -33,9 +33,5 @@
 		<dirigent uri="M_EMPLOYEE" model="resources/builderTestFiles/model_1" modelType="CSV"/>
 	</target>
 
-	<target name="generate-custom" description="Generate custom">
-		<dirigent uri="@{uri}" model="@{model}" modelType="@{model}"/>
-	</target>
-
 	<target name="default" depends="junit,generate" />
 </project>
