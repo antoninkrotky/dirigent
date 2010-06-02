@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="DIRIGENT plugin"
+   id="Dirigent"
    iconfile="icon.png"
    description="DIRIGENT Plugin"
    tooltip="This is Data Generator Integration Plugin for Kettle"
    category="General"
-   classname="org.dirigent.kettle.JobEntryDirigentPlugin">
+   classname="org.dirigent.pdi.job.dirigent.JobEntryDirigentPlugin">
    <libraries>
     	<library name="dirigent_1.0.jar"/>
     	<library name="lib/*.jar"/>
