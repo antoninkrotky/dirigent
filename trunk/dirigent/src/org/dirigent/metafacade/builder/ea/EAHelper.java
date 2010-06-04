@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.dirigent.config.DirigentConfig;
+
 public class EAHelper {
 
 	private static Logger l = Logger.getLogger(EAHelper.class.getName());
@@ -16,7 +18,8 @@ public class EAHelper {
 
 	private Map<String, Connection> connectionPool=new HashMap<String, Connection>();
 
-	public Connection getConnection(String name) {
+	public Connection getConnection() {
+		String name=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_PATH);
 		Connection c = connectionPool.get(name);
 		try {
 			if (c != null && !c.isClosed()) {
@@ -31,9 +34,8 @@ public class EAHelper {
 	}
 
 	private Connection createConnection(String name) {
-		try {
-			return DriverManager.getConnection("jdbc:odbc:DIRIGENT");
-			//return DriverManager.getConnection("jdbc:odbc:earepository");
+		try {		
+			return DriverManager.getConnection("jdbc:odbc:"+name);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to create jdbc connection.", e);
 		}

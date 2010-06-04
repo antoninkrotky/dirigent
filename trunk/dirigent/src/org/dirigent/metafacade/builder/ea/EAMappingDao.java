@@ -14,7 +14,7 @@ public class EAMappingDao extends EADao<MappingVO> {
 
 	public MappingVO getMapping(String uri) {
 		return findVO(
-				"select name,ea_guid,object_id from t_object where ea_guid=?",
+				"select name,ea_guid,object_id,note from t_object where ea_guid=?",
 				new Object[] { uri });
 	}
 
@@ -24,14 +24,14 @@ public class EAMappingDao extends EADao<MappingVO> {
 		m.name = res.getString(1);
 		m.uri = res.getString(2);
 		m.id = res.getLong(3);
+		m.businessRule=res.getString(4);
+
 		m.filterCondition = objectPropertyDao.getObjectProperty(m.id,
 				"filterCondition");
 		m.groupByClause = objectPropertyDao.getObjectProperty(m.id,
 				"groupByClause");
 		m.havingClause = objectPropertyDao.getObjectProperty(m.id,
 				"havingClause");
-		m.joinCondition = objectPropertyDao.getObjectProperty(m.id,
-				"joinCondition");
 		m.pattern = objectPropertyDao.getObjectProperty(m.id, "patternName");
 		m.columnMappings = columnMappingDao.getCollumnMapping(m.id);
 		m.sources=mappingSourceDao.getMappingSources(m.id);

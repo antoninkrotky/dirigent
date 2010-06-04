@@ -1,5 +1,7 @@
 package org.dirigent.pattern.builder.jaxb;
 
+import java.io.File;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import org.dirigent.pattern.IPattern;
@@ -11,11 +13,22 @@ public class JAXBPatternBuilder extends PatternBuilder {
 	@Override
 	public IPattern getPattern(String uri) {
 		try {
-			JAXBContext ctx=JAXBContext
+			JAXBContext ctx = JAXBContext
 					.newInstance("org.dirigent.pattern.builder.jaxb");
-			Object p=ctx.createUnmarshaller().unmarshal(JAXBPatternBuilder.class.getResourceAsStream("/patterns/"+uri));
-			IPattern pt=new PatternDecorator(((JAXBElement<Pattern>)p).getValue());
-			return pt;			
+			String path = System.getProperty("user.home")
+					+ "/.dirigent/patterns/" + uri;
+			File f = new File(path);
+			Object p;
+			if (f.exists()) {
+				p = ctx.createUnmarshaller().unmarshal(f);
+			} else {
+				p = ctx.createUnmarshaller().unmarshal(
+						JAXBPatternBuilder.class
+								.getResourceAsStream("/patterns/" + uri));
+			}
+			IPattern pt = new PatternDecorator(((JAXBElement<Pattern>) p)
+					.getValue());
+			return pt;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
