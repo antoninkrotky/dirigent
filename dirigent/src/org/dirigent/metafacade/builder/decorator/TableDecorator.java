@@ -12,11 +12,12 @@ import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 
-public class TableDecorator implements ITable {
+public class TableDecorator extends ElementDecorator implements ITable {
 
 	private TableVO table;
 
 	public TableDecorator(TableVO table) {
+		super(table);
 		this.table = table;
 	}
 

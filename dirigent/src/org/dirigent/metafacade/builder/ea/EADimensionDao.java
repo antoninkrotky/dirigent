@@ -21,7 +21,7 @@ public class EADimensionDao extends EADao<DimensionVO> {
 		v.uri = res.getString(4);
 		v.id = res.getLong(5);
 		v.scdType = Integer.valueOf(objectPropertyDao.getObjectProperty(v.id,
-				"slowlyChangingDimensionType"));
+				"slowlyChangingDimensionType")[1]);
 		//TODO: set schema uri
 		v.schemaUri="schema:default";
 		v.columns = columnsDao.getColumns(v.id);

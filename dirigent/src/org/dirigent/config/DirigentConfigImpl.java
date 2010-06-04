@@ -12,8 +12,10 @@ public class DirigentConfigImpl extends DirigentConfig {
 		p = new Properties();
 		String configFile = configName + ".dirigent.properties";
 		try {
-			String path=System
-			.getProperty("user.home" )+ "/.dirigent/" + configFile;
+			String path = System.getProperty("dirigent.home", System
+					.getProperty("user.home")
+					+ "/.dirigent")
+					+ "/" + configFile;
 			File f = new File(path);
 			if (f.exists()) {
 				p.load(new FileInputStream(f));

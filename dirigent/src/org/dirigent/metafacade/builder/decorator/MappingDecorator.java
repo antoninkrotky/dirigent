@@ -29,7 +29,7 @@ import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 
-public class MappingDecorator implements IMapping, IGeneratable {
+public class MappingDecorator extends ElementDecorator implements IMapping, IGeneratable {
 
 	private MappingVO mapping;
 	private Map<MappingSourceVO, IElement> sources;
@@ -43,6 +43,7 @@ public class MappingDecorator implements IMapping, IGeneratable {
 	private VelocityContext subqueriesContext;
 
 	public MappingDecorator(MappingVO mapping) {
+		super(mapping);
 		this.mapping = mapping;
 		initSources();
 		initColumnMappings();

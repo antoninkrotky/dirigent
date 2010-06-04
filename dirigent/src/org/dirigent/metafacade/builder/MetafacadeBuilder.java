@@ -1,6 +1,7 @@
 package org.dirigent.metafacade.builder;
 
 import java.util.Collection;
+import java.util.Vector;
 
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IElement;
@@ -46,6 +47,9 @@ public abstract class MetafacadeBuilder {
 
 	public abstract Collection<DomainVO> getDomains();
 
-	public abstract Collection<ObjectVO> getChildObjects(ObjectVO object) ;
+	public abstract Vector<IElement> getChildElements(String uri);
+	
+	@Deprecated
+	public abstract Collection<ObjectVO> getChildObjects(String uri) ;
 
 }
