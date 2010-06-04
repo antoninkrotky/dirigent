@@ -25,7 +25,7 @@ public abstract class EADao<V> {
 	 *             if unable to create connection
 	 */
 	protected Connection getConnection() {
-		return EAHelper.instance().getConnection("DIRIGENT");
+		return EAHelper.instance().getConnection();
 	}
 
 	protected abstract V createVO(ResultSet res) throws SQLException;

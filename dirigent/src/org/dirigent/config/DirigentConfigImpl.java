@@ -1,21 +1,31 @@
 package org.dirigent.config;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Properties;
 
 public class DirigentConfigImpl extends DirigentConfig {
 
 	private Properties p;
 
-	protected DirigentConfigImpl() {
-		p=new Properties();		
+	protected DirigentConfigImpl(String configName) {
+		p = new Properties();
+		String configFile = configName + ".dirigent.properties";
 		try {
-			p.load(this.getClass().getResourceAsStream("/default.dirigent.properties"));
-		} catch (IOException e) {
-			throw new RuntimeException("Cannot load configuration file default.dirigent.properties.",e);
+			String path=System
+			.getProperty("user.home" )+ "/.dirigent/" + configFile;
+			File f = new File(path);
+			if (f.exists()) {
+				p.load(new FileInputStream(f));
+			} else {
+				p.load(this.getClass().getResourceAsStream("/" + configFile));
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Cannot load configuration file "
+					+ configFile + ".", e);
 		}
-		p.putAll(System.getProperties());	
-		
+		p.putAll(System.getProperties());
+
 	}
 
 	@Override

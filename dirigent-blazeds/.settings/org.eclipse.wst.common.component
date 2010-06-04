@@ -13,6 +13,9 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/dirigent/lib/velocity/velocity-1.6.2-dep.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/dirigent/lib/oracle/ojdbc14.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="dirigent-blazeds"/>
         <property name="java-output-path"/>
     </wb-module>

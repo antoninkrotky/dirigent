@@ -43,9 +43,10 @@ public class JDBCStatementExecutor implements IStepExecutor {
 			} catch (SQLException ee) {
 				l.log(Level.WARNING, "Unable to rollback transaction.", ee);
 			}
-
-			throw new RuntimeException("SQLException while executing step "
-					+ step.getName(), e);
+			l.severe("SQLException while executing step "
+					+ step.getName());
+			l.severe("Statement:\n"+sql);
+			throw new RuntimeException( e);
 
 		}
 
@@ -59,7 +60,7 @@ public class JDBCStatementExecutor implements IStepExecutor {
 		} catch (Exception e) {
 			throw new RuntimeException(
 					"Unable to create connection for schema URI: "
-							+ schema.getUri() + "/n details: " + e.getMessage());
+							+ schema.getUri() + "\n details: " + e.getMessage(),e);
 		}
 	}
 

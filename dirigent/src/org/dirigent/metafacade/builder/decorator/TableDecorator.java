@@ -2,21 +2,24 @@ package org.dirigent.metafacade.builder.decorator;
 
 import java.util.Collection;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.TableVO;
 import org.dirigent.metafacade.builder.vo.VO;
+import org.dirigent.pattern.IPattern;
+import org.dirigent.pattern.builder.PatternBuilder;
 
 public class TableDecorator implements ITable {
 
 	private TableVO table;
-	
+
 	public TableDecorator(TableVO table) {
-		this.table=table;
+		this.table = table;
 	}
-	
+
 	@Override
 	public Collection<IColumn> getColumns() {
 		// TODO Auto-generated method stub
@@ -25,7 +28,8 @@ public class TableDecorator implements ITable {
 
 	@Override
 	public ISchema getSchema() {
-		return (ISchema)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(table.schemaUri);
+		return (ISchema) MetafacadeBuilder.getMetafacadeBuilder()
+				.getMetafacade(table.schemaUri);
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class TableDecorator implements ITable {
 
 	@Override
 	public String getFullName() {
-		return getSchema().getSchema()+'.'+getName();
+		return getSchema().getSchema() + '.' + getName();
 	}
 
 	@Override
@@ -55,12 +59,22 @@ public class TableDecorator implements ITable {
 
 	@Override
 	public String getSQLQuery() {
-		return "SELECT * from "+getFullName();
+		return "SELECT * from " + getFullName();
 	}
 
 	@Override
 	public String getSQLQuery(int offset) {
 		return getSQLQuery();
+	}
+
+	@Override
+	public IPattern getPattern() {
+
+		String pattern = DirigentConfig.getDirigentConfig().getProperty(
+				DirigentConfig.DEFAULT_PATTERN_TABLE);
+		return PatternBuilder.getPatternBuilder().getPattern(
+				pattern + ".pattern.xml");
+
 	}
 
 }

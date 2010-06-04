@@ -26,7 +26,7 @@ public class MappingDao extends CsvDao<MappingVO> {
 		v.pattern=res.getString(3);
 		v.schemaUri = res.getString(4);
 		v.targetTableUri = res.getString(5);
-		v.joinCondition = res.getString(6);
+		//v.joinCondition = res.getString(6);
 		v.filterCondition = res.getString(7);
 		v.groupByClause = res.getString(8);		
 		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
