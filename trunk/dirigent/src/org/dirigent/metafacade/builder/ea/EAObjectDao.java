@@ -6,6 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IPackage;
+import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
+import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 public class EAObjectDao extends EADao<ObjectVO> {
@@ -34,33 +39,45 @@ public class EAObjectDao extends EADao<ObjectVO> {
 	}
 
 	public ObjectVO getObject(String guid) {
-		return findVO(
+		ObjectVO v= findVO(
 				"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where ea_guid=?",
 				new Object[] { guid });
+		//Root models are not stored in t_object table - try lookup in t_package table
+		if (v==null) {
+			v=findVO(
+					"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid from t_package t where ea_guid=?",
+					new Object[] { guid });
+		}
+		return v;
+		
 	}
 
 	public Collection<ObjectVO> getPackageObjects(long packageId) {
 		Collection<ObjectVO> r = new ArrayList<ObjectVO>();
+		if (packageId==0) {
 		r
 				.addAll(findVOs(
 						"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid from t_package t where parent_id=?",
 						new Object[] { new BigDecimal(packageId) }));
-		if (packageId != 0) {
+		}
+		else  {
 			r
 					.addAll(findVOs(
-							"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where package_id=? and object_type='Class'",
+							"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where package_id=?",
 							new Object[] { new BigDecimal(packageId) }));
 		}
 		return r;
 	}
 
-	public Collection<ObjectVO> getChildObjects(ObjectVO o) {
-		if (o == null) {
+	public Collection<ObjectVO> getChildObjects(String uri) {
+		if (uri == null) {
 			return getPackageObjects(0);
 		}
-		if ("Package".equals(o.type)) {
-			return getPackageObjects(o.id);
+		Object o=MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(uri);
+		if (o instanceof IPackage) {		
+			return getPackageObjects((((ElementVO)((IPackage)o).getValueObject()).id));
 		}
+		
 		return null;
 	}
 
@@ -81,5 +98,7 @@ public class EAObjectDao extends EADao<ObjectVO> {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

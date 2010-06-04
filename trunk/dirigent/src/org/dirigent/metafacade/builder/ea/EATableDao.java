@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.dirigent.metafacade.builder.vo.TableVO;
-
+@Deprecated
 public class EATableDao extends EADao<TableVO> {
 
 	@Override

@@ -31,14 +31,11 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		assertTrue("No objects returned.",c.size()>0);
 		assertEquals("Model", c.iterator().next().name);
 		//package
-		ObjectVO object=new ObjectVO();
-		object.id=1;
-		object.type="Package";
-		c=MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(object);
+		c=MetafacadeBuilder.getMetafacadeBuilder().getChildObjects("{83152BF8-7FA8-49de-B230-744F3D19E10B}");
 		
 		assertNotNull("No objects returned.",c);
 		assertTrue("No objects returned.",c.size()>0);
-		assertEquals("Domains", c.iterator().next().name);
+		assertEquals("Target tables", c.iterator().next().name);
 
 	}
 }

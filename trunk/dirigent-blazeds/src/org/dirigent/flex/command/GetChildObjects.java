@@ -10,8 +10,11 @@ public class GetChildObjects  implements ICommand {
 	@Override
 	public Object execute() {
 		//TODO: Remove this
-		System.setProperty("dirigent.model.type","EA");		
-		return MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(object);
+		System.setProperty("dirigent.model.type","EA");	
+		if (object==null) {
+			return MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(null);
+		}
+		return MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(object.uri);
 	}
 	
 

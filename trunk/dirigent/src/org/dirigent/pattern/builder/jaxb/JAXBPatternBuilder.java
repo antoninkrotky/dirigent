@@ -1,6 +1,7 @@
 package org.dirigent.pattern.builder.jaxb;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -15,12 +16,12 @@ public class JAXBPatternBuilder extends PatternBuilder {
 		try {
 			JAXBContext ctx = JAXBContext
 					.newInstance("org.dirigent.pattern.builder.jaxb");
-			String path = System.getProperty("user.home")
-					+ "/.dirigent/patterns/" + uri;
+			String path = System.getProperty("dirigent.home",System.getProperty("user.home")+"/.dirigent")
+					+ "/patterns/" + uri;
 			File f = new File(path);
 			Object p;
 			if (f.exists()) {
-				p = ctx.createUnmarshaller().unmarshal(f);
+				p = ctx.createUnmarshaller().unmarshal(new FileInputStream(f));
 			} else {
 				p = ctx.createUnmarshaller().unmarshal(
 						JAXBPatternBuilder.class

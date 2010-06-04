@@ -4,10 +4,11 @@ import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
 import org.dirigent.metafacade.builder.vo.VO;
 
-public class SchemaDecorator implements ISchema {
+public class SchemaDecorator extends ElementDecorator implements ISchema {
 
 	private SchemaVO schema;
 	public SchemaDecorator(SchemaVO schemaVO) {
+		super(schemaVO);
 		this.schema=schemaVO;
 		
 	}
@@ -51,4 +52,5 @@ public class SchemaDecorator implements ISchema {
 	public VO getValueObject() {
 		return schema;
 	}
+
 }

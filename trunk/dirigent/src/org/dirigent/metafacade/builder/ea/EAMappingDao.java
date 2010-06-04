@@ -27,12 +27,12 @@ public class EAMappingDao extends EADao<MappingVO> {
 		m.businessRule=res.getString(4);
 
 		m.filterCondition = objectPropertyDao.getObjectProperty(m.id,
-				"filterCondition");
+				"filterCondition")[1];
 		m.groupByClause = objectPropertyDao.getObjectProperty(m.id,
-				"groupByClause");
+				"groupByClause")[1];
 		m.havingClause = objectPropertyDao.getObjectProperty(m.id,
-				"havingClause");
-		m.pattern = objectPropertyDao.getObjectProperty(m.id, "patternName");
+				"havingClause")[1];
+		m.pattern = objectPropertyDao.getObjectProperty(m.id, "patternName")[1];
 		m.columnMappings = columnMappingDao.getCollumnMapping(m.id);
 		m.sources=mappingSourceDao.getMappingSources(m.id);
 		

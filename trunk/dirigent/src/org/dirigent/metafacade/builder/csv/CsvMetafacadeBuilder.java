@@ -2,6 +2,7 @@ package org.dirigent.metafacade.builder.csv;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
@@ -87,10 +88,19 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	}
 
 	@Override
-	public Collection<ObjectVO> getChildObjects(ObjectVO object) {
+	public Collection<ObjectVO> getChildObjects(String uri) {
 		throw new RuntimeException(
 				"Operation getChildObjects is not supported on "
 						+ this.getClass().getName());
 	}
+
+	@Override
+	public Vector<IElement> getChildElements(String uri) {
+		throw new RuntimeException(
+				"Operation getChildElements is not supported on "
+						+ this.getClass().getName());
+	}
+
+
 
 }

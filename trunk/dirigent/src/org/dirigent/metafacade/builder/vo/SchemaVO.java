@@ -1,7 +1,6 @@
 package org.dirigent.metafacade.builder.vo;
 
-public class SchemaVO extends VO{
-	public String name;
+public class SchemaVO extends ElementVO{
 	public String schema;
 	public String userName;
 	public String password;

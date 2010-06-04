@@ -18,7 +18,7 @@ public class EADomainDao extends EADao<DomainVO> {
 		v.name=res.getString(1);
 		v.uri=res.getString(2);
 		v.id=res.getLong(3);
-		v.dataType=objectPropertyDao.getObjectProperty(v.id, "dataType");		
+		v.dataType=objectPropertyDao.getObjectProperty(v.id, "dataType")[1];		
 		return v;
 	}
 	

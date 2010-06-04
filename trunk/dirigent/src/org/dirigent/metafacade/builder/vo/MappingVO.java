@@ -2,9 +2,8 @@ package org.dirigent.metafacade.builder.vo;
 
 import java.util.Collection;
 
-public class MappingVO extends VO{
+public class MappingVO extends ElementVO{
 	public String pattern;
-	public String name;
 	public String schemaUri;
 	public String targetTableUri;
 	public String filterCondition;

@@ -32,6 +32,7 @@ public class JDBCStatementExecutor implements IStepExecutor {
 		String sql = TemplateHelper.generateTemplate(gen, step);
 		try {
 			PreparedStatement stmt = c.prepareStatement(sql);
+			l.info("Executing: "+sql);
 			int rowsAffected = stmt.executeUpdate();
 			stmt.close();
 			c.commit();
@@ -45,7 +46,6 @@ public class JDBCStatementExecutor implements IStepExecutor {
 			}
 			l.severe("SQLException while executing step "
 					+ step.getName());
-			l.severe("Statement:\n"+sql);
 			throw new RuntimeException( e);
 
 		}

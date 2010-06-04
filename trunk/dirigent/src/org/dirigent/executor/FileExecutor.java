@@ -12,7 +12,7 @@ public class FileExecutor implements IStepExecutor {
 	@Override
 	public void execute(IGeneratable gen, IPatternStep step) {
 		try {
-			Writer w = new FileWriter("output/install.sql", true);
+			Writer w = new FileWriter(step.getName(), true);
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
 		} catch (IOException e) {
