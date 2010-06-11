@@ -3,13 +3,11 @@ package org.dirigent.pdi.job.dirigent;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.dirigent.Dirigent;
 import org.dirigent.config.DirigentConfig;
-
 import org.pentaho.di.cluster.SlaveServer;
 import org.pentaho.di.core.Result;
 import org.pentaho.di.core.database.DatabaseMeta;

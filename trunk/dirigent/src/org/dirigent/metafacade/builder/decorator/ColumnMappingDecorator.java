@@ -2,6 +2,8 @@ package org.dirigent.metafacade.builder.decorator;
 
 
 
+import java.util.Map;
+
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IMapping;
@@ -38,12 +40,46 @@ public class ColumnMappingDecorator implements IColumnMapping {
 			}
 
 
+			public Map<String, String> getProperties() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 	}
 
 	@Override
 	public String getExpression() {
 		return mapping.injectSubqueries(columnMapping.expression);
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

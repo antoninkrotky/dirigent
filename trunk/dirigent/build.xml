@@ -151,7 +151,7 @@
 		<copy todir="${doc.target.dir}">
 			<fileset dir="${doc.src.dir}"/>
 		</copy>
-		<copy todir="${buillsd.dir}">
+		<copy todir="${build.dir}">
 			<fileset file="${doc.src.dir}/README.txt"/>
 		</copy>
 	</target>

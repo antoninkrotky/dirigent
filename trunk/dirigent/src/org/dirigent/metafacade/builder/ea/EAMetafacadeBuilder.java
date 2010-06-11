@@ -1,21 +1,26 @@
 package org.dirigent.metafacade.builder.ea;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.dirigent.config.ConfigSchemaDao;
+import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IPackage;
 import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.metafacade.builder.decorator.AttributeDecorator;
 import org.dirigent.metafacade.builder.decorator.DimensionDecorator;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.decorator.PackageDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.decorator.TableDecorator;
+import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
+import org.dirigent.metafacade.builder.vo.AttributeVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 import org.dirigent.metafacade.builder.vo.DomainVO;
 import org.dirigent.metafacade.builder.vo.ElementVO;
@@ -30,7 +35,9 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	private EAMappingDao mappingDao = new EAMappingDao();
 	private EAElementDAO elementDao=new EAElementDAO();
 	private EAObjectPropertyDAO objectPropertyDao=new EAObjectPropertyDAO();
-	
+	private EAAttributeDAO attributeDao=new EAAttributeDAO();
+	private EAAttributeTagDAO attributeTagDao=new EAAttributeTagDAO();
+		
 	private ConfigSchemaDao schemaDao=new ConfigSchemaDao();
 
 
@@ -76,8 +83,7 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 		v.description=c.note;
 		v.stereotype=c.stereotype;
 		v.packageId=c.packageId;
-		v.properties=objectPropertyDao.getObjectProperties(c.objectId);
-		
+		v.properties=objectPropertyDao.getObjectProperties(c.objectId);	
 	}
 	
 	private ITable createTable(String uri) {
@@ -120,6 +126,35 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 			r.add(MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(i.next().guid));
 		}
 		return r;
+	}
+
+	@Override
+	public Collection<IAttribute> getAttributes(String elementURI) {
+		Collection<EAAttributeVO> c=attributeDao.getAttributes(elementURI);
+		Collection<IAttribute> res=new ArrayList<IAttribute>(c.size());
+		Iterator<EAAttributeVO> i=c.iterator();
+		while (i.hasNext()) {
+			EAAttributeVO a=i.next();
+			/*if ("column".equals(a.stereotype)) {
+				
+			} else if ("BIDimensionColumn".equals(a.stereotype)) {
+				
+			} else {*/
+				res.add(createAttribute(a));
+			//}
+		}
+		return res;
+	}
+
+	private IAttribute createAttribute(EAAttributeVO a) {
+		AttributeVO v=new AttributeVO();
+		v.name=a.name;
+		v.uri=a.ea_guid;
+		v.description=a.notes;
+		v.id=a.id;
+		v.type=a.type;
+		v.properties=attributeTagDao.getObjectProperties(v.id);
+		return new AttributeDecorator(v);
 	}
 
 }

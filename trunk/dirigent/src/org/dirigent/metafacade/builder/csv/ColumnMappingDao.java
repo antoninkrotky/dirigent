@@ -23,17 +23,5 @@ public class ColumnMappingDao extends CsvDao<ColumnMappingVO> {
 		return v;
 	}
 
-	/**
-	 * returns true if value is 1 or true, false otherwise
-	 * 
-	 * @param String
-	 *            value
-	 * @return boolean
-	 */
-	private boolean evaluateBooleanValue(String value) {
-		if (value.equals("1") || value.equals("true"))
-			return true;
-		return false;
-	}
 
 }

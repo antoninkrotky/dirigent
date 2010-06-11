@@ -1,8 +1,11 @@
 package org.dirigent.metafacade.builder.decorator;
 
+import java.util.Collection;
 import java.util.Map;
 
+import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.VO;
 
@@ -36,6 +39,11 @@ public class ElementDecorator implements IElement {
 	@Override
 	public String getStereotype() {		
 		return element.stereotype;
+	}
+
+	@Override
+	public Collection<IAttribute> getAttributes() {
+		return MetafacadeBuilder.getMetafacadeBuilder().getAttributes(element.uri);
 	}
 
 }

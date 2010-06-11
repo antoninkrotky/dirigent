@@ -2,19 +2,13 @@ package org.dirigent.metafacade;
 /**
  * Metafacade representing column of table.
  * */
-public interface IColumn {
-	/**
-	 * Name of column.
-	 * */
-	public String getName();
+public interface IColumn  extends IAttribute{
+
 	/**
 	 * Data type of column. The data type is string in database specific format (f.e.: VARCHAR(255)).
 	 * */
 	public String getDataType();
 
-	/**
-	 * Description of table column.
-	 * */
-	public String getDescription();
+
 	
 }
