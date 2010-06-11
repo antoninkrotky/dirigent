@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import org.dirigent.metafacade.builder.vo.MappingSourceVO;
-import org.dirigent.metafacade.builder.vo.SchemaVO;
 
 public class MappingSourceTableDao extends CsvDao<MappingSourceVO> {
 

@@ -6,10 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IPackage;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
-import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 

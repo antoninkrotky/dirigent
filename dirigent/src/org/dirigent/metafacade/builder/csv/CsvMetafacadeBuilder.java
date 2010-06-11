@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
@@ -98,6 +99,13 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	public Vector<IElement> getChildElements(String uri) {
 		throw new RuntimeException(
 				"Operation getChildElements is not supported on "
+						+ this.getClass().getName());
+	}
+
+	@Override
+	public Collection<IAttribute> getAttributes(String elementURI) {
+		throw new RuntimeException(
+				"Operation getAttributes is not supported on "
 						+ this.getClass().getName());
 	}
 

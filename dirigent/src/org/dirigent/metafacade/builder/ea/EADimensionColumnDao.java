@@ -1,7 +1,6 @@
 package org.dirigent.metafacade.builder.ea;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -24,7 +23,7 @@ public class EADimensionColumnDao extends EADao<DimensionColumnVO> {
 		v.uri = res.getString(5);
 		v.domain = doaminDao.getDomain(classifier);
 		v.scdColumnType = attributeTagDao.getObjectProperty(v.id,
-				"scdColumnType");
+				"scdColumnType")[1];
 		v.tableId=res.getLong(6);
 		return v;
 	}

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 

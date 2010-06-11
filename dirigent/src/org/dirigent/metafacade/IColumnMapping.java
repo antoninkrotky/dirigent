@@ -2,7 +2,7 @@ package org.dirigent.metafacade;
 /**
  * Metafacade representing column mapping.
  * */
-public interface IColumnMapping {
+public interface IColumnMapping extends IAttribute {
 	/**
 	 * Expression used to populate column.
 	 * */

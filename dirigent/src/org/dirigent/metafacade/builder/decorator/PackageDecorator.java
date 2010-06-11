@@ -1,6 +1,5 @@
 package org.dirigent.metafacade.builder.decorator;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import org.dirigent.config.DirigentConfig;

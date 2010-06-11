@@ -1,5 +1,7 @@
 package org.dirigent.metafacade.builder.decorator;
 
+import java.util.Map;
+
 import org.dirigent.metafacade.IDimensionColumn;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 
@@ -31,6 +33,24 @@ public class DimensionColumnDecorator implements IDimensionColumn{
 	@Override
 	public String getName() {
 		return column.name;
+	}
+
+
+
+
+	@Override
+	public Map<String, String> getProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

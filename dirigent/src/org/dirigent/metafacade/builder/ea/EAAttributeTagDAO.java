@@ -3,18 +3,30 @@ package org.dirigent.metafacade.builder.ea;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class EAAttributeTagDAO extends EADao<String> {
+public class EAAttributeTagDAO extends EADao<String[]> {
 
 	@Override
-	protected String createVO(ResultSet res) throws SQLException {
-		return res.getString(1);
+	protected String[] createVO(ResultSet res) throws SQLException {
+		return new String[]{res.getString(1),res.getString(2)};
 	}
 	
-	public String getObjectProperty(long attributeId,String property) {
-		return findVO("select Value from t_attributetag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});
+	public String[] getObjectProperty(long attributeId,String property) {
+		return findVO("select Property,Value from t_attributetag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});
 	}
-	
+
+	public Map<String,String> getObjectProperties(long attributeId) {
+		Iterator<String[]> i=findVOs("select Property,Value from t_attributetag where ElementID=?",new Object[]{new BigDecimal(attributeId)}).iterator();
+		Map<String, String> m=new HashMap<String, String>();
+		while (i.hasNext()) {
+			String[] s=i.next();
+			m.put(s[0], s[1]);
+		}
+		return m;
+	}
 	
 	public void merge(long attributeId,String property, String value) {		
 		executeUpdate("delete from t_attributetag where ElementID=? and Property=?", new Object[]{new BigDecimal(attributeId),property});
@@ -23,13 +35,13 @@ public class EAAttributeTagDAO extends EADao<String> {
 
 
 	@Override
-	public void delete(String v) {
+	public void delete(String[] v) {
 		throw new IllegalStateException();
 		
 	}
 
 	@Override
-	public void insert(String v) {
+	public void insert(String[] v) {
 		throw new IllegalStateException();
 		
 	}
@@ -37,7 +49,7 @@ public class EAAttributeTagDAO extends EADao<String> {
 
 
 	@Override
-	public void update(String v) {
+	public void update(String[] v) {
 		throw new IllegalStateException();		
 	}
 
