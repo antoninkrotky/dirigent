@@ -12,7 +12,12 @@ public class FileExecutor implements IStepExecutor {
 	@Override
 	public void execute(IGeneratable gen, IPatternStep step) {
 		try {
-			Writer w = new FileWriter(step.getName(), true);
+			String fileName=step.getParameter("fileName");
+			if (fileName==null) {
+				throw new RuntimeException("Step parameter fileName must be specified.");
+			}
+			fileName=TemplateHelper.generateValue(fileName, gen);
+			Writer w = new FileWriter(fileName, true);
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
 		} catch (IOException e) {

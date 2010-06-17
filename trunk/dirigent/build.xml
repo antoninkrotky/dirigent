@@ -155,4 +155,9 @@
 			<fileset file="${doc.src.dir}/README.txt"/>
 		</copy>
 	</target>
+	<target name="jaxb-generate">
+		<exec command="xjc">
+			<arg line="-d src -p org.dirigent.pattern.builder.jaxb resources/patterns/dirigent-pattern.xsd"/>
+		</exec>
+	</target>
 </project>

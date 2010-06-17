@@ -11,24 +11,20 @@ package org.dirigent.pattern.builder.jaxb;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Parameter complex type.
+ * <p>Java class for StepParameter complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Parameter">
+ * &lt;complexType name="StepParameter">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="Documentation" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="defaultValue" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -37,41 +33,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Parameter", propOrder = {
-    "documentation"
-})
-public class Parameter {
+@XmlType(name = "StepParameter")
+public class StepParameter {
 
-    @XmlElement(name = "Documentation", required = true)
-    protected String documentation;
     @XmlAttribute
     protected String name;
     @XmlAttribute
-    protected String defaultValue;
-
-    /**
-     * Gets the value of the documentation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDocumentation() {
-        return documentation;
-    }
-
-    /**
-     * Sets the value of the documentation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDocumentation(String value) {
-        this.documentation = value;
-    }
+    protected String value;
 
     /**
      * Gets the value of the name property.
@@ -98,27 +66,27 @@ public class Parameter {
     }
 
     /**
-     * Gets the value of the defaultValue property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDefaultValue() {
-        return defaultValue;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the defaultValue property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDefaultValue(String value) {
-        this.defaultValue = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
 }
