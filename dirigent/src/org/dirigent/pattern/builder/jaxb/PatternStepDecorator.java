@@ -1,5 +1,7 @@
 package org.dirigent.pattern.builder.jaxb;
 
+import java.util.Iterator;
+
 import org.dirigent.pattern.IPatternStep;
 
 public class PatternStepDecorator implements IPatternStep {
@@ -21,7 +23,7 @@ public class PatternStepDecorator implements IPatternStep {
 	}
 	@Override
 	public String getType() {
-		return step.getType();
+		return step.getType().value();
 	}
 
 	@Override
@@ -32,6 +34,18 @@ public class PatternStepDecorator implements IPatternStep {
 	@Override
 	public boolean isIgnoreErrors() {
 		return step.isIgnoreErrors();
+	}
+
+	@Override
+	public String getParameter(String name) {
+		Iterator<StepParameter> i=step.getParameter().iterator();
+		while (i.hasNext()) {
+			StepParameter sp=i.next();
+			if (name.equals(sp.getName())) {
+				return sp.getValue();
+			}
+		}
+		return null;
 	}
 
 }

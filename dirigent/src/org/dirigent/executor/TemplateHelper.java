@@ -23,4 +23,18 @@ public class TemplateHelper {
 					+ step.getName(), e);
 		}
 	}
+	
+	public static String generateValue(String template,IGeneratable gen) {
+		VelocityContext vCtx = new VelocityContext();
+		vCtx.put("element", gen);
+		try {
+			Writer w = new StringWriter();
+			Velocity.evaluate(vCtx, w, gen.getName()+":"+template, template);
+			w.close();
+			return w.toString();
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to generate template "
+					+ template, e);
+		}
+	}
 }

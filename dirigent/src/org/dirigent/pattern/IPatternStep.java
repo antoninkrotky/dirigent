@@ -8,4 +8,5 @@ public interface IPatternStep {
 	public String getTemplate();
 	public String getCondition();
 	public boolean isIgnoreErrors();
+	public String getParameter(String string);
 }
