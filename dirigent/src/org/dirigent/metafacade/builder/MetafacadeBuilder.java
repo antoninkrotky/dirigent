@@ -41,6 +41,8 @@ public abstract class MetafacadeBuilder {
 	 * */
 	public abstract IElement getMetafacade(String uri);
 	
+	
+		
 	/**
 	 * Get attributes for specified element.
 	 * */
@@ -50,8 +52,6 @@ public abstract class MetafacadeBuilder {
 	 * Save metafacede to model.
 	 * */
 	public abstract void save(IElement element);
-
-	public abstract Collection<DomainVO> getDomains();
 
 	public abstract Vector<IElement> getChildElements(String uri);
 	

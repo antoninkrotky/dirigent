@@ -82,11 +82,6 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 				+ this.getClass().getName());
 	}
 
-	@Override
-	public Collection<DomainVO> getDomains() {
-		throw new RuntimeException("Operation getDomains is not supported on "
-				+ this.getClass().getName());
-	}
 
 	@Override
 	public Collection<ObjectVO> getChildObjects(String uri) {

@@ -7,4 +7,5 @@ public class AttributeVO extends VO {
 	public String description;
 	public String type;
 	public Map<String, String> properties;
+	public String stereotype;
 }

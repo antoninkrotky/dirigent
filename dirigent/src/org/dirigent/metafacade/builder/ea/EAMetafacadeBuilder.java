@@ -7,36 +7,33 @@ import java.util.Vector;
 
 import org.dirigent.config.ConfigSchemaDao;
 import org.dirigent.metafacade.IAttribute;
-import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IElement;
-import org.dirigent.metafacade.IPackage;
-import org.dirigent.metafacade.ITable;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
-import org.dirigent.metafacade.builder.decorator.AttributeDecorator;
-import org.dirigent.metafacade.builder.decorator.DimensionDecorator;
-import org.dirigent.metafacade.builder.decorator.MappingDecorator;
-import org.dirigent.metafacade.builder.decorator.PackageDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
-import org.dirigent.metafacade.builder.decorator.TableDecorator;
+import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
+import org.dirigent.metafacade.builder.ea.dao.EAConnectorDAO;
+import org.dirigent.metafacade.builder.ea.dao.EAElementDAO;
+import org.dirigent.metafacade.builder.ea.dao.EAObjectDao;
+import org.dirigent.metafacade.builder.ea.decorator.EAAttributteDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAColumnDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAColumnMappingDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EADimensionColumnDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EADimensionDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAMappingDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EATableDecorator;
 import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
+import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
-import org.dirigent.metafacade.builder.vo.AttributeVO;
-import org.dirigent.metafacade.builder.vo.DimensionVO;
-import org.dirigent.metafacade.builder.vo.DomainVO;
-import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
-import org.dirigent.metafacade.builder.vo.TableVO;
 
 public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
 	private EAObjectDao objectDao = new EAObjectDao();
-	private EADimensionDao dimensionDao = new EADimensionDao();
-	private EADomainDao domainDao = new EADomainDao();
-	private EAMappingDao mappingDao = new EAMappingDao();
 	private EAElementDAO elementDao=new EAElementDAO();
-	private EAObjectPropertyDAO objectPropertyDao=new EAObjectPropertyDAO();
 	private EAAttributeDAO attributeDao=new EAAttributeDAO();
-	private EAAttributeTagDAO attributeTagDao=new EAAttributeTagDAO();
+	private EAConnectorDAO connectorDao=new EAConnectorDAO();
 		
 	private ConfigSchemaDao schemaDao=new ConfigSchemaDao();
 
@@ -48,68 +45,35 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 		}
 
 
-		ObjectVO v = objectDao.getObject(uri);
+		EAElementVO v = elementDao.getEAElement(uri);
 
 		if (v != null) {
 			if ("Class".equals(v.type) && "BIDimension".equals(v.stereotype)) {
-				return new DimensionDecorator(dimensionDao.getDimension(uri));
+				return new EADimensionDecorator(v);
 			} else if ("Class".equals(v.type) && "BIMapping".equals(v.stereotype)) {
-				return new MappingDecorator(mappingDao.getMapping(uri));
+				return new EAMappingDecorator(v);
+			} else if ("Class".equals(v.type) && "BIDomain".equals(v.stereotype)) {
+				return new EADomainDecorator(v);
 			} else if ("Class".equals(v.type) && "table".equals(v.stereotype)) {
-				return createTable(uri);
+				return new EATableDecorator(v);
 			} else if ("Package".equals(v.type)) {
-				return createPackage(uri);
+				return new EAPackageDecorator(v);
 			}
 		}
 		return null;
 	}
 	
-	private IPackage createPackage(String uri) {
-		EAElementVO v=elementDao.getEAElement(uri);
-		ElementVO t=new ElementVO();
-		initElement(t, v);
-		//for package is stored in PDATA1 field.
-		if (v.pdata1!=null) {
-			t.id=Long.parseLong(v.pdata1);
-		}
-		return new PackageDecorator(t);
-	}
-
-	private void initElement(ElementVO v,EAElementVO c) {
-		v.uri=c.guid;
-		v.id=c.objectId;
-		v.name=c.name;
-		v.type=c.type;
-		v.description=c.note;
-		v.stereotype=c.stereotype;
-		v.packageId=c.packageId;
-		v.properties=objectPropertyDao.getObjectProperties(c.objectId);	
+	public Collection<EAConnectorVO> getStartingConnectors(String elementUri) {
+		return connectorDao.getStartingConnectors(elementUri);
 	}
 	
-	private ITable createTable(String uri) {
-		EAElementVO v=elementDao.getEAElement(uri);
-		TableVO t=new TableVO();
-		initElement(t, v);	
-		t.codeName=v.alias;
-		t.schemaUri="schema:default";
-		return new TableDecorator(t);
-		
-	}
+
 
 	@Override
 	public void save(IElement element) {
-		if (element instanceof IDimension) {
-			dimensionDao.merge((DimensionVO) element.getValueObject());
-		} else {
 			throw new RuntimeException("Save not supported for "
 					+ element.getClass().getName());
-		}
 
-	}
-
-	@Override
-	public Collection<DomainVO> getDomains() {
-		return domainDao.getDomains();
 	}
 
 	@Override
@@ -135,26 +99,19 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 		Iterator<EAAttributeVO> i=c.iterator();
 		while (i.hasNext()) {
 			EAAttributeVO a=i.next();
-			/*if ("column".equals(a.stereotype)) {
-				
+			if ("column".equals(a.stereotype)) {
+				res.add(new EAColumnDecorator(a));
 			} else if ("BIDimensionColumn".equals(a.stereotype)) {
-				
-			} else {*/
-				res.add(createAttribute(a));
-			//}
+				res.add(new EADimensionColumnDecorator(a));
+			} else if ("BIMappingColumn".equals(a.stereotype)) {				
+				res.add(new EAColumnMappingDecorator(a));
+			}else {
+				res.add(new EAAttributteDecorator(a));
+			}
 		}
 		return res;
 	}
-
-	private IAttribute createAttribute(EAAttributeVO a) {
-		AttributeVO v=new AttributeVO();
-		v.name=a.name;
-		v.uri=a.ea_guid;
-		v.description=a.notes;
-		v.id=a.id;
-		v.type=a.type;
-		v.properties=attributeTagDao.getObjectProperties(v.id);
-		return new AttributeDecorator(v);
-	}
+	
+	
 
 }

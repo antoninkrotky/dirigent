@@ -53,4 +53,12 @@ public class DimensionColumnDecorator implements IDimensionColumn{
 		return null;
 	}
 
+
+
+
+	@Override
+	public String getStereotype() {
+		return this.column.stereotype;
+	}
+
 }

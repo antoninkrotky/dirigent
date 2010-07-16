@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.metafacade.builder.ea.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
 
+import org.dirigent.metafacade.builder.ea.EAHelper;
 import org.dirigent.metafacade.builder.vo.VO;
 
 public abstract class EADao<V> {
