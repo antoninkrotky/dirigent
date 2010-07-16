@@ -14,6 +14,7 @@ public class EATableDecorator extends TableDecorator {
 		super(init(ea, new TableVO()));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<IColumn> getColumns() {
 		return Collections.checkedCollection((Collection)getAttributes(), IColumn.class);

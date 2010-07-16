@@ -8,7 +8,6 @@ import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IDimensionColumn;
-import org.dirigent.metafacade.IDomain;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;

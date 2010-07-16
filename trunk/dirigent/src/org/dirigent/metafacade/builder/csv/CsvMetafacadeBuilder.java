@@ -10,7 +10,6 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.decorator.TableDecorator;
-import org.dirigent.metafacade.builder.vo.DomainVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 import org.dirigent.metafacade.builder.vo.SchemaVO;

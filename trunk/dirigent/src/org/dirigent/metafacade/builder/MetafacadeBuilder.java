@@ -8,7 +8,6 @@ import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
-import org.dirigent.metafacade.builder.vo.DomainVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
