@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.metafacade.builder.ea.dao;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -46,6 +46,13 @@ public class EAObjectDao extends EADao<ObjectVO> {
 					"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid from t_package t where ea_guid=?",
 					new Object[] { guid });
 		}
+		return v;
+		
+	}
+	public ObjectVO getObjectById(long id) {
+		ObjectVO v= findVO(
+				"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where Object_ID=?",
+				new Object[] { new BigDecimal(id) });
 		return v;
 		
 	}

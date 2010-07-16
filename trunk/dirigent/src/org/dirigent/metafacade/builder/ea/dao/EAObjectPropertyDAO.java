@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.metafacade.builder.ea.dao;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;

@@ -20,4 +20,5 @@ public interface IAttribute {
 	public Map<String, String> getProperties();
 	
 	public String getType();
+	public String getStereotype();
 }

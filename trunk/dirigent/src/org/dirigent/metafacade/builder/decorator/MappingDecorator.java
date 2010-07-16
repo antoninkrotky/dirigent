@@ -33,7 +33,7 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 
 	private MappingVO mapping;
 	private Map<MappingSourceVO, IElement> sources;
-	private Collection<IColumnMapping> columnMappings;
+	protected Collection<IColumnMapping> columnMappings;
 
 	/**
 	 * VelocityContext of expression subqueries which are not included in FROM
@@ -55,7 +55,7 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 	 * according to MappingSourceComparator. This is important for correct
 	 * syntax of FROM clause containing outer joined tables / subqueries.
 	 * */
-	private void initSources() {
+	protected void initSources() {
 		sources = new TreeMap<MappingSourceVO, IElement>(
 				new MappingSourceComparator());
 		Map<String, String> expressionSubqueries = new HashMap<String, String>();
@@ -73,11 +73,13 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 
 	}
 
-	private void initColumnMappings() {
+	protected void initColumnMappings() {
 		columnMappings = new ArrayList<IColumnMapping>();
 		Iterator<ColumnMappingVO> i = mapping.columnMappings.iterator();
 		while (i.hasNext()) {
-			columnMappings.add(new ColumnMappingDecorator(this,i.next()));
+			ColumnMappingDecorator m=new ColumnMappingDecorator(i.next());
+			m.setMapping(this);
+			columnMappings.add(m);
 		}
 
 	}

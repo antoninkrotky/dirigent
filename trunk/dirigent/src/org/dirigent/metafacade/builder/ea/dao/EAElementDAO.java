@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.metafacade.builder.ea.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +31,8 @@ public class EAElementDAO extends EADao<EAElementVO> {
 		vo.stereotype=res.getString(7);
 		vo.type=res.getString(8);
 		vo.pdata1=res.getString(9);
+		
+		
 		return vo;
 	}
 

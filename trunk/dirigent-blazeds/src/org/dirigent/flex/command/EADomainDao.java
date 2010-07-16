@@ -1,10 +1,12 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.flex.command;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import org.dirigent.metafacade.builder.ea.dao.EADao;
+import org.dirigent.metafacade.builder.ea.dao.EAObjectPropertyDAO;
 import org.dirigent.metafacade.builder.vo.DomainVO;
 
 
