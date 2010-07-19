@@ -1,10 +1,13 @@
 package org.dirigent.metafacade.builder.ea.test;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IDimension;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
@@ -37,5 +40,17 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		assertTrue("No objects returned.",c.size()>0);
 		assertEquals("Target tables", c.iterator().next().name);
 
+	}
+	
+	public void testDiagram(){		
+		IDiagram domainsDiagram=(IDiagram)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{70F9DD11-2A14-41c2-B68B-3AD1F0D7A1CD}");
+		Collection<IElement> c=domainsDiagram.getChildElements();
+		Iterator<IElement> i=c.iterator();		
+		IElement e1=i.next();
+		assertEquals("COUNT", e1.getName());
+		IElement e2=i.next();
+		assertEquals("CODE", e2.getName());
+		IElement e3=i.next();
+		assertEquals("KEY", e3.getName());
 	}
 }

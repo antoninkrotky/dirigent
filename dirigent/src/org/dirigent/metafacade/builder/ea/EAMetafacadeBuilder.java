@@ -12,11 +12,13 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAConnectorDAO;
+import org.dirigent.metafacade.builder.ea.dao.EADiagramDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAElementDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectDao;
 import org.dirigent.metafacade.builder.ea.decorator.EAAttributteDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAColumnDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAColumnMappingDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EADiagramDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionColumnDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
@@ -25,6 +27,7 @@ import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EATableDecorator;
 import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
+import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
@@ -34,19 +37,19 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	private EAElementDAO elementDao=new EAElementDAO();
 	private EAAttributeDAO attributeDao=new EAAttributeDAO();
 	private EAConnectorDAO connectorDao=new EAConnectorDAO();
+	private EADiagramDAO diagramDao=new EADiagramDAO();
 		
 	private ConfigSchemaDao schemaDao=new ConfigSchemaDao();
 
 
 	@Override
 	public IElement getMetafacade(String uri) {
+		//SCHEMA
 		if (uri.startsWith("schema:")) {
 			return new SchemaDecorator(schemaDao.getSchemaVO(uri));
 		}
-
-
+		//OBJECT
 		EAElementVO v = elementDao.getEAElement(uri);
-
 		if (v != null) {
 			if ("Class".equals(v.type) && "BIDimension".equals(v.stereotype)) {
 				return new EADimensionDecorator(v);
@@ -60,6 +63,13 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 				return new EAPackageDecorator(v);
 			}
 		}
+		//DIAGRAM
+		EADiagramVO d=diagramDao.getDiagram(uri);
+		if (d!=null) {
+			return new EADiagramDecorator(d);
+		}
+		
+		
 		return null;
 	}
 	
