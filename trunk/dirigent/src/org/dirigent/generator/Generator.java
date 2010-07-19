@@ -10,6 +10,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.dirigent.executor.ExecutorFactory;
 import org.dirigent.executor.IStepExecutor;
+import org.dirigent.metafacade.IComposite;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.IPackage;
@@ -23,8 +24,8 @@ public class Generator {
 		IGeneratable gen = (IGeneratable) MetafacadeBuilder
 				.getMetafacadeBuilder().getMetafacade(elementURI);
 		generate(gen);
-		if (gen instanceof IPackage) {
-			Iterator<IElement> i=((IPackage)gen).getChildElements().iterator();
+		if (gen instanceof IComposite) {
+			Iterator<IElement> i=((IComposite)gen).getChildElements().iterator();
 			while (i.hasNext()) {
 				IElement e=i.next();
 				if (e instanceof IGeneratable) {
