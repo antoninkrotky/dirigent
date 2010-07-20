@@ -34,7 +34,8 @@ public class EAHelper {
 	}
 
 	private Connection createConnection(String name) {
-		try {		
+		try {	
+			l.info("Creating repository connection: "+"jdbc:odbc:"+name);
 			return DriverManager.getConnection("jdbc:odbc:"+name);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to create jdbc connection.", e);

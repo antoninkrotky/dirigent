@@ -13,7 +13,6 @@ import org.dirigent.executor.IStepExecutor;
 import org.dirigent.metafacade.IComposite;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
-import org.dirigent.metafacade.IPackage;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.pattern.IPatternStep;
 
@@ -21,18 +20,16 @@ public class Generator {
 	private static Logger l = Logger.getLogger(Generator.class.getName());
 
 	public static void generate(String elementURI) {
+		l.info("Getting metafacade for URI="+elementURI);
 		IGeneratable gen = (IGeneratable) MetafacadeBuilder
 				.getMetafacadeBuilder().getMetafacade(elementURI);
-		generate(gen);
-		if (gen instanceof IComposite) {
-			Iterator<IElement> i=((IComposite)gen).getChildElements().iterator();
-			while (i.hasNext()) {
-				IElement e=i.next();
-				if (e instanceof IGeneratable) {
-					generate((IGeneratable)e);
-				}
-			}
+		if (gen==null) {
+			throw new RuntimeException("Element URI="+elementURI+" not found.");
 		}
+		generate(gen);
+		
+
+
 	}
 
 	private static void generate(IGeneratable gen) {
@@ -56,6 +53,19 @@ public class Generator {
 				}
 			}
 		}
+
+		if (gen instanceof IComposite) {
+			Iterator<IElement> y=((IComposite)gen).getChildElements().iterator();
+			while (y.hasNext()) {
+				IElement e=y.next();
+				if (e instanceof IGeneratable) {
+					generate((IGeneratable)e);
+				}
+			}
+		}
+
+
+		
 		l.info("Element " + gen.getName() + " sucesfully generated.");
 	}
 

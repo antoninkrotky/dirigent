@@ -1,13 +1,15 @@
 package org.dirigent.pdi.job.dirigent;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import org.dirigent.Dirigent;
 import org.dirigent.config.DirigentConfig;
+import org.dirigent.generator.Generator;
 import org.pentaho.di.cluster.SlaveServer;
 import org.pentaho.di.core.Result;
 import org.pentaho.di.core.database.DatabaseMeta;
@@ -143,26 +145,25 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			public void publish(LogRecord record) {
 				int logLevel = record.getLevel().intValue();
 				String message = record.getMessage();
-				
+
 				if (logLevel == 1000) {
-					logError(message); 
+					logError(message);
 				}
 				if (logLevel == 900) {
-					logMinimal(message); 
+					logMinimal(message);
 				}
 				if (logLevel == 800) {
-					logBasic(message); 
-				}  
+					logBasic(message);
+				}
 				if (logLevel < 800 && logLevel >= 500) {
-					logDetailed(message); 
+					logDetailed(message);
 				}
 				if (logLevel < 500 && logLevel >= 300) {
-					logDebug(message); 
+					logDebug(message);
 				}
 				if (logLevel < 300) {
 					logRowlevel(message);
 				}
-				
 
 			}
 
@@ -183,15 +184,22 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		logger.log(Level.INFO, "Starting DIRIGENT Job ");
 
 		try {
+			if (model != null) {
+				System.setProperty(DirigentConfig.MODEL_PATH, model);
+			}
+			if (modelType != null) {
+				System.setProperty(DirigentConfig.MODEL_TYPE, modelType);
+			}
+			String dirigentConfigName = getVariable("dirigent.config.name");
+			if (dirigentConfigName != null) {
+				DirigentConfig.setConfigName(dirigentConfigName);
+			}
 
-			System.setProperty(DirigentConfig.MODEL_PATH, model);
-			System.setProperty(DirigentConfig.MODEL_TYPE, modelType);
-			String[] args = { model, uri };
+			Generator.generate(uri);
 
-			Dirigent.main(args);
-
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage() + " caused by " + e.getCause()); 
+		} catch (Throwable e) {
+			logger.log(Level.SEVERE, "Exception executing dirigent.\n"
+					+ stackTraceToString(e));
 			result.setNrErrors(result.getEntryNr() + 1);
 			result.setResult(false);
 			return result;
@@ -202,6 +210,12 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		logger.log(Level.INFO, "Finishing DIRIGENT Job with "
 				+ result.getNrErrors() + " errors");
 		return result;
+	}
+
+	private String stackTraceToString(Throwable t) {
+		StringWriter sw = new StringWriter();
+		t.printStackTrace(new PrintWriter(sw));
+		return sw.toString();
 	}
 
 }
