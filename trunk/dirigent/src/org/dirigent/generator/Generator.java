@@ -32,7 +32,7 @@ public class Generator {
 
 	}
 
-	private static void generate(IGeneratable gen) {
+	public static void generate(IGeneratable gen) {
 		l.info("Starting generation of element " + gen.getName()+'.');
 		Iterator<IPatternStep> i = gen.getPattern().getSteps().iterator();
 		while (i.hasNext()) {
