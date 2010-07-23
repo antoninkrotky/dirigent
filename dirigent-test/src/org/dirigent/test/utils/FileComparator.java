@@ -68,6 +68,9 @@ public class FileComparator {
 			String is;
 			String shouldBe;
 			while (act.ready() || exp.ready()) {
+				if (!act.ready()) {
+					throw new AssertionFailedError("File comparison error on line " + line + ". Line was expected, but is not available." );
+				}
 				is = act.readLine();
 				shouldBe = exp.readLine();
 				// !act.ready() || !exp.ready() || - commented out (will se if

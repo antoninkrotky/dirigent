@@ -48,4 +48,13 @@ public class PatternStepDecorator implements IPatternStep {
 		return null;
 	}
 
+	@Override
+	public String getParameter(String name, String defaultValue) {
+		String value=getParameter(name);
+		if (value==null) {
+			return defaultValue;
+		}
+		return value;
+	}
+
 }

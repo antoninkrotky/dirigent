@@ -38,7 +38,7 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		
 		assertNotNull("No objects returned.",c);
 		assertTrue("No objects returned.",c.size()>0);
-		assertEquals("Target tables", c.iterator().next().name);
+		assertEquals("Source tables", c.iterator().next().name);
 
 	}
 	
