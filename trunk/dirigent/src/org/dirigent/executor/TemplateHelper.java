@@ -10,18 +10,7 @@ import org.dirigent.pattern.IPatternStep;
 
 public class TemplateHelper {
 	public static String generateTemplate(IGeneratable gen, IPatternStep step) {
-		VelocityContext vCtx = new VelocityContext();
-		vCtx.put("element", gen);
-		try {
-			Writer w = new StringWriter();
-			Velocity.evaluate(vCtx, w, step.getName(), step.getTemplate());
-			w.append('\n');
-			w.close();
-			return w.toString();
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to generate pattern step "
-					+ step.getName(), e);
-		}
+		return generateValue(step.getTemplate(), gen)+'\n';
 	}
 	
 	public static String generateValue(String template,IGeneratable gen) {
