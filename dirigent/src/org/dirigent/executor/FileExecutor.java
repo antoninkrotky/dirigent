@@ -26,6 +26,7 @@ public class FileExecutor implements IStepExecutor {
 	public void execute(IGeneratable gen, IPatternStep step) {
 		try {
 			String fileName = step.getParameter("fileName");
+			fileName = TemplateHelper.generateValue(fileName, gen);
 			String mode = step.getParameter("mode",MODE_APPEND);
 			if (fileName == null) {
 				throw new RuntimeException(
@@ -46,7 +47,7 @@ public class FileExecutor implements IStepExecutor {
 					return;
 				}
 			}
-			fileName = TemplateHelper.generateValue(fileName, gen);
+			
 			Writer w = new FileWriter(fileName, true);
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
