@@ -9,6 +9,12 @@ import org.dirigent.metafacade.builder.csv.TableDao;
 import org.dirigent.metafacade.builder.vo.TableVO;
 
 public class TestTableDao extends TestCase {
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		DirigentConfig.resetConfig();
+	}
 	public void testGetTables_1() {
 		String path = "resources/builderTestFiles/model_1";
 		System.setProperty(DirigentConfig.MODEL_PATH, path);

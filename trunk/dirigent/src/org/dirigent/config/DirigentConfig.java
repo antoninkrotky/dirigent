@@ -1,15 +1,39 @@
 package org.dirigent.config;
 
-public abstract class DirigentConfig {
-	// private static DirigentConfig config;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Abstract Dirigent configuration factory. There can be more configurations
+ * with different names. There is shared configuration cache. The default
+ * configuration name is "default". For current thread configuration name to use
+ * can be changed using setConfigName method. The resetConfig method can be used
+ * to remove current thread configuration from cache.
+ * */
+public abstract class DirigentConfig {
+
+	/**
+	 * Cache of configurations.
+	 * */
+	private static Map<String, DirigentConfig> configMap = new HashMap<String, DirigentConfig>();
+
+	/**
+	 * Creates configuration. 
+	 * */
 	public static DirigentConfig getDirigentConfig() {
-		/*
-		 * if (config == null) { config = new DirigentConfigImpl(); } return
-		 * config;
-		 */
-		// TODO: Enable lazy initialisation but fix tests before.
-		return new DirigentConfigImpl(configName.get());
+		DirigentConfig c = configMap.get(configName.get());
+		if (c == null) {
+			c = new DirigentConfigImpl(configName.get());
+			configMap.put(configName.get(), c);
+		}
+		return c;
+	}
+
+	/**
+	 * Removes current configuration from cache.
+	 * */
+	public static void resetConfig() {
+		configMap.remove(configName.get());
 	}
 
 	private static final ThreadLocal<String> configName = new ThreadLocal<String>() {

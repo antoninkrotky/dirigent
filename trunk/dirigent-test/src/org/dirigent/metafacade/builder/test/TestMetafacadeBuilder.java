@@ -16,6 +16,7 @@ public class TestMetafacadeBuilder extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		DirigentConfig.resetConfig();
 		String path = "resources/builderTestFiles/model_1";
 		System.setProperty(DirigentConfig.MODEL_PATH, path);
 		System.setProperty("dirigent.model.type", "CSV");
