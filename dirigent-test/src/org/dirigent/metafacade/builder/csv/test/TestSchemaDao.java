@@ -11,6 +11,12 @@ import java.util.Iterator;
 
 public class TestSchemaDao extends TestCase {
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		DirigentConfig.resetConfig();
+	}
+	
 	public void testGetSchemas_1() {
 		String path = "resources/builderTestFiles/model_1";
 		System.setProperty(DirigentConfig.MODEL_PATH, path);

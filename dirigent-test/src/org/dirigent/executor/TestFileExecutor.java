@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.Map;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IGeneratable;
@@ -24,7 +25,7 @@ public class TestFileExecutor extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
+		DirigentConfig.resetConfig();
 		testDir.mkdir();
 		appendFile.delete();
 		overwriteFile.delete();

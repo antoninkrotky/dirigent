@@ -11,6 +11,7 @@ import org.dirigent.metafacade.builder.vo.MappingVO;
 public class TestMappingDao extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
+		DirigentConfig.resetConfig();
 		System.setProperty("dirigent.model.type", "CSV");
 	}
 	
