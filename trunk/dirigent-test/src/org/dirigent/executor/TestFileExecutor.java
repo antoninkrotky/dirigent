@@ -21,6 +21,7 @@ public class TestFileExecutor extends TestCase {
 	private File appendFile = new File(testDir, "Append.txt");
 	private File overwriteFile = new File(testDir, "Overwrite.txt");
 	private File createFile = new File(testDir, "Create.txt");
+	private File configFile = new File(testDir, "Config.txt");
 
 	@Override
 	protected void setUp() throws Exception {
@@ -54,6 +55,8 @@ public class TestFileExecutor extends TestCase {
 				overwriteFile);
 		FileComparator.assertEquals("results/fileExecutor/Create2.txt",
 				createFile);
+		FileComparator.assertEquals("results/fileExecutor/Config.txt",
+				configFile);
 
 	}
 
