@@ -26,7 +26,7 @@ public class EAObjectDao extends EADao<ObjectVO> {
 	}
 
 	public Collection<ObjectVO> getDiagramObjects(long diagramId) {
-		return findVOs("select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where object_id in (select object_id from t_diagramobjects where diagram_id=? order by tpos)",new Object[]{new BigDecimal(diagramId)});
+		return findVOs("select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where object_id in (select object_id from t_diagramobjects where diagram_id=?) order by tpos",new Object[]{new BigDecimal(diagramId)});
 	}
 	
 	public ObjectVO getMappingTarget(long mappingId) {
