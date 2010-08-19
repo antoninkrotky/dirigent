@@ -47,9 +47,9 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		Collection<IElement> c=domainsDiagram.getChildElements();
 		Iterator<IElement> i=c.iterator();		
 		IElement e1=i.next();
-		assertEquals("COUNT", e1.getName());
+		assertEquals("DESCRIPTION", e1.getName());
 		IElement e2=i.next();
-		assertEquals("CODE", e2.getName());
+		assertEquals("NAME", e2.getName());
 		IElement e3=i.next();
 		assertEquals("KEY", e3.getName());
 	}
