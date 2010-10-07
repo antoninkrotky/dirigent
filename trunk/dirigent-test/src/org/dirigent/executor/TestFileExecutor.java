@@ -8,6 +8,7 @@ import java.util.Map;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.IAttribute;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
@@ -116,6 +117,12 @@ public class TestFileExecutor extends TestCase {
 
 			@Override
 			public VO getValueObject() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public IElement getParent() {
 				// TODO Auto-generated method stub
 				return null;
 			}

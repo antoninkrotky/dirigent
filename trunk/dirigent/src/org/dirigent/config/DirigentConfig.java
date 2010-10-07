@@ -57,5 +57,6 @@ public abstract class DirigentConfig {
 	public static final String DEFAULT_PATTERN_TABLE = "dirigent.pattern.default.table";
 	public static final String DEFAULT_PATTERN_PACKAGE = "dirigent.pattern.default.package";
 	public static final String DEFAULT_PATTERN_DIAGRAM = "dirigent.pattern.default.diagram";
+	public static final String DEFAULT_PATTERN_ELEMENT = "dirigent.pattern.default.element";
 
 }

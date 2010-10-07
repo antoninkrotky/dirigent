@@ -11,5 +11,6 @@ public class EAElementVO {
 	public String stereotype;
 	public String type;
 	public String pdata1;
+	public String parentGuid;
 
 }

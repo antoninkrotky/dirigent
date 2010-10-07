@@ -11,7 +11,11 @@
 			<file name="lib/junit.jar" />
 		</filelist>
 		<dirset dir=".">
-			<include name="bin" />
+			<include name="bin"/>
+			<include name="resources"/>
+		</dirset>
+		<dirset dir="../dirigent-blazeds">
+			<include name="build/classes" />
 		</dirset>
 	</path>
 

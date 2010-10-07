@@ -79,5 +79,10 @@ public class EADiagramDecorator implements IDiagram {
 						DirigentConfig.DEFAULT_PATTERN_DIAGRAM)
 						+ ".pattern.xml");
 	}
+	
+	@Override
+	public IElement getParent() {
+		return null;
+	}
 
 }

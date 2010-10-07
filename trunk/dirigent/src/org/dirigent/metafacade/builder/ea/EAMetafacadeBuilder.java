@@ -22,6 +22,7 @@ import org.dirigent.metafacade.builder.ea.decorator.EADiagramDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionColumnDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAElementDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAMappingDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EATableDecorator;
@@ -61,6 +62,8 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 				return new EATableDecorator(v);
 			} else if ("Package".equals(v.type)) {
 				return new EAPackageDecorator(v);
+			} else {
+				return new EAElementDecorator(v);
 			}
 		}
 		//DIAGRAM
