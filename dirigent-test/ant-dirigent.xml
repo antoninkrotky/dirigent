@@ -1,7 +1,7 @@
 <project name="ant-dirigent">
 	<path id="dirigent.classpath">
 		<fileset dir="../dirigent/lib">
-			<include name="*/**.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 		<dirset dir="../dirigent">
 			<include name="bin" />
@@ -22,7 +22,7 @@
 			<java classname="org.dirigent.Dirigent" classpathref="dirigent.classpath"
 				fork="true">
 				<sysproperty key="dirigent.model.type" value="@{modelType}"/>
-				<arg value="@{model}" />
+				<sysproperty key="dirigent.model.path" value="@{model}"/>
 				<arg value="@{uri}" />
 			</java>
 		</sequential>
