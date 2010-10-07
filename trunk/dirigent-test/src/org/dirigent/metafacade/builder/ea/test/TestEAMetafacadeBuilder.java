@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IElement;
@@ -20,6 +21,7 @@ public class TestEAMetafacadeBuilder extends TestCase{
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("dirigent.model.type", "EA");
+		DirigentConfig.resetConfig();
 	}
 
 	public void testGetDimension() {

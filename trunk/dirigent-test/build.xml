@@ -17,6 +17,7 @@
 		<dirset dir="../dirigent-blazeds">
 			<include name="build/classes" />
 		</dirset>
+
 	</path>
 
 	<target name="junit" description="Run all jUnit tests.">
