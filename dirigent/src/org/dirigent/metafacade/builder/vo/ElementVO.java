@@ -9,4 +9,5 @@ public class ElementVO extends VO {
 	public String description;
 	public Map<String, String> properties;
 	public long packageId;
+	public String parentUri;
 }

@@ -19,7 +19,8 @@ public class EAElementDecorator extends ElementDecorator {
 		v.description=ea.note;
 		v.stereotype=ea.stereotype;
 		v.packageId=ea.packageId;
-		v.properties=new EAObjectPropertyDAO().getObjectProperties(ea.objectId);	
+		v.properties=new EAObjectPropertyDAO().getObjectProperties(ea.objectId);
+		v.parentUri=ea.parentGuid;
 		return v;
 	}
 
