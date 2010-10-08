@@ -50,6 +50,10 @@ public abstract class DirigentConfig {
 	public abstract String getProperty(String key);
 
 	public static final String MODEL_PATH = "dirigent.model.path";
+	public static final String MODEL_DRIVER = "dirigent.model.jdbcDriver";
+	public static final String MODEL_URL = "dirigent.model.jdbcUrl";
+	public static final String MODEL_USER = "dirigent.model.userName";
+	public static final String MODEL_PASSWORD = "dirigent.model.password";
 	public static final String SCHEMA_PREFIX = "dirigent.schema.";
 	public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
 	public static final String DEFAULT_PATTERN_DIMENSION = "dirigent.pattern.default.dimension";

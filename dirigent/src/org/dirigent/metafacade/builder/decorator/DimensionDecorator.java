@@ -49,6 +49,9 @@ public class DimensionDecorator extends TableDecorator implements IDimension,IGe
 	@Override
 	public IPattern getPattern() {		
 		String pattern=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DEFAULT_PATTERN_DIMENSION);
+		if (pattern==null) {
+			throw new RuntimeException("Default pattern for dimension not configured. Set "+DirigentConfig.DEFAULT_PATTERN_DIMENSION+" property in configuration file.");
+		}
 		return PatternBuilder.getPatternBuilder().getPattern(
 				pattern + ".pattern.xml");
 	}
