@@ -10,7 +10,7 @@ public class EAElementDAO extends EADao<EAElementVO> {
 
 
 	public EAElementVO getEAElement(String uri) {
-		EAElementVO v= findVO("select ea_guid,Package_id,Object_id,Name,Alias,Note,Stereotype,object_type,pdata1,(select i.ea_guid from t_package as i where i.package_id=t.Package_id) as Parent_GUID from t_object as t where ea_guid=?",new Object[]{uri});
+		EAElementVO v= findVO("select ea_guid,Package_id,Object_id,Name,Alias,Note,Stereotype,object_type,pdata1,(select i.ea_guid from t_package i where i.package_id=t.Package_id) as Parent_GUID from t_object t where ea_guid=?",new Object[]{uri});
 		//Root models are not stored in t_object table - try lookup in t_package table
 		if (v==null) {
 			v= findVO("select ea_guid,parent_id,package_id,name,name,notes,null,'Package' as type,package_id,'' as Parent_GUID from t_package t where ea_guid=?",new Object[]{uri});
@@ -55,7 +55,7 @@ public class EAElementDAO extends EADao<EAElementVO> {
 
 
 	public Collection<EAElementVO> getPackageElements(String uri) {
-		return findVOs("select ea_guid,Package_id,Object_id,Name,Alias,Note,Stereotype,object_type,pdata1,(select i.ea_guid from t_package as i where i.package_id=t.Package_id) as Parent_GUID from t_object as t where package_id=(select pdata1 from t_object where ea_guid=?)",new Object[]{uri});
+		return findVOs("select ea_guid,Package_id,Object_id,Name,Alias,Note,Stereotype,object_type,pdata1,(select i.ea_guid from t_package i where i.package_id=t.Package_id) as Parent_GUID from t_object t where package_id=(select pdata1 from t_object where ea_guid=?)",new Object[]{uri});
 	}
 
 }

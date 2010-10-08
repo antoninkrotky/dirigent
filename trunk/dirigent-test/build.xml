@@ -5,7 +5,7 @@
 	Runs all jUnit tests.
 	Generates selected elements from test models. (Requires running HSQLDB.)
 	-->
-	<import file="ant-dirigent.xml" />
+	<import file="../dirigent/ant-dirigent.xml" />
 	<path id="dirigent.test.classpath">
 		<filelist>
 			<file name="lib/junit.jar" />

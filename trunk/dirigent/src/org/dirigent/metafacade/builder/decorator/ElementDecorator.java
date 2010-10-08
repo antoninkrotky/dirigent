@@ -72,7 +72,10 @@ public class ElementDecorator implements IElement, IGeneratable {
 	
 	@Override
 	public IPattern getPattern() {		
-		String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT + "." + getStereotype().toLowerCase();
+		String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
+		if (getStereotype()!=null) {
+			confPattern=confPattern+ "." + getStereotype().toLowerCase();
+		}
  		String pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
 		if (pattern != null) {		
 			return PatternBuilder.getPatternBuilder().getPattern(

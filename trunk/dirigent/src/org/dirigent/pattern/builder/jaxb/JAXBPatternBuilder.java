@@ -46,7 +46,7 @@ public class JAXBPatternBuilder extends PatternBuilder {
 					}
 				} else {
 					l.log(Level.SEVERE, 
-							"Not processed! Pattern not find at any of these locations: " + path1 + ", " + path2);
+							"Not processed! Pattern "+uri+" not find at any of these locations: " + path1 + ", " + path2);
 					 
 				}
 			}

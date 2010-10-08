@@ -1,9 +1,13 @@
 <project name="ant-dirigent">
-	<path id="dirigent.classpath">
-		<fileset dir="../dirigent/lib">
+	<property name="dirigent.dir" value="../dirigent"></property>
+	<path id="dirigent.classpath">	
+		<dirset dir=".">
+					<include name="config" />
+		</dirset>
+		<fileset dir="${dirigent.dir}/lib">
 			<include name="**/*.jar" />
 		</fileset>
-		<dirset dir="../dirigent">
+		<dirset dir="${dirigent.dir}">
 			<include name="bin" />
 			<include name="resources" />
 		</dirset>
@@ -15,14 +19,10 @@
 	model - Model path. 
 	-->
 	<macrodef name="dirigent">
-		<attribute name="modelType" />
 		<attribute name="uri" />
-		<attribute name="model" />
 		<sequential>
 			<java classname="org.dirigent.Dirigent" classpathref="dirigent.classpath"
 				fork="true">
-				<sysproperty key="dirigent.model.type" value="@{modelType}"/>
-				<sysproperty key="dirigent.model.path" value="@{model}"/>
 				<arg value="@{uri}" />
 			</java>
 		</sequential>

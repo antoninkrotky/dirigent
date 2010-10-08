@@ -26,7 +26,7 @@ public class EAHelper {
 				return c;
 			}
 		} catch (SQLException e) {
-			l.log(Level.WARNING, "Connectin " + name + " is invalid.", e);
+			l.log(Level.WARNING, "Connection " + name + " is invalid.", e);
 		}
 		c = createConnection(name);
 		connectionPool.put(name, c);
@@ -35,8 +35,21 @@ public class EAHelper {
 
 	private Connection createConnection(String name) {
 		try {	
-			l.info("Creating repository connection: "+"jdbc:odbc:"+name);
+			String driver=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_DRIVER);
+			String url=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_URL);
+			String user=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_USER);
+			String password=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.MODEL_PASSWORD);
+			
+			//Create ODBC connection for backward compatibility
+			if (url==null) {
+				l.info("Creating model repository connection: "+"jdbc:odbc:"+name);
 			return DriverManager.getConnection("jdbc:odbc:"+name);
+			}
+			
+			l.info("Creating model repository connection:" +url);
+			Class.forName(driver);
+			return DriverManager.getConnection(url, user, password);
+			
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to create jdbc connection.", e);
 		}

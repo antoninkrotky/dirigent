@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern name="" xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+  <Documentation>Documentation</Documentation>
+  <Parameter defaultValue="" name="">
+    <Documentation>Documentation</Documentation>
+  </Parameter>
+    <PatternStep ignoreErrors="false" name="DropTable" type="File">
+    <Parameter name="fileName" value="data-model/L2/${element.name}.sql"/>
+    <Parameter name="fileName" value="overwrite"/>
+    <Template><![CDATA[    
+
+    /*Drop dimension table and ignore errors.*/
+    begin
+    	EXECUTE IMMEDIATE 'DROP TABLE ${element.name}'
+    exception
+    	when others then
+    		null;
+    end;   
+
+    /*Create dimension table*/  
+    CREATE TABLE ${element.name} (
+    ${element.targetTable.codeName}_KEY NUMBER(38) PRIMARY KEY
+    --Add missing columns here.
+   
+    /*Drop sequence.*/
+    begin
+    	EXECUTE IMMEDIATE 'DROP SEQUENCE ${element.codeName}_SEQ';
+    exception
+    	when others then
+    		null;
+    end;   
+   
+	/*Create sequence for generation of surrogate key values.*/   
+    CREATE SEQUENCE ${element.codeName}_SEQ;
+    ]]>
+    </Template>
+  </PatternStep>
+</tns:Pattern>

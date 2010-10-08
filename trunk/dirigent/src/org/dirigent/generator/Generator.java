@@ -34,7 +34,7 @@ public class Generator {
 	}
 
 	public static void generate(IGeneratable gen) {
-		l.info("Starting generation of element " + gen.getName()+'.');
+		l.info("Starting generation of element " + gen.getName()+" ("+gen.getClass().getName()+").");
 		IPattern pattern = gen.getPattern();
 		/* pattern may be null if the template file does not exist. Warning is logged in calling method.*/
 		if (pattern != null) {
