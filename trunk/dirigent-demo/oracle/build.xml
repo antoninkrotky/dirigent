@@ -38,9 +38,22 @@
 	
 	
 	<target name="L2.generate">
+		<delete>
+			<fileset dir="data-model/L2"></fileset>	
+		</delete>
 		<dirigent uri="{479A188C-C78E-47c3-8829-2B418E9F5989}"/>
 	</target>
 	<target name="L2.install">
+		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="continue">
+			<fileset dir="data-model/L2">
+				<include name="*.drop.sql"/>				
+			</fileset>
+		</sql>
+		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="abort">
+			<fileset dir="data-model/L2">
+				<include name="*.create.sql"/>				
+			</fileset>
+		</sql>
 		<!-- TODO -->
 	</target>
 	<target name="L2.refresh" depends="L2.generate,L2.install"/>

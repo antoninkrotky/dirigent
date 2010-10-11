@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:Pattern name="" xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
-  <Documentation>Documentation</Documentation>
-  <Parameter defaultValue="" name="">
-    <Documentation>Documentation</Documentation>
-  </Parameter>
-    <PatternStep ignoreErrors="false" name="DropTable" type="File">
-    <Parameter name="fileName" value="data-model/L2/${element.name}.sql"/>
-    <Parameter name="fileName" value="overwrite"/>
-    <Template><![CDATA[    
+<tns:Pattern name="" xmlns:tns="http://www.example.org/dirigent-pattern/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+	<Documentation>Documentation</Documentation>
+	<PatternStep ignoreErrors="false" name="DropObjects" type="File">
+		<Parameter name="fileName" value="data-model/L2/${element.name}.drop.sql" />
+		<Parameter name="mode" value="overwrite" />
+		<Template><![CDATA[    
+    	/*Drop script for dimension ${element.name}*/
 
-    /*Drop dimension table and ignore errors.*/
-    begin
-    	EXECUTE IMMEDIATE 'DROP TABLE ${element.name}'
-    exception
-    	when others then
-    		null;
-    end;   
+    	/*Drop table.*/
+    	DROP TABLE ${element.name};
 
-    /*Create dimension table*/  
-    CREATE TABLE ${element.name} (
-    ${element.targetTable.codeName}_KEY NUMBER(38) PRIMARY KEY
-    --Add missing columns here.
-   
-    /*Drop sequence.*/
-    begin
-    	EXECUTE IMMEDIATE 'DROP SEQUENCE ${element.codeName}_SEQ';
-    exception
-    	when others then
-    		null;
-    end;   
-   
-	/*Create sequence for generation of surrogate key values.*/   
-    CREATE SEQUENCE ${element.codeName}_SEQ;
+    	/*Drop sequence.*/
+		DROP SEQUENCE ${element.codeName}_SEQ;		
     ]]>
     </Template>
-  </PatternStep>
+	</PatternStep>
+	<PatternStep ignoreErrors="false" name="CreateObjects"
+		type="File">
+		<Parameter name="fileName" value="data-model/L2/${element.name}.create.sql" />
+		<Parameter name="mode" value="overwrite" />
+		<Template><![CDATA[    
+    	/*Create script for dimension ${element.name}*/  
+    	CREATE TABLE ${element.name} (
+    		${element.codeName}_KEY NUMBER(38) PRIMARY KEY
+    	--TODO: Add missing columns to this pattern.
+    	);
+
+		/*Create sequence for generation of surrogate key values.*/   
+    	CREATE SEQUENCE ${element.codeName}_SEQ;
+    ]]>
+    </Template>
+	</PatternStep>
 </tns:Pattern>
