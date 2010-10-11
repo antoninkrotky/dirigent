@@ -18,6 +18,7 @@ public class TemplateHelper {
 		VelocityContext vCtx = new VelocityContext();
 		vCtx.put("element", gen);
 		vCtx.put("config", DirigentConfig.getDirigentConfig());
+		vCtx.put("utils", TemplateUtils.class);
 		try {
 			Writer w = new StringWriter();
 			Velocity.evaluate(vCtx, w, gen.getName()+":"+template, template);

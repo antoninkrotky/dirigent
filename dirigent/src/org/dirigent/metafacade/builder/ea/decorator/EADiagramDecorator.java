@@ -9,6 +9,7 @@ import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectDao;
 import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
@@ -82,6 +83,30 @@ public class EADiagramDecorator implements IDiagram {
 	
 	@Override
 	public IElement getParent() {
+		return null;
+	}
+
+	@Override
+	public Collection<IRelation> getEndingRelations() {
+		// TODO ASK KAREL !!!! Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<IRelation> getStartingRelations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getAlias() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

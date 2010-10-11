@@ -10,6 +10,7 @@ import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.VO;
@@ -20,6 +21,10 @@ public class ElementDecorator implements IElement, IGeneratable {
 	private static Logger l = Logger.getLogger(ElementDecorator.class.getName());
 	
 	private ElementVO element;
+	private Collection<IRelation> startingRelations;
+	private Collection<IRelation> endingRelations;
+	
+	
 	public ElementDecorator(ElementVO v) {
 		this.element=v;
 	}
@@ -86,4 +91,30 @@ public class ElementDecorator implements IElement, IGeneratable {
 		}
 	}
 
+	@Override
+	public Collection<IRelation> getEndingRelations() {
+		// Lazy load
+		if(endingRelations == null){
+			endingRelations = MetafacadeBuilder.getMetafacadeBuilder().getEndingRelations(getUri());
+		}
+		return endingRelations;
+	}
+
+	@Override
+	public Collection<IRelation> getStartingRelations() {
+		if(startingRelations == null){
+			startingRelations = MetafacadeBuilder.getMetafacadeBuilder().getStartingRelations(getUri());
+		}
+		return startingRelations;
+	}
+
+	@Override
+	public String getDescription() {
+		return element.description;
+	}
+
+	@Override
+	public String getAlias() {
+		return element.alias;
+	}
 }

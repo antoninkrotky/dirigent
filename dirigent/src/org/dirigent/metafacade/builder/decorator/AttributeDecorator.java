@@ -35,5 +35,9 @@ public class AttributeDecorator implements IAttribute {
 	public String getStereotype() {
 		return attribute.stereotype;
 	}
+	@Override
+	public String getInitialValue() {
+		return attribute.initialValue;
+	}
 
 }

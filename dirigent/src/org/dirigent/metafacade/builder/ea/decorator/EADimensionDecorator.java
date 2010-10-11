@@ -38,4 +38,5 @@ public class EADimensionDecorator extends EATableDecorator implements IDimension
 		return PatternBuilder.getPatternBuilder().getPattern(
 				pattern + ".pattern.xml");
 	}
+
 }

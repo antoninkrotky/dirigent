@@ -13,4 +13,12 @@ public interface IElement {
 	public Collection<IAttribute> getAttributes();
 	public VO getValueObject();
 	public IElement getParent();
+	//TODO: NEW
+	public Collection<IRelation> getStartingRelations();
+	public Collection<IRelation> getEndingRelations();
+	/**
+	 * Description of attribute.
+	 * */
+	public String getDescription();
+	public String getAlias();
 }

@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
@@ -100,6 +101,20 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	public Collection<IAttribute> getAttributes(String elementURI) {
 		throw new RuntimeException(
 				"Operation getAttributes is not supported on "
+						+ this.getClass().getName());
+	}
+
+	@Override
+	public Collection<IRelation> getEndingRelations(String elementUri) {
+		throw new RuntimeException(
+				"Operation getEndingRelations is not supported on "
+						+ this.getClass().getName());
+	}
+
+	@Override
+	public Collection<IRelation> getStartingRelations(String elementUri) {
+		throw new RuntimeException(
+				"Operation getStartingRelations is not supported on "
 						+ this.getClass().getName());
 	}
 
