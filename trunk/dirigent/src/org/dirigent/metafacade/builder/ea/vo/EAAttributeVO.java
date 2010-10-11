@@ -14,5 +14,6 @@ public class EAAttributeVO {
 	public BigDecimal scale;
 	public String type;
 	public long classifier;
+	public String initialValue;
 
 }

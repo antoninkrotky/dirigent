@@ -8,5 +8,9 @@ public class EAConnectorVO {
 	public String stereotype;
 	public String note;	
 	public long startObjectId;
-	public long endObjectId;	
+	public long endObjectId;
+	public String startObjectGuid;
+	public String endObjectGuid;
+	public int lineColor;
+	public String alias;
 }

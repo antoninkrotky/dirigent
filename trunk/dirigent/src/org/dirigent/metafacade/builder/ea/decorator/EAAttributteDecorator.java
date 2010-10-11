@@ -23,6 +23,7 @@ public class EAAttributteDecorator extends AttributeDecorator {
 		v.type=ea.type;
 		v.stereotype=ea.stereotype;
 		v.properties=new EAAttributeTagDAO().getObjectProperties(v.id);		
+		v.initialValue=ea.initialValue;
 		return v;
 	}
 }

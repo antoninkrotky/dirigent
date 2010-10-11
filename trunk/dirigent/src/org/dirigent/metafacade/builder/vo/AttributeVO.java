@@ -8,4 +8,5 @@ public class AttributeVO extends VO {
 	public String type;
 	public Map<String, String> properties;
 	public String stereotype;
+	public String initialValue;
 }

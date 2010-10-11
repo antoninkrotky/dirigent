@@ -21,4 +21,9 @@ public interface IAttribute {
 	
 	public String getType();
 	public String getStereotype();
+	/**
+	 * Initial value of attribute
+	 * */
+	public String getInitialValue();
+	
 }

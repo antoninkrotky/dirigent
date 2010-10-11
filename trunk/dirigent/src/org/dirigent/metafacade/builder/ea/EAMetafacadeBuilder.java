@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.dirigent.config.ConfigSchemaDao;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
 import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
@@ -25,6 +26,7 @@ import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAElementDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAMappingDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EARelationDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EATableDecorator;
 import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
@@ -35,28 +37,29 @@ import org.dirigent.metafacade.builder.vo.ObjectVO;
 public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
 	private EAObjectDao objectDao = new EAObjectDao();
-	private EAElementDAO elementDao=new EAElementDAO();
-	private EAAttributeDAO attributeDao=new EAAttributeDAO();
-	private EAConnectorDAO connectorDao=new EAConnectorDAO();
-	private EADiagramDAO diagramDao=new EADiagramDAO();
-		
-	private ConfigSchemaDao schemaDao=new ConfigSchemaDao();
+	private EAElementDAO elementDao = new EAElementDAO();
+	private EAAttributeDAO attributeDao = new EAAttributeDAO();
+	private EAConnectorDAO connectorDao = new EAConnectorDAO();
+	private EADiagramDAO diagramDao = new EADiagramDAO();
 
+	private ConfigSchemaDao schemaDao = new ConfigSchemaDao();
 
 	@Override
 	public IElement getMetafacade(String uri) {
-		//SCHEMA
+		// SCHEMA
 		if (uri.startsWith("schema:")) {
 			return new SchemaDecorator(schemaDao.getSchemaVO(uri));
 		}
-		//OBJECT
+		// OBJECT
 		EAElementVO v = elementDao.getEAElement(uri);
 		if (v != null) {
 			if ("Class".equals(v.type) && "BIDimension".equals(v.stereotype)) {
 				return new EADimensionDecorator(v);
-			} else if ("Class".equals(v.type) && "BIMapping".equals(v.stereotype)) {
+			} else if ("Class".equals(v.type)
+					&& "BIMapping".equals(v.stereotype)) {
 				return new EAMappingDecorator(v);
-			} else if ("Class".equals(v.type) && "BIDomain".equals(v.stereotype)) {
+			} else if ("Class".equals(v.type)
+					&& "BIDomain".equals(v.stereotype)) {
 				return new EADomainDecorator(v);
 			} else if ("Class".equals(v.type) && "table".equals(v.stereotype)) {
 				return new EATableDecorator(v);
@@ -66,26 +69,19 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 				return new EAElementDecorator(v);
 			}
 		}
-		//DIAGRAM
-		EADiagramVO d=diagramDao.getDiagram(uri);
-		if (d!=null) {
+		// DIAGRAM
+		EADiagramVO d = diagramDao.getDiagram(uri);
+		if (d != null) {
 			return new EADiagramDecorator(d);
 		}
-		
-		
+
 		return null;
 	}
-	
-	public Collection<EAConnectorVO> getStartingConnectors(String elementUri) {
-		return connectorDao.getStartingConnectors(elementUri);
-	}
-	
-
 
 	@Override
 	public void save(IElement element) {
-			throw new RuntimeException("Save not supported for "
-					+ element.getClass().getName());
+		throw new RuntimeException("Save not supported for "
+				+ element.getClass().getName());
 
 	}
 
@@ -96,35 +92,50 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
 	@Override
 	public Vector<IElement> getChildElements(String uri) {
-		Collection<EAElementVO> c=elementDao.getPackageElements(uri);
-		Vector<IElement> r=new Vector<IElement>(c.size());
-		Iterator<EAElementVO> i=c.iterator();
+		Collection<EAElementVO> c = elementDao.getPackageElements(uri);
+		Vector<IElement> r = new Vector<IElement>(c.size());
+		Iterator<EAElementVO> i = c.iterator();
 		while (i.hasNext()) {
-			r.add(MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(i.next().guid));
+			r.add(MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+					i.next().guid));
 		}
 		return r;
 	}
 
 	@Override
 	public Collection<IAttribute> getAttributes(String elementURI) {
-		Collection<EAAttributeVO> c=attributeDao.getAttributes(elementURI);
-		Collection<IAttribute> res=new ArrayList<IAttribute>(c.size());
-		Iterator<EAAttributeVO> i=c.iterator();
+		Collection<EAAttributeVO> c = attributeDao.getAttributes(elementURI);
+		Collection<IAttribute> res = new ArrayList<IAttribute>(c.size());
+		Iterator<EAAttributeVO> i = c.iterator();
 		while (i.hasNext()) {
-			EAAttributeVO a=i.next();
+			EAAttributeVO a = i.next();
 			if ("column".equals(a.stereotype)) {
 				res.add(new EAColumnDecorator(a));
 			} else if ("BIDimensionColumn".equals(a.stereotype)) {
 				res.add(new EADimensionColumnDecorator(a));
-			} else if ("BIMappingColumn".equals(a.stereotype)) {				
+			} else if ("BIMappingColumn".equals(a.stereotype)) {
 				res.add(new EAColumnMappingDecorator(a));
-			}else {
+			} else {
 				res.add(new EAAttributteDecorator(a));
 			}
 		}
 		return res;
 	}
-	
-	
+	@Deprecated
+	public Collection<EAConnectorVO> getStartingConnectors(String elementUri) {
+		return connectorDao.getStartingConnectors(elementUri);
+	}
+
+	@Override
+	public Collection<IRelation> getStartingRelations(String elementUri) {
+		return EARelationDecorator.convertCollection(connectorDao
+				.getStartingConnectors(elementUri));
+	}
+
+	@Override
+	public Collection<IRelation> getEndingRelations(String elementUri) {
+		return EARelationDecorator.convertCollection(connectorDao
+				.getEndingConnectors(elementUri));
+	}
 
 }
