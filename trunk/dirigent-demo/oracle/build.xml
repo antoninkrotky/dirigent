@@ -2,14 +2,14 @@
 <!-- ====================================================================== 
      Oct 8, 2010 1:25:50 PM                                                        
 
-     project    
-     description
+     dirigent-demo.oracle    
+     Dirigent MDA generator demonstration for datamart implementation project.
                    
-     user                                                                
+     khubl                                                                
      ====================================================================== -->
 <project name="dirigent-demo.oracle" default="default">
     <description>
-            description
+            Dirigent MDA generator demonstration for datamart implementation project. 
     </description>
 
 	<property name="dirigent.dir" value="../../dirigent"></property>
@@ -21,6 +21,9 @@
 	
 	<import file="${dirigent.dir}/ant-dirigent.xml"/>
 	
+	<target name="default" depends="L0.install,L2.refresh,L0.load,L2.load">
+	</target>
+	
 	<target name="L0.install">
 		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="continue">
 			<fileset dir="." file="data-model/L0/drop.sql"/>
@@ -29,17 +32,24 @@
 			<fileset dir="." file="data-model/L0/create.sql"/>
 		</sql>
 	</target>
+	<target name="L0.load">
+		<!-- TODO -->
+	</target>
 	
-    <!-- ================================= 
-          target: default              
-         ================================= -->
-    <target name="default" description="description">
-        
-    </target>
 	
 	<target name="L2.generate">
 		<dirigent uri="{479A188C-C78E-47c3-8829-2B418E9F5989}"/>
 	</target>
+	<target name="L2.install">
+		<!-- TODO -->
+	</target>
+	<target name="L2.refresh" depends="L2.generate,L2.install"/>
+	
+	<target name="L2.load">
+		
+	</target>
+	
+	
 
     
 
