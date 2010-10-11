@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Oct 8, 2010 1:25:50 PM                                                        
+
+     project    
+     description
+                   
+     user                                                                
+     ====================================================================== -->
+<project name="dirigent-demo.oracle" default="default">
+    <description>
+            description
+    </description>
+
+	<property name="dirigent.dir" value="../../dirigent"></property>
+	
+	<property name="oracle.driver" value="oracle.jdbc.driver.OracleDriver"></property>
+	<property name="demodb.url" value="jdbc:oracle:thin:@localhost:1521/xe"></property>
+	<property name="demodb.user" value="dirigent_demo_dm"></property>
+	<property name="demodb.password" value="dirigent_demo_dm"></property>
+	
+	<import file="${dirigent.dir}/ant-dirigent.xml"/>
+	
+	<target name="L0.install">
+		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="continue">
+			<fileset dir="." file="data-model/L0/drop.sql"/>
+		</sql>
+		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="abort">
+			<fileset dir="." file="data-model/L0/create.sql"/>
+		</sql>
+	</target>
+	
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" description="description">
+        
+    </target>
+	
+	<target name="L2.generate">
+		<dirigent uri="{479A188C-C78E-47c3-8829-2B418E9F5989}"/>
+	</target>
+
+    
+
+</project>
