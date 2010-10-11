@@ -10,10 +10,12 @@ import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 import org.dirigent.test.utils.FileComparator;
+
 
 import junit.framework.TestCase;
 
@@ -123,6 +125,30 @@ public class TestFileExecutor extends TestCase {
 
 			@Override
 			public IElement getParent() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getAlias() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getDescription() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Collection<IRelation> getEndingRelations() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Collection<IRelation> getStartingRelations() {
 				// TODO Auto-generated method stub
 				return null;
 			}
