@@ -1,0 +1,28 @@
+#summary Structure and purpose of dirigent-demo project description.
+
+= Introduction =
+The target of dirigent-demo project is to demonstrate dirigent capatibilities in diferent usage scenarios.
+
+= Project structure =
+== model folder ==
+Contains exported dirigent-demo Enterprise Architect model in XMI format. All changes in dirigent-demo model must be synchronized to this file.
+
+== oracle folder ==
+_Under Implementation_
+
+Demonstration of dirigent capatibilities for Oracle datamart implementation project. This demo uses Enterprise Architect model of L0 (interface / data sources) layer, L2 (datamart presentation layer) and data mapping (L0 to L2 transformation) model. Demo uses ORACLE patterns from core dirigent project (dirigent/resources/patterns/ORACLE). 
+
+Dirigent is used to:
+  * generate database object creation scripts of datamart L2 (presentation) layer
+  * implement ELT mappings performing population of datamart
+
+Patterns are designed to support "declarative MDA approach". This means that model is free of implementation details, which are moved to dirigent patterns. Good example is of this approach is the way how dimension tables are modelled. For each dimension table, only simple class with BIDimension stereotype is modelled without surrogate key and implicit dimension columns. The dirigent pattern ensures generation of database object creation scripts including implicit dimension table columns, database sequence and DML for implicit dimension rows (XNA, XNU values). So design standards and patterns are not part of model, but are contained in dirigent patterns.
+
+The build.xml file contains ant targets to execute demo dirigent and other helper tasks. Oracle database (XE is sufficient) is required for executing this demo.
+Core tasks are:
+  *L0.install - install L0 layer
+  *L2.install - generate L2 layer based on Enterprise Architect model using dirigent
+  *L0.load - Load L0 layer
+  *L2.load - Load L2 layer using dirigent
+
+The pdi folder contains Pentaho data integration transformation a jobs demonstrating integration of dirigent with PDI. The Main job ensures datamart loading process complete. The L0 layer is loaded using PDI native transformations, the L2 layer is loading using dirigent SCD and fact table loading patterns.
