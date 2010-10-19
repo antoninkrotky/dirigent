@@ -1,8 +1,16 @@
     
     	/*Create script for dimension D_CUSTOMER*/  
     	CREATE TABLE D_CUSTOMER (
-    		D_CUSTOMER_KEY NUMBER(38) PRIMARY KEY
-    	--TODO: Add missing columns to this pattern.
+    		D_CUSTOMER_KEY NUMBER(38) PRIMARY KEY,
+    		CUST_ID VARCHAR(50),
+    		CUST_NAME VARCHAR(100),
+    		CUST_ADDRESS_STREET VARCHAR(100),
+    		CUST_ADDRESS_CITY VARCHAR(100),
+    		CUST_ADDRESS_ZIP VARCHAR(50),
+    		D_CUSTOMER_VALID_FROM_DATETIME DATE,
+			D_CUSTOMER_VALID_TO_DATETIME DATE,
+			D_CUSTOMER_CURRENT_FLAG CHAR(1),
+			D_CUSTOMER_UPDATED_DATETIME DATE
     	);
 
 		/*Create sequence for generation of surrogate key values.*/   

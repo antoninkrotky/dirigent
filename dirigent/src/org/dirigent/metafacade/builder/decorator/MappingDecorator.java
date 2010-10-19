@@ -215,9 +215,7 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 			if (element instanceof ITable) {
 				ITable table = (ITable) element;
 
-				sb.append(table.getSchema().getSchema());
-				sb.append('.');
-				sb.append(table.getName());
+				sb.append(table.getFullName());
 				sb.append(' ');
 				sb.append(s.alias);
 			}

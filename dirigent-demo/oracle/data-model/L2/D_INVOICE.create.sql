@@ -1,8 +1,15 @@
     
     	/*Create script for dimension D_INVOICE*/  
     	CREATE TABLE D_INVOICE (
-    		D_INVOICE_KEY NUMBER(38) PRIMARY KEY
-    	--TODO: Add missing columns to this pattern.
+    		D_INVOICE_KEY NUMBER(38) PRIMARY KEY,
+    		INV_ID VARCHAR(50),
+    		INV_DUE_DATE DATE,
+    		INV_PAYMENT_DATE DATE,
+    		INV_PAYMENT_FLAG CHAR(1),
+    		D_INVOICE_VALID_FROM_DATETIME DATE,
+			D_INVOICE_VALID_TO_DATETIME DATE,
+			D_INVOICE_CURRENT_FLAG CHAR(1),
+			D_INVOICE_UPDATED_DATETIME DATE
     	);
 
 		/*Create sequence for generation of surrogate key values.*/   

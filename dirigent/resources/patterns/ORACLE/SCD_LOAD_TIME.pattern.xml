@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+  <Documentation>TODO</Documentation>
+	<PatternStep name="Drop stage current table" type="JDBCStatement" ignoreErrors="true">
+		<Template> DROP TABLE STG_${element.targetTable.name}</Template>
+	</PatternStep>
+	<PatternStep name="Create stage current table" type="JDBCStatement">
+		<Template> <![CDATA[
+			CREATE TABLE STG_${element.targetTable.name} 
+				(${element.targetColumnList}) as ${element.SQLQuery}
+		]]>
+		</Template>
+	</PatternStep>	
+		<PatternStep name="Truncate target table" type="JDBCStatement">
+		<Template> <![CDATA[
+			TRUNCATE TABLE ${element.targetTable.fullName}
+		]]>
+		</Template>
+	</PatternStep>	
+	<PatternStep name="Load target table" type="JDBCStatement">
+		<Template><![CDATA[ 
+INSERT INTO ${element.targetTable.fullName}
+			(${element.targetColumnList},
+			${element.targetTable.codeName}_KEY,
+			${element.targetTable.codeName}_VALID_FROM_DATETIME,
+			${element.targetTable.codeName}_VALID_TO_DATETIME,
+			${element.targetTable.codeName}_CURRENT_FLAG,
+			${element.targetTable.codeName}_UPDATED_DATETIME
+			) 
+			select 
+				sc.*,
+				to_number(to_char(sc.TIME_ID,'J')),
+				sysdate,
+				to_date('1.1.3000','dd.mm.yyyy'),
+				'Y',
+				sysdate				
+			from STG_${element.targetTable.name} sc
+]]>			
+</Template>
+	</PatternStep>
+</tns:Pattern>

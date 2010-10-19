@@ -75,7 +75,8 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 		v.schemaUri = "schema:default";
 		v.sources = getMapingSourceVOs(v.uri);
 		v.targetTableUri = getTargetTableUri(v.uri);
-
+		v.filterCondition=v.properties.get("filterCondition");
+		v.pattern=v.properties.get("pattern");
 		return v;
 	}
 
