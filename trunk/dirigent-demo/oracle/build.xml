@@ -59,7 +59,8 @@
 	<target name="L2.refresh" depends="L2.generate,L2.install"/>
 	
 	<target name="L2.load">
-		
+		<!--Load time dimension -->
+		<dirigent uri="{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}"/>
 	</target>
 	
 	

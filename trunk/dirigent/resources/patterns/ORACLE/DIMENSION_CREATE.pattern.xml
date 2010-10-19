@@ -24,8 +24,13 @@
 		<Template><![CDATA[    
     	/*Create script for dimension ${element.name}*/  
     	CREATE TABLE ${element.name} (
-    		${element.codeName}_KEY NUMBER(38) PRIMARY KEY
-    	--TODO: Add missing columns to this pattern.
+    		${element.codeName}_KEY NUMBER(38) PRIMARY KEY,
+    		#foreach($column in $element.columns)$column.name $column.dataType,
+    		#end		
+${element.codeName}_VALID_FROM_DATETIME DATE,
+			${element.codeName}_VALID_TO_DATETIME DATE,
+			${element.codeName}_CURRENT_FLAG CHAR(1),
+			${element.codeName}_UPDATED_DATETIME DATE
     	);
 
 		/*Create sequence for generation of surrogate key values.*/   

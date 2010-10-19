@@ -45,7 +45,11 @@ public class TableDecorator extends ElementDecorator implements ITable {
 
 	@Override
 	public String getFullName() {
-		return getSchema().getSchema() + '.' + getName();
+		if (getSchema().getSchema()!=null) {
+			return getSchema().getSchema() + '.' + getName();
+		} else {
+		  return getName();
+		}
 	}
 
 	@Override

@@ -1,8 +1,15 @@
     
     	/*Create script for dimension D_PRODUCT*/  
     	CREATE TABLE D_PRODUCT (
-    		D_PRODUCT_KEY NUMBER(38) PRIMARY KEY
-    	--TODO: Add missing columns to this pattern.
+    		D_PRODUCT_KEY NUMBER(38) PRIMARY KEY,
+    		PROD_ID VARCHAR(50),
+    		PROD_NAME VARCHAR(100),
+    		PROD_GROUP_CODE VARCHAR(100),
+    		PROD_GROUP_NAME VARCHAR(100),
+    		D_PRODUCT_VALID_FROM_DATETIME DATE,
+			D_PRODUCT_VALID_TO_DATETIME DATE,
+			D_PRODUCT_CURRENT_FLAG CHAR(1),
+			D_PRODUCT_UPDATED_DATETIME DATE
     	);
 
 		/*Create sequence for generation of surrogate key values.*/   
