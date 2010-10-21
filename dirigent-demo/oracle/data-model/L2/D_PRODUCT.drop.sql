@@ -5,6 +5,6 @@
     	DROP TABLE D_PRODUCT;
 
     	/*Drop sequence.*/
-		DROP SEQUENCE D_PRODUCT_SEQ;		
+		DROP SEQUENCE PROD_SEQ;		
     
     
