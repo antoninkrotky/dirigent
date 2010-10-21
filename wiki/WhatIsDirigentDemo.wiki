@@ -7,6 +7,17 @@ The target of dirigent-demo project is to demonstrate dirigent capatibilities in
 == model folder ==
 Contains exported dirigent-demo Enterprise Architect model in XMI format. All changes in dirigent-demo model must be synchronized to this file.
 
+=== Merging model in Enterprise Architect ===
+The actual version of dirigent-demo model is maintained in SVN (file dirigent-demo/model/DEMO.xml). To merge changes from SVN to EA repository follow theese steps:
+  # Open your model in Enterprise Architect
+  # Right click the DEMO folder
+  # From the context menu select "Package control" -> "Compare with XMI file..."
+  # Select the last version of DEMO.xml from repository
+  # Your model is compared with last version from SVN. If you want to propagate change from SVN version to your model right click on specified element and select "Merge from Baseline".
+After your model is merged with lastest SVN version you can export your model from EA and commit to SVN.
+
+If you wannt just to update your model to latest SVN version, right click on DEMO folder and select "Export/Import" -> "Import package from XMI file...". This will completely overwrite your EA model.
+
 == oracle folder ==
 _Under Implementation_
 
