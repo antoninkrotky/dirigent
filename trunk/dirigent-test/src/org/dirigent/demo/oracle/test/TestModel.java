@@ -20,5 +20,6 @@ public class TestModel extends TestCase{
 	public void testTimeDimension() {
 		IDimension time=(IDimension)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{65885E2D-0AEF-443f-BEB5-292A52FA4E52}");
 		assertEquals("D_TIME", time.getName());
+		assertEquals("TIME", time.getAlias());
 	}
 }

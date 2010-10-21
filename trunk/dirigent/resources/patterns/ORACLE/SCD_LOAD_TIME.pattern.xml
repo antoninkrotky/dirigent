@@ -21,11 +21,11 @@
 		<Template><![CDATA[ 
 INSERT INTO ${element.targetTable.fullName}
 			(${element.targetColumnList},
-			${element.targetTable.codeName}_KEY,
-			${element.targetTable.codeName}_VALID_FROM_DATETIME,
-			${element.targetTable.codeName}_VALID_TO_DATETIME,
-			${element.targetTable.codeName}_CURRENT_FLAG,
-			${element.targetTable.codeName}_UPDATED_DATETIME
+			${element.targetTable.alias}_KEY,
+			${element.targetTable.alias}_VALID_FROM_DATETIME,
+			${element.targetTable.alias}_VALID_TO_DATETIME,
+			${element.targetTable.alias}_CURRENT_FLAG,
+			${element.targetTable.alias}_UPDATED_DATETIME
 			) 
 			select 
 				sc.*,

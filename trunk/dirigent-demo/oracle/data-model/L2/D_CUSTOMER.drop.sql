@@ -5,6 +5,6 @@
     	DROP TABLE D_CUSTOMER;
 
     	/*Drop sequence.*/
-		DROP SEQUENCE D_CUSTOMER_SEQ;		
+		DROP SEQUENCE CUST_SEQ;		
     
     

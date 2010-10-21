@@ -13,7 +13,7 @@
     	DROP TABLE ${element.name};
 
     	/*Drop sequence.*/
-		DROP SEQUENCE ${element.codeName}_SEQ;		
+		DROP SEQUENCE ${element.alias}_SEQ;		
     ]]>
     </Template>
 	</PatternStep>
@@ -24,17 +24,17 @@
 		<Template><![CDATA[    
     	/*Create script for dimension ${element.name}*/  
     	CREATE TABLE ${element.name} (
-    		${element.codeName}_KEY NUMBER(38) PRIMARY KEY,
+    		${element.alias}_KEY NUMBER(38) PRIMARY KEY,
     		#foreach($column in $element.columns)$column.name $column.dataType,
     		#end		
-${element.codeName}_VALID_FROM_DATETIME DATE,
-			${element.codeName}_VALID_TO_DATETIME DATE,
-			${element.codeName}_CURRENT_FLAG CHAR(1),
-			${element.codeName}_UPDATED_DATETIME DATE
+${element.alias}_VALID_FROM_DATETIME DATE,
+			${element.alias}_VALID_TO_DATETIME DATE,
+			${element.alias}_CURRENT_FLAG CHAR(1),
+			${element.alias}_UPDATED_DATETIME DATE
     	);
 
 		/*Create sequence for generation of surrogate key values.*/   
-    	CREATE SEQUENCE ${element.codeName}_SEQ;
+    	CREATE SEQUENCE ${element.alias}_SEQ;
     ]]>
     </Template>
 	</PatternStep>

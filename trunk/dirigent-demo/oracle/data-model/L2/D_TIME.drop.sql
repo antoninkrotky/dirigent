@@ -5,6 +5,6 @@
     	DROP TABLE D_TIME;
 
     	/*Drop sequence.*/
-		DROP SEQUENCE D_TIME_SEQ;		
+		DROP SEQUENCE TIME_SEQ;		
     
     
