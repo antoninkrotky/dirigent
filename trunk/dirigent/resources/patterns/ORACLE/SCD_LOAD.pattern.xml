@@ -1,4 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
-  <Documentation>TODO</Documentation>
+<tns:Pattern name="" xmlns:tns="http://www.example.org/dirigent-pattern/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+	<Documentation>Documentation</Documentation>
+	<PatternStep ignoreErrors="false" name="CreateObjects"
+		type="File">
+		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
+		<Parameter name="mode" value="overwrite" />
+		<Template><![CDATA[    
+    	/*Create script for mapping ${element.name}*/  
+    	
+    	insert into ${element.targetTable.fullName} (
+    	
+    	#foreach($mapping in $element.columnMappings) ${mapping.column.name},
+    	#end
+    	
+    	CUST_VALID_FROM_DATETIME,
+		CUST_VALID_TO_DATETIME,
+		CUST_CURRENT_FLAG,
+		CUST_UPDATED_DATETIME
+    	
+    	) values (
+    	
+    		select 
+    		#set($comma=true)
+    		#foreach($mapping in $element.columnMappings) 
+    			#if($comma) 
+    				#set($comma=false) 
+    			#else , 
+    			#end
+    			${mapping.column.name}
+    		#end
+    	    from 
+    	    #set($join=true)
+    	    #foreach($tableAlias in $element.sources.keySet())
+    	    	#if($join)
+    	    		#set($join=false)
+    	    	#else
+    	    		join
+    	    	#end
+    	    	${element.sources.get($tableAlias).name} as ${tableAlias.alias}
+    	    #end	
+    	    
+    	    ON /*NOT DONE*/
+    	);
+    ]]>
+    </Template>
+	</PatternStep>
 </tns:Pattern>

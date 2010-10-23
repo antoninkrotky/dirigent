@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IMapping;
@@ -18,6 +19,8 @@ import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
+import org.dirigent.pattern.IPattern;
+import org.dirigent.pattern.builder.PatternBuilder;
 
 public class EAMappingDecorator extends MappingDecorator implements IMapping {
 
@@ -39,6 +42,14 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 			}
 		}
 		return super.getColumnMappings();
+	}
+	
+	@Override
+	public IPattern getPattern() {
+		return PatternBuilder.getPatternBuilder().getPattern(
+				DirigentConfig.getDirigentConfig().getProperty(
+						DirigentConfig.DEFAULT_PATTERN_MAPPING)
+						+ ".pattern.xml");
 	}
 
 	private static Collection<MappingSourceVO> getMapingSourceVOs(

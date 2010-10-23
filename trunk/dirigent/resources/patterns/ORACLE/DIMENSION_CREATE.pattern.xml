@@ -25,9 +25,10 @@
     	/*Create script for dimension ${element.name}*/  
     	CREATE TABLE ${element.name} (
     		${element.alias}_KEY NUMBER(38) PRIMARY KEY,
-    		#foreach($column in $element.columns)$column.name $column.dataType,
+    		#foreach($column in $element.columns)${column.name} ${column.dataType},
     		#end		
-${element.alias}_VALID_FROM_DATETIME DATE,
+			
+			${element.alias}_VALID_FROM_DATETIME DATE,
 			${element.alias}_VALID_TO_DATETIME DATE,
 			${element.alias}_CURRENT_FLAG CHAR(1),
 			${element.alias}_UPDATED_DATETIME DATE
