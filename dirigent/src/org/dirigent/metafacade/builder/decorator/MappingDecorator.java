@@ -119,6 +119,9 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 	private char[] offset;
 	
 	public char[] getOffset() {
+		if (offset == null) {
+			offset = new char[0];
+		}
 		return offset;
 	}
 
