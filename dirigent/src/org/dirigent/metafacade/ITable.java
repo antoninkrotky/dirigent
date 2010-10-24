@@ -6,5 +6,4 @@ public interface ITable extends IElement,ISchemaProvider, IQueriable,IGeneratabl
 	public ISchema getSchema();
 	public Collection<IColumn> getColumns();
 	public String getFullName();
-	public String getCodeName();
 }

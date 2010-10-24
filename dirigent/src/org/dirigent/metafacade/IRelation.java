@@ -12,6 +12,8 @@ public interface IRelation {
 	public String getDescription();
 	public Map<String, String> getProperties();
 	public String getAlias();
+	public String getStartElementUri();
+	public String getEndElementUri();	
 	public IElement getStartElement();
 	public IElement getEndElement();
 	public VO getValueObject();

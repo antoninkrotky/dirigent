@@ -3,6 +3,7 @@ package org.dirigent.metafacade.builder.csv;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.dirigent.metafacade.builder.vo.MappingVO;
 
@@ -32,6 +33,7 @@ public class MappingDao extends CsvDao<MappingVO> {
 		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
 		v.sources = mstDao
 				.getMappingSourceTablesByMappingUri(v.uri);
+		v.properties=new HashMap<String, String>();
 		return v;
 	}
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd " name="SCD_LOAD_TIME">
   <Documentation>TODO</Documentation>
 	<PatternStep name="Drop stage current table" type="JDBCStatement" ignoreErrors="true">
 		<Template> DROP TABLE STG_${element.targetTable.name}</Template>

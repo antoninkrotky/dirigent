@@ -83,5 +83,15 @@ public class RelationDecorator implements IRelation {
 		
 		return relation.alias;
 	}
+
+	@Override
+	public String getStartElementUri() {
+		return relation.startElementUri;
+	}
+
+	@Override
+	public String getEndElementUri() {
+		return relation.endElementUri;
+	}
 	
 }

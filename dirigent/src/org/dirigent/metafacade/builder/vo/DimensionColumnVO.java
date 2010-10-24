@@ -1,9 +1,6 @@
 package org.dirigent.metafacade.builder.vo;
 
 
-public class DimensionColumnVO  extends AttributeVO {
+public class DimensionColumnVO  extends BIColumnVO {
 	public String scdColumnType;
-	public DomainVO domain;
-	public long tableId;
-	public int position;
 }
