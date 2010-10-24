@@ -29,6 +29,7 @@ public class TestFileExecutor extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		System.getProperties().setProperty("dirigent.model.path","DIRIGENT");
 		DirigentConfig.resetConfig();
 		testDir.mkdir();
 		appendFile.delete();

@@ -76,19 +76,21 @@ public class ElementDecorator implements IElement, IGeneratable {
 	}
 	
 	@Override
-	public IPattern getPattern() {		
-		String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
-		if (getStereotype()!=null) {
-			confPattern=confPattern+ "." + getStereotype().toLowerCase();
-		}
- 		String pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
-		if (pattern != null) {		
-			return PatternBuilder.getPatternBuilder().getPattern(
+	public IPattern getPattern() {				
+ 		String pattern=element.properties.get("pattern");
+ 		if (pattern==null) {
+ 			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
+ 			if (getStereotype()!=null) {
+ 				confPattern=confPattern+ "." + getStereotype().toLowerCase();
+ 			}
+ 			pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern); 			
+ 			if (pattern==null) {
+ 				l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
+ 				return null;	
+ 			}
+  		}		
+		return PatternBuilder.getPatternBuilder().getPattern(
 					pattern + ".pattern.xml");
-		} else {
-			l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
-			return null;
-		}
 	}
 
 	@Override
@@ -117,4 +119,10 @@ public class ElementDecorator implements IElement, IGeneratable {
 	public String getAlias() {
 		return element.alias;
 	}
+	
+	@Override
+	public String toString() {	
+		return getName()+((getStereotype()!=null)?("<"+getStereotype()+">"):"")+" ["+getClass().getName()+"]";
+	}
+	
 }

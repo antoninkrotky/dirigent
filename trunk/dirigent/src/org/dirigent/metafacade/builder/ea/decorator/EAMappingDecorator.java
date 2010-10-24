@@ -5,22 +5,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IMapping;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.ColumnMappingDecorator;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.dao.EAConnectorTagDAO;
-import org.dirigent.metafacade.builder.ea.dao.EAObjectDao;
-import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
-import org.dirigent.pattern.IPattern;
-import org.dirigent.pattern.builder.PatternBuilder;
 
 public class EAMappingDecorator extends MappingDecorator implements IMapping {
 
@@ -43,36 +39,27 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 		}
 		return super.getColumnMappings();
 	}
-	
-	@Override
-	public IPattern getPattern() {
-		return PatternBuilder.getPatternBuilder().getPattern(
-				DirigentConfig.getDirigentConfig().getProperty(
-						DirigentConfig.DEFAULT_PATTERN_MAPPING)
-						+ ".pattern.xml");
-	}
 
 	private static Collection<MappingSourceVO> getMapingSourceVOs(
 			String elementUri) {
-		Iterator<EAConnectorVO> i = ((EAMetafacadeBuilder) MetafacadeBuilder
-				.getMetafacadeBuilder()).getStartingConnectors(elementUri)
-				.iterator();
+				Iterator<IRelation> i = ((EAMetafacadeBuilder) MetafacadeBuilder
+						.getMetafacadeBuilder()).getStartingRelations(elementUri)
+						.iterator();
 		Collection<MappingSourceVO> res = new ArrayList<MappingSourceVO>();
 		while (i.hasNext()) {
-			EAConnectorVO v = i.next();
-			if ("Dependency".equals(v.type)
-					&& "BIMappingSource".equals(v.stereotype)) {
+			EARelationDecorator v = (EARelationDecorator)i.next();
+			if ("Dependency".equals(v.getType())
+					&& "BIMappingSource".equals(v.getStereotype())) {
 				MappingSourceVO s = new MappingSourceVO();
-				s.alias = v.name;
-				s.id = v.id;
+				s.alias = v.getName();
+				s.id = v.getValueObject().id;
 				Map<String, String> properties = new EAConnectorTagDAO()
 						.getObjectProperties(s.id);
 				s.joinCondition = properties.get("joinCondition");
 				s.joinType = properties.get("joinType");
-				EAObjectDao objectDao = new EAObjectDao();
-				s.mappingUri = elementUri;
-				s.sourceUri = objectDao.getObjectById(v.endObjectId).uri;
-				s.uri = v.ea_guid;
+				s.mappingUri = v.getStartElementUri();
+				s.sourceUri = v.getEndElementUri();
+				s.uri = v.getUri();
 				res.add(s);
 			}
 
@@ -92,14 +79,14 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 	}
 
 	private static String getTargetTableUri(String elementUri) {
-		Iterator<EAConnectorVO> i = ((EAMetafacadeBuilder) MetafacadeBuilder
-				.getMetafacadeBuilder()).getStartingConnectors(elementUri)
+		Iterator<IRelation> i = ((EAMetafacadeBuilder) MetafacadeBuilder
+				.getMetafacadeBuilder()).getStartingRelations(elementUri)
 				.iterator();
 		while (i.hasNext()) {
-			EAConnectorVO v = i.next();
-			if ("Dependency".equals(v.type)
-					&& "BIMappingTarget".equals(v.stereotype)) {
-				return new EAObjectDao().getObjectById(v.endObjectId).uri;
+			IRelation v = i.next();
+			if ("Dependency".equals(v.getType())
+					&& "BIMappingTarget".equals(v.getStereotype())) {
+				return v.getEndElementUri();
 			}
 		}
 		return null;

@@ -13,7 +13,6 @@ import java.util.TreeMap;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
@@ -26,8 +25,6 @@ import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 import org.dirigent.metafacade.builder.vo.VO;
-import org.dirigent.pattern.IPattern;
-import org.dirigent.pattern.builder.PatternBuilder;
 
 public class MappingDecorator extends ElementDecorator implements IMapping, IGeneratable {
 
@@ -285,18 +282,6 @@ public class MappingDecorator extends ElementDecorator implements IMapping, IGen
 			sb.append('\n');
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public IPattern getPattern() {
-		String pattern = mapping.pattern;
-		if (pattern == null) {
-			pattern = DirigentConfig.getDirigentConfig().getProperty(
-					DirigentConfig.DEFAULT_PATTERN_MAPPING);
-		}
-		return PatternBuilder.getPatternBuilder().getPattern(
-				pattern + ".pattern.xml");
-
 	}
 
 	@Override
