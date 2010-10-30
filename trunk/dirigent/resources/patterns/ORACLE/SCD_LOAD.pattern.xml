@@ -17,7 +17,7 @@
 		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
 		<Parameter name="mode" value="append" />
 		<Template><![CDATA[    
-		CREATE TABLE STG_STG_${element.targetTable.name}
+		CREATE TABLE STG_${element.targetTable.name}
 		(
 			${element.targetColumnList}
 		)
@@ -27,7 +27,7 @@
     </Template>
 	</PatternStep>
 	
-	<PatternStep ignoreErrors="false" name="CreateObjects"
+	<PatternStep ignoreErrors="false" name="Insert new objects"
 		type="File">
 		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
 		<Parameter name="mode" value="append" />
@@ -47,8 +47,28 @@ INSERT INTO ${element.targetTable.fullName}
    		'Y',
    		sysdate
    		from STG_${element.targetTable.name} stage
-   		/* todo where clausule */
+   		where
+   		
+	#foreach(${column} in ${element.targetTable.columns})
+		#if(${column.properties.scdColumnType}=="naturalKey")
+			stage.${column.name} NOT IN 
+			(
+				select target.${column.name} from ${element.targetTable.fullName} target
+			)
+		#end
+	#end
+   	
    	);
+    ]]>
+    </Template>
+	</PatternStep>
+	
+	<PatternStep ignoreErrors="false" name="Update existing objects"
+		type="File">
+		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
+		<Parameter name="mode" value="append" />
+		<Template><![CDATA[    
+
     ]]>
     </Template>
 	</PatternStep>
