@@ -22,6 +22,7 @@ public class EAElementDecorator extends ElementDecorator {
 		v.properties=new EAObjectPropertyDAO().getObjectProperties(ea.objectId);
 		v.parentUri=ea.parentGuid;
 		v.alias = ea.alias;
+		v.keywords = ea.keywords;
 		return v;
 	}
 

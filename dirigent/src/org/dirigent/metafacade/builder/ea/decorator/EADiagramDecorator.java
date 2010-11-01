@@ -110,4 +110,10 @@ public class EADiagramDecorator implements IDiagram {
 		return null;
 	}
 
+	@Override
+	public String getKeywords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
