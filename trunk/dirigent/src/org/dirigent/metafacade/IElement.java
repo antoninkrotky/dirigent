@@ -17,8 +17,9 @@ public interface IElement {
 	public Collection<IRelation> getStartingRelations();
 	public Collection<IRelation> getEndingRelations();
 	/**
-	 * Description of attribute.
+	 * Description of element.
 	 * */
 	public String getDescription();
 	public String getAlias();
+	public String getKeywords();
 }

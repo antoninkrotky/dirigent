@@ -119,10 +119,15 @@ public class ElementDecorator implements IElement, IGeneratable {
 	public String getAlias() {
 		return element.alias;
 	}
+
+	@Override
+	public String getKeywords() {
+		return element.keywords;
+	}
 	
 	@Override
 	public String toString() {	
 		return getName()+((getStereotype()!=null)?("<"+getStereotype()+">"):"")+" ["+getClass().getName()+"]";
 	}
-	
+
 }

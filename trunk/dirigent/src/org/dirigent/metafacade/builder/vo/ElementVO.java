@@ -11,4 +11,5 @@ public class ElementVO extends VO {
 	public long packageId;
 	public String parentUri;
 	public String alias;
+	public String keywords;
 }

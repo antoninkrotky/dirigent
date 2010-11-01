@@ -12,5 +12,6 @@ public class EAElementVO {
 	public String type;
 	public String pdata1;
 	public String parentGuid;
+	public String keywords;
 
 }
