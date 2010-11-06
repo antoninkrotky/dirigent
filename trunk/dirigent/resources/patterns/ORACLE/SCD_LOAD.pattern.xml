@@ -65,7 +65,36 @@ INSERT INTO ${element.targetTable.fullName}
 		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
 		<Parameter name="mode" value="append" />
 		<Template><![CDATA[    
+#set( $writeAnd = false )
+#set( $naturalKeys = "" )
+#foreach(${col} in ${element.targetTable.columns})
+	#if(${col.properties.scdColumnType}=="naturalKey")
+		#if( $writeAnd )
+			#set( $naturalKeys = $naturalKeys + " and " )
+		#else
+			#set( $writeAnd = true )
+		#end
+		
+		#set( $naturalKeys = $naturalKeys + "target." + ${col.name} + " = stage." + ${col.name} )
+	#end
+#end
 
+UPDATE ${element.targetTable.fullName} target
+SET 
+#foreach(${column} in ${element.targetTable.columns})
+	#if(${column.properties.scdColumnType}!="naturalKey")
+		target.${column.name} = (select stage.${column.name} from STG_${element.targetTable.name} stage where $naturalKeys),
+	#end
+#end
+
+target.CUST_UPDATED_DATETIME = sysdate
+
+WHERE EXISTS
+(
+	select * from STG_${element.targetTable.fullName} stage
+	where
+	$naturalKeys
+);
     ]]>
     </Template>
 	</PatternStep>
