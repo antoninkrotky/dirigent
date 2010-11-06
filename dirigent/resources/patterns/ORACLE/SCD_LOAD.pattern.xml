@@ -39,8 +39,7 @@ INSERT INTO ${element.targetTable.fullName}
 		CUST_CURRENT_FLAG,
 		CUST_UPDATED_DATETIME
     ) 
-    values
-    (
+    	select
    		stage.*,
    		sysdate,
    		to_date('1.1.3000','dd.mm.yyyy'),
@@ -56,9 +55,7 @@ INSERT INTO ${element.targetTable.fullName}
 				select target.${column.name} from ${element.targetTable.fullName} target
 			)
 		#end
-	#end
-   	
-   	);
+	#end;
     ]]>
     </Template>
 	</PatternStep>
