@@ -32,7 +32,23 @@
 		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
 		<Parameter name="mode" value="append" />
 		<Template><![CDATA[    
-INSERT INTO ${element.targetTable.fullName} 
+#*
+#set( $writeAnd = false )
+#set( $naturalKeys = "" )
+#foreach(${col} in ${element.targetTable.columns})
+	#if(${col.properties.scdColumnType}=="naturalKey")
+		#if( $writeAnd )
+			#set( $naturalKeys = $naturalKeys + " and " )
+		#else
+			#set( $writeAnd = true )
+		#end
+		
+		#set( $naturalKeys = $naturalKeys + "target." + ${col.name} + " = stage." + ${col.name} )
+	#end
+#end
+
+		
+INSERT INTO ${element.targetTable.fullName}
 	(${element.targetColumnList},
     	CUST_VALID_FROM_DATETIME,
 		CUST_VALID_TO_DATETIME,
@@ -46,16 +62,14 @@ INSERT INTO ${element.targetTable.fullName}
    		'Y',
    		sysdate
    		from STG_${element.targetTable.name} stage
-   		where
-   		
-	#foreach(${column} in ${element.targetTable.columns})
-		#if(${column.properties.scdColumnType}=="naturalKey")
-			stage.${column.name} NOT IN 
-			(
-				select target.${column.name} from ${element.targetTable.fullName} target
-			)
-		#end
-	#end;
+   		WHERE NOT EXISTS
+   		(
+   			select * from ${element.targetTable.fullName} target
+			where
+			$naturalKeys 
+			AND target.CUST_VALID_TO_DATETIME > sysdate
+   		);
+*#
     ]]>
     </Template>
 	</PatternStep>
@@ -65,6 +79,7 @@ INSERT INTO ${element.targetTable.fullName}
 		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
 		<Parameter name="mode" value="append" />
 		<Template><![CDATA[    
+#*
 #set( $writeAnd = false )
 #set( $naturalKeys = "" )
 #foreach(${col} in ${element.targetTable.columns})
@@ -89,12 +104,156 @@ SET
 
 target.CUST_UPDATED_DATETIME = sysdate
 
-WHERE EXISTS
+WHERE target.CUST_VALID_TO_DATETIME > sysdate AND EXISTS
 (
 	select * from STG_${element.targetTable.fullName} stage
 	where
 	$naturalKeys
+	and
+	
+	(
+		#set( $writeOr = false )
+		#foreach(${column} in ${element.targetTable.columns})
+			#if(${column.properties.scdColumnType}!="naturalKey")
+				#if( $writeOr )
+					OR
+				#else
+					#set( $writeOr = true )
+				#end
+				target.${column.name} <> stage.${column.name}
+			#end
+		#end
+	)
 );
+*#
+    ]]>
+    </Template>
+	</PatternStep>
+	
+	
+	<PatternStep ignoreErrors="false" name="Merge"
+		type="File">
+		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
+		<Parameter name="mode" value="append" />
+		<Template><![CDATA[ 
+#set( $addRowOnChangeProperty = "addRowOnChange" )
+#set( $naturalKeyProperty = "naturalKey" )
+   
+#set( $writeAnd = false )
+#set( $naturalKeys = "" )
+#foreach(${col} in ${element.targetTable.columns})
+	#if( ${col.properties.scdColumnType} == ${naturalKeyProperty} )
+		#if( $writeAnd )
+			#set( $naturalKeys = $naturalKeys + " AND " )
+		#else
+			#set( $writeAnd = true )
+		#end
+		
+		#set( $naturalKeys = $naturalKeys + "target." + ${col.name} + " = stage." + ${col.name} )
+	#end
+#end
+
+
+#set( $writeAnd = false )
+#set( $addRowOnChange = "" )
+#set( $isThereAddRowOnChange = false )
+#foreach( ${col} in ${element.targetTable.columns} )
+	#if( ${col.properties.scdColumnType} == ${addRowOnChangeProperty} )
+		#set( $isThereAddRowOnChange = true )
+		#if( $writeAnd )
+			#set( $addRowOnChange = $addRowOnChange + " AND " )
+		#else
+			#set( $writeAnd = true )
+		#end
+		
+		#set( $addRowOnChange = $addRowOnChange + "target." + ${col.name} + " = stage." + ${col.name} )
+	#end
+#end
+
+
+	MERGE INTO ${element.targetTable.fullName} target
+	USING
+		(
+		SELECT *
+		FROM STG_${element.targetTable.name}
+		MINUS
+			(
+			SELECT ${element.targetColumnList}
+			FROM ${element.targetTable.fullName}
+			WHERE CUST_VALID_TO_DATETIME > sysdate
+			)
+		) stage
+	ON
+		($naturalKeys #if($isThereAddRowOnChange) AND $addRowOnChange #end AND target.CUST_VALID_TO_DATETIME > sysdate)
+	WHEN MATCHED THEN
+		UPDATE
+		SET
+		#foreach(${column} in ${element.targetTable.columns})
+			#if( ${column.properties.scdColumnType} != ${naturalKeyProperty} and ${column.properties.scdColumnType} != ${addRowOnChangeProperty} )
+				target.${column.name} = stage.${column.name},
+			#end
+		#end
+		target.CUST_UPDATED_DATETIME = sysdate
+		#*
+		WHERE
+		
+			#set( $writeOr = false )
+			#foreach(${column} in ${element.targetTable.columns})
+				#if( ${column.properties.scdColumnType} != ${naturalKeyProperty} and ${column.properties.scdColumnType} != ${addRowOnChangeProperty} )
+					#if( $writeOr )
+						OR
+					#else
+						#set( $writeOr = true )
+					#end
+					target.${column.name} <> stage.${column.name}
+				#end
+			#end
+		*#
+		
+	WHEN NOT MATCHED THEN
+		INSERT
+		(
+		#foreach( ${column} in ${element.targetTable.columns} )${column.name},
+		#end
+    	CUST_VALID_FROM_DATETIME,
+		CUST_VALID_TO_DATETIME,
+		CUST_CURRENT_FLAG,
+		CUST_UPDATED_DATETIME
+    	)
+    	VALUES
+    	(
+			#foreach( ${column} in ${element.targetTable.columns} )stage.${column.name},
+			#end
+    		sysdate,
+   			to_date('1.1.3000','dd.mm.yyyy'),
+   			'Y',
+   			sysdate
+    	);
+	    	
+	    	
+   	UPDATE ${element.targetTable.fullName} target
+   	SET 
+   		target.CUST_CURRENT_FLAG = 'N',
+   		target.CUST_VALID_TO_DATETIME = sysdate
+   	WHERE EXISTS
+   	(
+   		SELECT * from STG_${element.targetTable.name} stage
+   		WHERE
+   		target.CUST_VALID_TO_DATETIME > sysdate
+   		AND
+   		${naturalKeys}    		
+   		
+   		#set( $writeOr = false )
+   		#set( $writeAnd = true )
+		#foreach(${column} in ${element.targetTable.columns})
+			#if( ${column.properties.scdColumnType} == ${addRowOnChangeProperty} )
+				#if( $writeAnd ) #set( $writeAnd = false ) AND ( #end
+				#if( $writeOr )	OR #else #set( $writeOr = true ) #end
+				target.${column.name} <> stage.${column.name}
+			#end
+		#end
+		#if($writeAnd == false) ) #end
+	);
     ]]>
     </Template>
 	</PatternStep>
