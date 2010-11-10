@@ -2,7 +2,9 @@ package org.dirigent.generator;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,8 +21,11 @@ import org.dirigent.pattern.IPatternStep;
 
 public class Generator {
 	private static Logger l = Logger.getLogger(Generator.class.getName());
+	
+	private static ThreadLocal<Collection<String>> generatedStack=new ThreadLocal<Collection<String>>();
 
 	public static void generate(String elementURI) {
+		generatedStack.set(new LinkedList<String>());
 		l.info("Getting metafacade for URI="+elementURI);
 		IGeneratable gen = (IGeneratable) MetafacadeBuilder
 				.getMetafacadeBuilder().getMetafacade(elementURI);
@@ -28,12 +33,15 @@ public class Generator {
 			throw new RuntimeException("Element URI="+elementURI+" not found.");
 		}
 		generate(gen);
-		
-
-
 	}
 
 	public static void generate(IGeneratable gen) {
+		//prevent deadlocks
+		if (generatedStack.get().contains(gen.getUri())) {			
+			return;
+		}
+		generatedStack.get().add(gen.getUri());
+		
 		l.info("Starting generation of element " + gen.toString());
 		IPattern pattern = gen.getPattern();
 		/* pattern may be null if the template file does not exist. Warning is logged in calling method.*/

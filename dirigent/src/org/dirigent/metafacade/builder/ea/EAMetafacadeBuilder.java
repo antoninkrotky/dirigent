@@ -80,6 +80,7 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
 	@Override
 	public void save(IElement element) {
+		
 		throw new RuntimeException("Save not supported for "
 				+ element.getClass().getName());
 

@@ -116,4 +116,9 @@ public class EADiagramDecorator implements IDiagram {
 		return null;
 	}
 
+	@Override
+	public String getType() {
+		return "Diagram";
+	}
+
 }

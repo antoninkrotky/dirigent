@@ -1,3 +1,4 @@
+<!DOCTYPE project>
 <project name="ant-dirigent">
 	<property name="dirigent.dir" value="../dirigent"></property>
 	<path id="dirigent.classpath">	

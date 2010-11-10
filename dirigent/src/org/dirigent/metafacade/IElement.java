@@ -8,6 +8,7 @@ import org.dirigent.metafacade.builder.vo.VO;
 public interface IElement {
 	public String getUri();
 	public String getName();
+	public String getType();
 	public String getStereotype();
 	public Map<String, String> getProperties();
 	public Collection<IAttribute> getAttributes();

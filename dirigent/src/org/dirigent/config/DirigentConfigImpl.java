@@ -35,4 +35,9 @@ public class DirigentConfigImpl extends DirigentConfig {
 		return p.getProperty(key);
 	}
 
+	@Override
+	public String getProperty(String key, String defaultValue) {
+		return p.getProperty(key,defaultValue);
+	}
+
 }
