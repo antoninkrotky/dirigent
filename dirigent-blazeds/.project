@@ -3,6 +3,7 @@
 	<name>dirigent-blazeds</name>
 	<comment></comment>
 	<projects>
+		<project>dirigent</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
