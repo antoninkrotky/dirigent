@@ -1,1 +1,1 @@
-<jsp:forward page="Dirigent-GUI-debug/Dirigent.swf"></jsp:forward>
+<jsp:forward page="Dirigent.swf"></jsp:forward>
