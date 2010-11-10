@@ -23,4 +23,9 @@ public class EADimensionColumnDecorator extends EAColumnDecorator implements IDi
 		return domain.getDataType();
 	}
 
+	@Override
+	public IDomain getDomain() {
+		return domain;
+	}
+
 }

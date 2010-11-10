@@ -1,6 +1,7 @@
 package org.dirigent.metafacade.builder.decorator;
 
 import org.dirigent.metafacade.IDimensionColumn;
+import org.dirigent.metafacade.IDomain;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 
 public class DimensionColumnDecorator extends BIColumnDecorator implements IDimensionColumn {
@@ -22,6 +23,19 @@ public class DimensionColumnDecorator extends BIColumnDecorator implements IDime
 
 
 
+	@Override
+	public IDomain getDomain() {
+		throw new RuntimeException("getDomain() not implemented");
+	}
+
+
 
 
 }
+
+
+
+
+
+
+
