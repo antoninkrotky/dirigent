@@ -67,7 +67,6 @@ public class EADomainDao extends EADao<DomainVO> {
 	}
 
 	public Collection<DomainVO> getDomains() {
-		//Iterator<Element> i=r.GetModels().GetByName("Model").GetPackages().GetByName("Domény").GetElements().iterator();
 		Iterator<Element> i=r.GetPackageByGuid("{563B0B3B-2D23-43dc-907D-29C37524C2AC}").GetElements().iterator();		
 		ArrayList<DomainVO> l=new ArrayList<DomainVO>();
 		while (i.hasNext()) {
