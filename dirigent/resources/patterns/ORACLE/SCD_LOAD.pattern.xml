@@ -138,37 +138,6 @@ WHERE target.CUST_VALID_TO_DATETIME > sysdate AND EXISTS
 		<Template><![CDATA[ 
 #set( $addRowOnChangeProperty = "addRowOnChange" )
 #set( $naturalKeyProperty = "naturalKey" )
-   
-#set( $writeAnd = false )
-#set( $naturalKeys = "" )
-#foreach(${col} in ${element.targetTable.columns})
-	#if( ${col.properties.scdColumnType} == ${naturalKeyProperty} )
-		#if( $writeAnd )
-			#set( $naturalKeys = $naturalKeys + " AND " )
-		#else
-			#set( $writeAnd = true )
-		#end
-		
-		#set( $naturalKeys = $naturalKeys + "target." + ${col.name} + " = stage." + ${col.name} )
-	#end
-#end
-
-
-#set( $writeAnd = false )
-#set( $addRowOnChange = "" )
-#set( $isThereAddRowOnChange = false )
-#foreach( ${col} in ${element.targetTable.columns} )
-	#if( ${col.properties.scdColumnType} == ${addRowOnChangeProperty} )
-		#set( $isThereAddRowOnChange = true )
-		#if( $writeAnd )
-			#set( $addRowOnChange = $addRowOnChange + " AND " )
-		#else
-			#set( $writeAnd = true )
-		#end
-		
-		#set( $addRowOnChange = $addRowOnChange + "target." + ${col.name} + " = stage." + ${col.name} )
-	#end
-#end
 
 
 	MERGE INTO ${element.targetTable.fullName} target
@@ -184,7 +153,11 @@ WHERE target.CUST_VALID_TO_DATETIME > sysdate AND EXISTS
 			)
 		) stage
 	ON
-		($naturalKeys #if($isThereAddRowOnChange) AND $addRowOnChange #end AND target.CUST_VALID_TO_DATETIME > sysdate)
+		(
+			${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
+			${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${addRowOnChangeProperty})}, "=", "AND", "target", "stage", true)}
+			AND target.CUST_VALID_TO_DATETIME > sysdate
+		)
 	WHEN MATCHED THEN
 		UPDATE
 		SET
@@ -194,21 +167,6 @@ WHERE target.CUST_VALID_TO_DATETIME > sysdate AND EXISTS
 			#end
 		#end
 		target.CUST_UPDATED_DATETIME = sysdate
-		#*
-		WHERE
-		
-			#set( $writeOr = false )
-			#foreach(${column} in ${element.targetTable.columns})
-				#if( ${column.properties.scdColumnType} != ${naturalKeyProperty} and ${column.properties.scdColumnType} != ${addRowOnChangeProperty} )
-					#if( $writeOr )
-						OR
-					#else
-						#set( $writeOr = true )
-					#end
-					target.${column.name} <> stage.${column.name}
-				#end
-			#end
-		*#
 		
 	WHEN NOT MATCHED THEN
 		INSERT
@@ -241,7 +199,7 @@ WHERE target.CUST_VALID_TO_DATETIME > sysdate AND EXISTS
    		WHERE
    		target.CUST_VALID_TO_DATETIME > sysdate
    		AND
-   		${naturalKeys}    		
+   		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}   		
    		
    		#set( $writeOr = false )
    		#set( $writeAnd = true )

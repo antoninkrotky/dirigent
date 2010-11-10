@@ -12,6 +12,7 @@ import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 
 public class DimensionDecorator extends TableDecorator implements IDimension,IGeneratable {
+	public static final String SCD_COLUMN_TYPE_PROPERTY = "scdColumnType";
 	private DimensionVO dimension;
 	private Collection<IColumn> columns=new ArrayList<IColumn>();
 	private Collection<IDimensionColumn> dimensionColumns=new ArrayList<IDimensionColumn>();
@@ -41,6 +42,17 @@ public class DimensionDecorator extends TableDecorator implements IDimension,IGe
 	@Override
 	public Collection<IDimensionColumn> getDimensionColumns() {
 		return dimensionColumns;
+	}
+
+	@Override
+	public Collection<IDimensionColumn> getColumnListBySCDType(String scdType) {
+		Collection<IDimensionColumn> res = new ArrayList<IDimensionColumn>(10);
+		for (IDimensionColumn col : this.dimensionColumns) {
+			if (col.getProperties().get(SCD_COLUMN_TYPE_PROPERTY).equals(scdType)) {
+				res.add(col);
+			}
+		}
+		return res;
 	}
 
 }
