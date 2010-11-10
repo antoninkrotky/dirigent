@@ -61,6 +61,23 @@
 	<target name="L2.load">
 		<!--Load time dimension -->
 		<dirigent uri="{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}"/>
+		
+		<!--Load CUSTOMER dimension -->
+		<dirigent uri="{A0848078-956D-4833-AF60-E8FE9794BE1B}"/>
+	</target>
+	
+	<target name="dirigent-GUI">
+		<ant dir="../../dirigent-blazeds" target="dist"></ant>
+		<property name="gui.dist.dir" value="../../dirigent-blazeds/build/tmp/"></property>
+		<copy file="config/default.dirigent.properties" todir="${gui.dist.dir}/bin"></copy>
+		<java classname="org.dirigent.flex.DirigentGUI" fork="true">
+			<classpath>
+				<dirset dir="${gui.dist.dir}/bin" />
+				<fileset dir="${gui.dist.dir}/lib" />
+				<fileset dir="${gui.dist.dir}/bin/WebContent/WEB-INF/lib"/>
+			</classpath>
+			<arg value="${gui.dist.dir}/bin/WebContent"/>
+		</java>		
 	</target>
 	
 	

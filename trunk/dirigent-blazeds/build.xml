@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Nov 10, 2010 7:44:04 AM                                                        
+
+     dirigent-blazeds    
+     description
+                   
+     user                                                                
+     ====================================================================== -->
+<project name="dirigent-blazeds" default="launch-GUI">
+	<description>
+            description
+    </description>
+
+	<property name="src.dir" value="src" />
+	<property name="lib.dir" value="lib" />
+	<property name="build.dir" value="build" />
+	<property name="tmp.dir" value="${build.dir}/tmp" />
+	<property name="tmp.bin.dir" value="${tmp.dir}/bin" />
+	<property name="dirigent.gui.dir" value="${tmp.dir}"></property>
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset file="../dirigent/build/dirigent_1.0.jar">
+		</fileset>
+	</path>
+
+
+	<target name="dist" depends="compile">
+		<copy todir="${tmp.bin.dir}">
+			<fileset dir=".">
+				<include name="WebContent/**/*.*" />
+			</fileset>
+			<fileset dir="../dirigent/resources">
+				<include name="patterns/**/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${tmp.dir}/lib" flatten="true">
+			<fileset dir="lib">
+				<include name="**.*" />
+			</fileset>
+			<fileset dir="../dirigent/build">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="../dirigent/lib">
+				<include name="**/*.*" />
+				<exclude name="ext/**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}">
+		</delete>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
+
+	<!-- ================================= 
+          Zkompiluje obsah zdrojové složky.             
+         ================================= -->
+	<target name="compile" depends="clean">
+		<ant dir="../dirigent" target="create-jar">
+		</ant>
+		<mkdir dir="${tmp.bin.dir}" />
+		<echo message="${toString:classpath}" />
+		<javac srcdir="${src.dir}" classpathref="classpath" destdir="${tmp.bin.dir}" debug="true" encoding="UTF-8" />
+		<copy todir="${tmp.bin.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<mkdir dir="${tmp.bin.dir}/META-INF" />
+	</target>
+
+	<target name="launch-GUI" depends="dist">
+		<java classname="org.dirigent.flex.DirigentGUI" fork="true">
+			<classpath>
+				<dirset dir="${tmp.bin.dir}" />
+				<fileset dir="${tmp.dir}/lib" />
+				<fileset dir="${tmp.bin.dir}/WebContent/WEB-INF/lib" />
+			</classpath>
+		</java>
+	</target>
+</project>
