@@ -20,7 +20,11 @@
 
 	</path>
 
-	<target name="junit" description="Run all jUnit tests.">
+	<target name="clean">
+		<delete dir="output"></delete>
+		<mkdir dir="output"/>
+	</target>
+	<target name="junit" depends="clean" description="Run all jUnit tests.">
 		<junit printsummary="true" haltonerror="true" haltonfailure="true" showoutput="true">
 			<classpath refid="dirigent.classpath" />
 			<classpath refid="dirigent.test.classpath" />

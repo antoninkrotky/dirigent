@@ -2,12 +2,14 @@ package org.dirigent.flex;
 
 import java.net.URI;
 
+import org.dirigent.config.DirigentConfig;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DirigentGUI {
 	
 	public static final String DIRIGENT_BROWSER_ROOT_URI="dirigent.gui.browser.root.uri";
+	public static final String DIRIGENT_BROWSER_PORT="dirigent.gui.browser.port";
 	
 	
 	public static void main(String args[]) {
@@ -19,7 +21,8 @@ public class DirigentGUI {
 	}
 
 	public static void launchDirigentGUI(String webContentPath) {
-		Server server = new Server(8888);
+		int port=Integer.parseInt(DirigentConfig.getDirigentConfig().getProperty(DIRIGENT_BROWSER_PORT,"8888"));
+		Server server = new Server(port);
 		WebAppContext context = new WebAppContext();
 		context.setDescriptor(webContentPath+"/WEB-INF/web.xml");
 		context.setResourceBase(webContentPath);
@@ -30,7 +33,7 @@ public class DirigentGUI {
 			try {				
 				server.start();
 			} finally {
-				launchBrowser();
+				launchBrowser(port);
 			}			
 			server.join();
 		} catch (Exception e) {
@@ -40,8 +43,8 @@ public class DirigentGUI {
 
 	}
 	
-	private static void launchBrowser() throws Exception{
+	private static void launchBrowser(int port) throws Exception{
 		java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-		desktop.browse(new URI("http://localhost:8888/dirigent-blazeds/Dirigent.swf"));
+		desktop.browse(new URI("http://localhost:"+port+"/dirigent-blazeds/Dirigent.swf"));
 	}
 }

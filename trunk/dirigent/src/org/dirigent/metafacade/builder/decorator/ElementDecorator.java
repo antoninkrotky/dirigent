@@ -130,4 +130,9 @@ public class ElementDecorator implements IElement, IGeneratable {
 		return getName()+((getStereotype()!=null)?("<"+getStereotype()+">"):"")+" ["+getClass().getName()+"]";
 	}
 
+	@Override
+	public String getType() {
+		return element.type;
+	}
+
 }

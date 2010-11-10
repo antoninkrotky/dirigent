@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.IAttribute;
@@ -15,9 +17,6 @@ import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 import org.dirigent.test.utils.FileComparator;
-
-
-import junit.framework.TestCase;
 
 public class TestFileExecutor extends TestCase {
 	private File testDir = new File("test");
@@ -156,6 +155,12 @@ public class TestFileExecutor extends TestCase {
 
 			@Override
 			public String getKeywords() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getType() {
 				// TODO Auto-generated method stub
 				return null;
 			}

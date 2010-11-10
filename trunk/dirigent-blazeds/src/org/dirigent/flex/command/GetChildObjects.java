@@ -6,33 +6,55 @@ import java.util.Iterator;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.flex.DirigentGUI;
 import org.dirigent.flex.ICommand;
+import org.dirigent.metafacade.IComposite;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
-
-public class GetChildObjects  implements ICommand {
+public class GetChildObjects implements ICommand {
 	public ObjectVO object;
 
 	@Override
 	public Object execute() {
-		if (object==null) {
-			return cleanCollection(MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(DirigentConfig.getDirigentConfig().getProperty(DirigentGUI.DIRIGENT_BROWSER_ROOT_URI)));
+		String uri;
+		if (object == null) {
+			uri = DirigentConfig.getDirigentConfig().getProperty(
+					DirigentGUI.DIRIGENT_BROWSER_ROOT_URI);
+		} else {
+			uri = object.uri;
 		}
-		return cleanCollection(MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(object.uri));
-	}
-	
-	private Collection<ObjectVO> cleanCollection(Collection<ObjectVO> c) {
+
+		if (uri != null) {
+			IElement element = MetafacadeBuilder.getMetafacadeBuilder()
+					.getMetafacade(uri);
+			if (element instanceof IComposite) {
+				return cleanCollection(((IComposite) element)
+						.getChildElements());
+			} else {
+				return null;
+			}
+		} 
 		
-		Iterator<ObjectVO> i=c.iterator();
-		c=new java.util.ArrayList<ObjectVO>(c);
+			return cleanCollection(MetafacadeBuilder.getMetafacadeBuilder().getChildElements(uri));
+		
+	}
+
+	private Collection<ObjectVO> cleanCollection(Collection<IElement> c) {
+		Iterator<IElement> i = c.iterator();
+		java.util.ArrayList<ObjectVO> res = new java.util.ArrayList<ObjectVO>();
 		while (i.hasNext()) {
-			ObjectVO v=i.next();
-			if (!"Package".equals(v.type) && !"Class".equals(v.type)) {
-				c.remove(v);
+			IElement v = i.next();
+			if ("Package".equals(v.getType()) || "Class".equals(v.getType())
+					|| "Diagram".equals(v.getType())) {
+				ObjectVO o = new ObjectVO();
+				o.uri = v.getUri();
+				o.name = v.getName();
+				o.type = v.getType();
+				o.stereotype = v.getStereotype();
+				res.add(o);
 			}
 		}
-		return c;
+		return res;
 	}
-	
 
 }

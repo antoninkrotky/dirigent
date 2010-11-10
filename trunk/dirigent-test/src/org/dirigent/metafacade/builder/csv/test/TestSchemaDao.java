@@ -1,11 +1,12 @@
 package org.dirigent.metafacade.builder.csv.test;
 
+import java.util.Iterator;
+
 import junit.framework.TestCase;
 
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.builder.csv.SchemaDao;
 import org.dirigent.metafacade.builder.vo.SchemaVO;
-import java.util.Iterator;
 
 
 

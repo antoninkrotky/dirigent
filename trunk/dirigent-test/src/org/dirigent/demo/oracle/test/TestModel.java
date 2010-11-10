@@ -5,11 +5,8 @@ import junit.framework.TestCase;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
 import org.dirigent.metafacade.IDimension;
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IMapping;
-import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
-import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 
 /**
  * Tests of dirigent-demo/oracle model.

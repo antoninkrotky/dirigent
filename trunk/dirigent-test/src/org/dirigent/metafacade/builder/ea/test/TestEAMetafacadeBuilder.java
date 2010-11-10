@@ -10,7 +10,6 @@ import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
-import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
  * Test EAMetafacadeBuilder
@@ -29,20 +28,6 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		assertEquals("DEPARTMENT", d.getName());
 	}
 	
-	public void testGetChildObjects() {
-		//root models
-		Collection<ObjectVO> c=MetafacadeBuilder.getMetafacadeBuilder().getChildObjects(null);
-		assertNotNull("No objects returned.",c);
-		assertTrue("No objects returned.",c.size()>0);
-		assertEquals("Model", c.iterator().next().name);
-		//package
-		c=MetafacadeBuilder.getMetafacadeBuilder().getChildObjects("{83152BF8-7FA8-49de-B230-744F3D19E10B}");
-		
-		assertNotNull("No objects returned.",c);
-		assertTrue("No objects returned.",c.size()>0);
-		assertEquals("Source tables", c.iterator().next().name);
-
-	}
 	
 	public void testDiagram(){		
 		IDiagram domainsDiagram=(IDiagram)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{70F9DD11-2A14-41c2-B68B-3AD1F0D7A1CD}");

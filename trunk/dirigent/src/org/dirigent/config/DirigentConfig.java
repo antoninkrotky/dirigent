@@ -48,6 +48,7 @@ public abstract class DirigentConfig {
 	}
 
 	public abstract String getProperty(String key);
+	public abstract String getProperty(String key,String defaultValue);
 
 	public static final String MODEL_PATH = "dirigent.model.path";
 	public static final String MODEL_DRIVER = "dirigent.model.jdbcDriver";
