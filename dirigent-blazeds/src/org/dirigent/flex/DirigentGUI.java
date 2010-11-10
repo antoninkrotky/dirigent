@@ -6,6 +6,10 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DirigentGUI {
+	
+	public static final String DIRIGENT_BROWSER_ROOT_URI="dirigent.gui.browser.root.uri";
+	
+	
 	public static void main(String args[]) {
 		String webContentPath="WebContent";
 		if (args.length>0) {
