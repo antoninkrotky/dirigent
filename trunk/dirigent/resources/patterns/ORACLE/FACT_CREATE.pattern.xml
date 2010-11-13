@@ -1,4 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
-  <Documentation>TODO</Documentation>
+	<Documentation>TODO</Documentation>
+  
+	<PatternStep ignoreErrors="false" name="DropObjects" type="File">
+		<Parameter name="fileName" value="data-model/L2/${element.name}.drop.sql" />
+		<Parameter name="mode" value="overwrite" />
+		<Template><![CDATA[    
+	   	/*Drop script for fact table ${element.name}*/
+	
+	   	/*Drop table.*/
+	   	DROP TABLE ${element.name};		
+	   ]]>
+	   </Template>
+	</PatternStep>
+	<PatternStep ignoreErrors="false" name="CreateObjects"
+		type="File">
+		<Parameter name="fileName" value="data-model/L2/${element.name}.create.sql" />
+		<Parameter name="mode" value="overwrite" />
+		<Template><![CDATA[    
+	   	/*Create script for fact table ${element.name}*/  
+	   	CREATE TABLE ${element.name} (
+	   		#foreach($column in $element.columns)${column.name} ${column.dataType},
+    		#end
+    		
+    		#set($comma=false)
+    		foreach($dim in $element.relatedDimensions)
+    			if ($comma),#else#set($comma=true)#end
+    			foreach($key in $dim.getColumnListBySCDType("naturalKey"))${key.name}_key INTEGER PRIMARY KEY REFERENCES ${dim.name}(${key.name})
+    			#end
+    		#end
+	   	);
+	   ]]>
+	   </Template>
+	</PatternStep>
 </tns:Pattern>
