@@ -1,10 +1,11 @@
 package org.dirigent.flex.command;
 
+
+
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.flex.DirigentGUI;
 import org.dirigent.flex.ICommand;
 import org.dirigent.metafacade.IComposite;
 import org.dirigent.metafacade.IElement;
@@ -14,12 +15,14 @@ import org.dirigent.metafacade.builder.vo.ObjectVO;
 public class GetChildObjects implements ICommand {
 	public ObjectVO object;
 
+
+	
 	@Override
 	public Object execute() {
 		String uri;
 		if (object == null) {
 			uri = DirigentConfig.getDirigentConfig().getProperty(
-					DirigentGUI.DIRIGENT_BROWSER_ROOT_URI);
+					DirigentConfig.DIRIGENT_BROWSER_ROOT_URI);
 		} else {
 			uri = object.uri;
 		}

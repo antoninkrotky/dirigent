@@ -68,24 +68,14 @@
 	
 	<target name="dirigent-GUI">
 		<ant dir="../../dirigent-blazeds" target="dist"></ant>
-		<property name="gui.dist.dir" value="../../dirigent-blazeds/build/tmp/"></property>
-		<copy todir="${gui.dist.dir}/bin" overwrite="true">
+		<property name="gui.dist.dir" value="../../dirigent-blazeds/build"></property>
+		<copy todir="${gui.dist.dir}" overwrite="true">
 			<fileset dir="config">
 				<include name="*.properties"/>
 			</fileset>
 		</copy>
-		<java classname="org.dirigent.flex.DirigentGUI" fork="true">
-			<classpath>
-				<dirset dir="${gui.dist.dir}/bin" />
-				<fileset dir="${gui.dist.dir}/lib" />
-				<fileset dir="${gui.dist.dir}/bin/WebContent/WEB-INF/lib"/>
-			</classpath>
-			<arg value="${gui.dist.dir}/bin/WebContent"/>
+		<java jar="${gui.dist.dir}/dirigent-blazeds_0.1.war" fork="true">
+			<arg value="${gui.dist.dir}"/>
 		</java>		
 	</target>
-	
-	
-
-    
-
 </project>
