@@ -18,8 +18,11 @@
 	<property name="build.dir" value="build" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />
 	<property name="tmp.bin.dir" value="${tmp.dir}/bin" />
-	<property name="dirigent.gui.dir" value="${tmp.dir}"></property>
-
+	<property name="tmp.war.dir" value="${tmp.dir}/war" />
+	<property name="dirigent.gui.dir" value="${tmp.dir}">
+	</property>
+	<property name="version" value="0.1">
+	</property>
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="**/*.jar" />
 		<fileset file="../dirigent/build/dirigent_1.0.jar">
@@ -27,8 +30,8 @@
 	</path>
 
 
-	<target name="dist" depends="compile">
-		<copy todir="${tmp.bin.dir}">
+	<target name="dist" depends="create-war">
+		<!--<copy todir="${tmp.bin.dir}">
 			<fileset dir=".">
 				<include name="WebContent/**/*.*" />
 			</fileset>
@@ -48,12 +51,66 @@
 				<exclude name="ext/**/*.*" />
 			</fileset>
 		</copy>
+		
+		<copy todir="${build.dir}">
+			<fileset dir=".">
+				<include name="WebContent/**/*.*" />
+			</fileset>
+		</copy>
+		-->
+		<copy todir="${build.dir}">
+			<fileset file="src/*.properties">
+			</fileset>
+			<fileset dir="../dirigent/resources">
+				<include name="patterns/**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="create-war" depends="create-jar">
+		<copy todir="${tmp.war.dir}">
+			<fileset dir="WebContent">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${tmp.dir}/war/WEB-INF/lib" flatten="true">
+			<fileset dir="../dirigent/build">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="../dirigent/lib">
+				<include name="**/*.*" />
+				<exclude name="ext/**/*.*" />
+			</fileset>
+			<fileset dir="${build.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/lib">
+			<fileset dir="lib">
+				<include name="**.*" />
+			</fileset>
+		</copy>
+		<war destfile="${build.dir}/${ant.project.name}_${version}.war">
+			<fileset dir="${tmp.war.dir}">
+			</fileset>
+			<fileset dir="${tmp.bin.dir}">
+				<include name="DirigentGUI.class"/>
+			</fileset>
+			<manifest>
+				<attribute name="Main-Class" value="DirigentGUI" />
+				<attribute name="Class-Path" value=". ../lib/jetty-all-7.2.0.RC0.jar ../lib/servlet-api-2.5.jar " />
+			</manifest>
+		</war>
+		
+		<delete dir="${tmp.dir}"/>
+		<delete file="${build.dir}/${ant.project.name}_${version}.jar"/>
+
+		
 	</target>
 
 	<target name="clean">
-		<delete dir="${build.dir}">
-		</delete>
-		<mkdir dir="${build.dir}" />
+		<delete dir="${build.dir}"/>
+		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${tmp.dir}" />
 	</target>
 
@@ -61,7 +118,7 @@
           Zkompiluje obsah zdrojové složky.             
          ================================= -->
 	<target name="compile" depends="clean">
-		<ant dir="../dirigent" target="create-jar">
+		<ant dir="../dirigent" target="create-jar" inheritall="false">
 		</ant>
 		<mkdir dir="${tmp.bin.dir}" />
 		<echo message="${toString:classpath}" />
@@ -74,13 +131,40 @@
 		<mkdir dir="${tmp.bin.dir}/META-INF" />
 	</target>
 
+	<!-- ================================= 
+          Vytvoří manifest.             
+         ================================= -->
+	<target name="manifest">
+		<mkdir dir="${build.dir}/lib" />
+		<path id="jar-dependencies">
+			<fileset dir="${build.dir}/lib">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<manifest file="${tmp.bin.dir}/META-INF/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Main-Class" value="org.dirigent.flex.DirigentGUI" />
+			<section name="common">
+				<attribute name="Specification-Title" value="${ant.project.name}" />
+				<attribute name="Specification-Version" value="${version}.${build.number}" />
+				<attribute name="Specification-Vendor" value="${vendor}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${version}.${build.number}" />
+				<attribute name="Implementation-Vendor" value="${vendor}" />
+			</section>
+		</manifest>
+	</target>
+	<!-- ================================= 
+          Vytvoří jar se zkompilovanými třídami.             
+         ================================= -->
+	<target name="create-jar" depends="compile,manifest">
+		<jar destfile="${build.dir}/${ant.project.name}_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF">
+			<exclude name="*.properties"/>
+		</jar>	
+	</target>
+
 	<target name="launch-GUI" depends="dist">
-		<java classname="org.dirigent.flex.DirigentGUI" fork="true">
-			<classpath>
-				<dirset dir="${tmp.bin.dir}" />
-				<fileset dir="${tmp.dir}/lib" />
-				<fileset dir="${tmp.bin.dir}/WebContent/WEB-INF/lib" />
-			</classpath>
+		<java dir="${build.dir}" jar="${build.dir}/${ant.project.name}_${version}.war" fork="true">
 		</java>
 	</target>
 </project>

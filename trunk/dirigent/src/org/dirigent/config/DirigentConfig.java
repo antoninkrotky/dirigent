@@ -61,6 +61,8 @@ public abstract class DirigentConfig {
 	public static final String DEFAULT_PATTERN_PACKAGE = "dirigent.pattern.default.package";
 	public static final String DEFAULT_PATTERN_ELEMENT = "dirigent.pattern.default.element";
 	public static final String DEFAULT_PATTERN_DIAGRAM = "dirigent.pattern.default.diagram";
+	
+	public static final String DIRIGENT_BROWSER_ROOT_URI="dirigent.gui.browser.root.uri";
 
 	//public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
 	//public static final String DEFAULT_PATTERN_DIMENSION = "dirigent.pattern.default.dimension";
