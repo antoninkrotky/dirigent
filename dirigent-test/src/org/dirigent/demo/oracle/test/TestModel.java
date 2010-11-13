@@ -32,8 +32,9 @@ public class TestModel extends TestCase{
 	}
 	
 	public void testMappingCreate(){
-		IMapping time=(IMapping)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
-		Generator.generate(time);
+		//IMapping time=(IMapping)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		//time.getUri();
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		//todo - validate with an etalon
 	}
 }
