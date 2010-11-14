@@ -40,4 +40,10 @@ public class EADimensionDecorator extends EATableDecorator implements IDimension
 		}
 		return res;
 	}
+
+
+	@Override
+	public boolean isColumnOfSCDType(String scdType) {
+		return (! this.getColumnListBySCDType(scdType).isEmpty());
+	}
 }

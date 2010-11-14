@@ -55,4 +55,9 @@ public class DimensionDecorator extends TableDecorator implements IDimension,IGe
 		return res;
 	}
 
+	@Override
+	public boolean isColumnOfSCDType(String scdType) {
+		return (! this.getColumnListBySCDType(scdType).isEmpty());
+	}
+
 }
