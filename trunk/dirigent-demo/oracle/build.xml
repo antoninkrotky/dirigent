@@ -33,7 +33,9 @@
 		</sql>
 	</target>
 	<target name="L0.load">
-		<!-- TODO -->
+		<sql driver="${oracle.driver}" password="${demodb.password}" url="${demodb.url}" userid="${demodb.user}" classpathref="dirigent.classpath" onerror="abort">
+			<fileset dir="." file="data-model/L0/data01.sql"/>
+		</sql>
 	</target>
 	
 	
@@ -64,6 +66,12 @@
 		
 		<!--Load CUSTOMER dimension -->
 		<dirigent uri="{A0848078-956D-4833-AF60-E8FE9794BE1B}"/>
+		
+		<!--Load INVOICE dimension -->
+		<dirigent uri="{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}"/>
+		
+		<!--Load PRODUCT dimension -->
+		<dirigent uri="{4746A82F-EAE7-4477-8B77-F05C71BE08B8}"/>
 	</target>
 	
 	<target name="dirigent-GUI">
