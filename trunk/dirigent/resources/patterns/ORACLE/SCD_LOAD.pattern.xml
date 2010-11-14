@@ -4,34 +4,27 @@
 	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
 	<Documentation>Documentation</Documentation>
 	
-	<PatternStep ignoreErrors="false" name="Drop Stage Table" type="File">
-		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
-		<Parameter name="mode" value="overwrite" />
+	<PatternStep ignoreErrors="true" name="Drop Stage Table" type="JDBCStatement">
 		<Template><![CDATA[    
-		DROP TABLE STG_${element.targetTable.name};
+		DROP TABLE STG_${element.targetTable.name}
     ]]>
     </Template>
 	</PatternStep>
 	
-	<PatternStep ignoreErrors="false" name="Create Stage Table" type="File">
-		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
-		<Parameter name="mode" value="append" />
+	<PatternStep name="Create Stage Table" type="JDBCStatement">
 		<Template><![CDATA[    
 		CREATE TABLE STG_${element.targetTable.name}
 		(
 			${element.targetColumnList}
 		)
 		as
-		${element.SQLQuery};
+		${element.SQLQuery}
     ]]>
     </Template>
 	</PatternStep>
 	
 	
-	<PatternStep ignoreErrors="false" name="Merge"
-		type="File">
-		<Parameter name="fileName" value="data-model/SCD/${element.name}.doscd.sql" />
-		<Parameter name="mode" value="append" />
+	<PatternStep name="Merge" type="JDBCStatement">
 		<Template><![CDATA[ 
 #set( $addRowOnChangeProperty = "addRowOnChange" )
 #set( $naturalKeyProperty = "naturalKey" )
@@ -46,14 +39,14 @@
 			(
 			SELECT ${element.targetColumnList}
 			FROM ${element.targetTable.fullName}
-			WHERE CUST_VALID_TO_DATETIME > sysdate
+			WHERE ${element.targetTable.alias}_VALID_TO_DATETIME > sysdate
 			)
 		) stage
 	ON
 		(
 			${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
 			${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${addRowOnChangeProperty})}, "=", "AND", "target", "stage", true)}
-			AND target.CUST_VALID_TO_DATETIME > sysdate
+			AND target.${element.targetTable.alias}_VALID_TO_DATETIME > sysdate
 		)
 	WHEN MATCHED THEN
 		UPDATE
@@ -63,17 +56,17 @@
 				target.${column.name} = stage.${column.name},
 			#end
 		#end
-		target.CUST_UPDATED_DATETIME = sysdate
+		target.${element.targetTable.alias}_UPDATED_DATETIME = sysdate
 		
 	WHEN NOT MATCHED THEN
 		INSERT
 		(
 		#foreach( ${column} in ${element.targetTable.columns} )${column.name},
 		#end
-    	CUST_VALID_FROM_DATETIME,
-		CUST_VALID_TO_DATETIME,
-		CUST_CURRENT_FLAG,
-		CUST_UPDATED_DATETIME,
+    	${element.targetTable.alias}_VALID_FROM_DATETIME,
+		${element.targetTable.alias}_VALID_TO_DATETIME,
+		${element.targetTable.alias}_CURRENT_FLAG,
+		${element.targetTable.alias}_UPDATED_DATETIME,
 		${element.targetTable.alias}_KEY
     	)
     	VALUES
@@ -85,18 +78,27 @@
    			'Y',
    			sysdate,
    			${element.targetTable.alias}_SEQ.NEXTVAL
-    	);
-	    	
-	    	
-   	UPDATE ${element.targetTable.fullName} target
+    	)
+    ]]>
+    </Template>
+	</PatternStep>
+	
+	<PatternStep name="end validity of old record" type="JDBCStatement">
+		<Template><![CDATA[    
+#set( $addRowOnChangeProperty = "addRowOnChange" )
+#set( $naturalKeyProperty = "naturalKey" )
+
+#if(${element.targetTable.isColumnOfSCDType($addRowOnChangeProperty)})
+
+	UPDATE ${element.targetTable.fullName} target
    	SET 
-   		target.CUST_CURRENT_FLAG = 'N',
-   		target.CUST_VALID_TO_DATETIME = sysdate
+   		target.${element.targetTable.alias}_CURRENT_FLAG = 'N',
+   		target.${element.targetTable.alias}_VALID_TO_DATETIME = sysdate
    	WHERE EXISTS
    	(
    		SELECT * from STG_${element.targetTable.name} stage
    		WHERE
-   		target.CUST_VALID_TO_DATETIME > sysdate
+   		target.${element.targetTable.alias}_VALID_TO_DATETIME > sysdate
    		AND
    		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}   		
    		
@@ -110,7 +112,10 @@
 			#end
 		#end
 		#if($writeAnd == false) ) #end
-	);
+	)
+#else
+	select sysdate from dual
+#end
     ]]>
     </Template>
 	</PatternStep>
