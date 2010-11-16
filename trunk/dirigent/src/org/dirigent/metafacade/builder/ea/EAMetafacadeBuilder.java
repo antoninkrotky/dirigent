@@ -24,6 +24,7 @@ import org.dirigent.metafacade.builder.ea.decorator.EADimensionColumnDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAElementDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAFactTableDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAMappingDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EARelationDecorator;
@@ -55,7 +56,10 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 		if (v != null) {
 			if ("Class".equals(v.type) && "BIDimension".equals(v.stereotype)) {
 				return new EADimensionDecorator(v);
-			} else if ("Class".equals(v.type)
+			}
+			if ("Class".equals(v.type) && "BIFact".equals(v.stereotype)) {
+				return new EAFactTableDecorator(v);
+			}else if ("Class".equals(v.type)
 					&& "BIMapping".equals(v.stereotype)) {
 				return new EAMappingDecorator(v);
 			} else if ("Class".equals(v.type)
