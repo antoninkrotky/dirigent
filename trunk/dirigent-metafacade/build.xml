@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Nov 17, 2010 1:43:39 AM                                                        
+
+     dirigent-metafacade    
+     description
+                   
+     user                                                                
+     ====================================================================== -->
+<project name="dirigent-metafacade" default="checkstyle">
+    <description>
+            description
+    </description>
+
+	
+	<import file="lib/ext/ant/ant-java.xml"/>
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="create-jar,javadoc,checkstyle" description="description">
+        
+    </target>
+	
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="build-dirigent-GUI">
+		<ant dir="../dirigent-blazeds" target="dist"></ant>
+		<property name="gui.dist.dir" value="../dirigent-blazeds/build"></property>
+		<copy todir="${gui.dist.dir}" overwrite="true">
+			<fileset dir="config">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+    </target>
+	
+	
+	
+	<target name="dirigent-GUI" depends="build-dirigent-GUI">
+		<java jar="${gui.dist.dir}/dirigent-blazeds_1.0.0.war" fork="true">
+			<arg value="${gui.dist.dir}"/>
+		</java>		
+	</target>
+
+</project>
