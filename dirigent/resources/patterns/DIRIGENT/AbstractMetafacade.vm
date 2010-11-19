@@ -1,0 +1,70 @@
+/*
+ *  This file is part of Dirigent - the MDA generator.
+ *  Copyright (C) 2010  Karel Hubl http://dirigent.googlecode.com
+ *
+ *  Dirigent is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Dirigent is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU LesservGeneral Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with Dirigent.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.dirigent.metafacade.impl;
+
+import org.dirigent.metafacade.I${element.name};
+
+/**
+ * Abstract implementation of {@link org.dirigent.metafacade.I${element.name}}.
+ * @author Karel Hubl
+ *
+ */
+public abstract class Abstract${element.name} implements I${element.name}  {
+
+#foreach(${attribute} in ${element.attributes})
+	/**
+	 * ${attribute.description}
+	 */	
+	private ${attribute.type} ${attribute.name};
+	
+	/**
+	* Flag indicating that lazy loading of ${attribute.name} was performed.
+	*/
+	private boolean ${attribute.name}LoadedFlag=false;
+#end
+
+
+#foreach(${attribute} in ${element.attributes})
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.I${element.name}.get${utils.capitalize($attribute.name)}()
+	 */
+	@Override
+	public final String get${utils.capitalize($attribute.name)}(){
+		if (!${attribute.name}LoadedFlag) {
+			load${utils.capitalize($attribute.name)}();
+			${attribute.name}LoadedFlag=true;
+		}
+		return ${attribute.name};
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.I${element.name}.get${utils.capitalize($attribute.name)}()	 
+	 */
+	@Override
+	public final void set${utils.capitalize($attribute.name)}(${attribute.type} new${utils.capitalize($attribute.name)}){
+		this.${attribute.name}=new${utils.capitalize($attribute.name)};
+		${attribute.name}LoadedFlag=true;
+	}
+	
+	/**
+	* Hook enabling implementation of lazy loading ${attribute.name}.
+	*/
+	protected void load${utils.capitalize($attribute.name)}() {}
+#end	
+}
+

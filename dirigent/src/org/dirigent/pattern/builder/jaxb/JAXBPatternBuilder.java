@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 
@@ -22,7 +23,7 @@ public class JAXBPatternBuilder extends PatternBuilder {
 		try {
 			JAXBContext ctx = JAXBContext
 					.newInstance("org.dirigent.pattern.builder.jaxb");
-			String path1 = System.getProperty("dirigent.home",System.getProperty("user.home")+"/.dirigent")
+			String path1 = DirigentConfig.getDirigentConfig().getProperty("dirigent.home",System.getProperty("user.home")+"/.dirigent")
 					+ "/patterns/" + uri;
 			File f = new File(path1);
 			Object p = null;

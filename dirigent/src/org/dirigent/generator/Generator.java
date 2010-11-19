@@ -1,17 +1,14 @@
 package org.dirigent.generator;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.dirigent.executor.ExecutorFactory;
 import org.dirigent.executor.IStepExecutor;
+import org.dirigent.executor.TemplateHelper;
 import org.dirigent.metafacade.IComposite;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
@@ -49,7 +46,7 @@ public class Generator {
 			Iterator<IPatternStep> i = pattern.getSteps().iterator();
 			while (i.hasNext()) {
 				IPatternStep step = i.next();
-				if (step.getCondition()==null || evaluateCondition(gen, step)) {
+				if (step.getCondition()==null || TemplateHelper.evaluateCondition(gen, step)) {
 					IStepExecutor executor = ExecutorFactory.getStepExecutor(step
 							.getType());
 					try {
@@ -75,25 +72,8 @@ public class Generator {
 				}
 			}
 		}
-
-
-		
 		l.info("Element " + gen.getName() + " sucesfully generated.");
 	}
 
-	private static boolean evaluateCondition(IGeneratable gen, IPatternStep step) {
-		VelocityContext ctx = new VelocityContext();
-		ctx.put("element", gen);
-		StringWriter sw = new StringWriter();
-		try {
-			Velocity.evaluate(ctx, sw, "Dirigent", "#if ("
-					+ step.getCondition() + ")true#{else}false#end");
-		} catch (IOException e) {
-			throw new RuntimeException("Unable to evaluate condition ["
-					+ step.getCondition() + "] fro step " + step.getName()
-					+ ".");
-		}
-		return "true".equals(sw.toString());
 
-	}
 }

@@ -3,6 +3,7 @@
 import java.net.URI;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DirigentGUI {
@@ -18,15 +19,14 @@ public class DirigentGUI {
 		launchDirigentGUI(webContentPath);
 	}
 
-	public static void launchDirigentGUI(String webContentPath) {
-		//int port=Integer.parseInt(DirigentConfig.getDirigentConfig().getProperty(DIRIGENT_BROWSER_PORT,"8888"));
+	public static void launchDirigentGUI(String webContentPath) {	
 		int port=8899;
 		Server server = new Server(port);
 		WebAppContext context = new WebAppContext();
-		context.setWar(webContentPath+"/dirigent-blazeds_0.1.war");
+		context.setWar(webContentPath+"/dirigent-blazeds_1.0.0.war");
 		context.setContextPath("/dirigent-blazeds");
-		context.setParentLoaderPriority(true);
-		server.setHandler(context);
+		context.setParentLoaderPriority(false);
+		server.setHandler(context);	
 		try {
 			boolean started=false;
 			try {				
