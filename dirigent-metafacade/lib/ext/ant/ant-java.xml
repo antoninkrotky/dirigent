@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== 
+     ant-java    
+     Obecný build script pro JAVA projekty. Importuje ant-generic.                                                              
+     ====================================================================== -->
+<project name="ant-java">
+	<import file="ant-generic.xml" />
+	<taskdef resource="checkstyletask.properties"
+	         classpath="${import.dir}/../checkstyle/checkstyle-5.3-all.jar"/>
+
+
+	<property name="src.dir" value="src" />
+	<property name="lib.dir" value="lib" />
+	<property name="doc.target.dir" value="${build.dir}/doc" />
+	<property name="javadoc.dir" value="${doc.target.dir}/javadoc" />
+	<property name="tmp.bin.dir" value="${tmp.dir}/bin"/>
+	<property name="tmp.war.dir" value="${tmp.dir}/war" />
+	
+
+	<path id="classpath">
+		<fileset dir="${import.dir}/.." includes="**/*.jar" />
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	
+	<fileset dir="${src.dir}" id="junit-integration">
+			<include name="com/gem/junit/integration/**/Test*.java"/>
+	</fileset>
+
+	<fileset dir="${src.dir}" id="junit-deployment">
+			<include name="com/gem/junit/deployment/**/Test*.java"/>
+	</fileset>
+	
+	
+
+	<description>
+            Generic build file for java projects.
+    </description>
+
+
+
+
+	<!-- ================================= 
+          Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru.             
+         ================================= -->
+	<target name="default" depends="javadoc,create-jar" description="Vytvoří javadoc a vyexportuje zkompilovane třídy do jar souboru." />
+
+
+	<!-- ================================= 
+          Vytvoří javadoc.             
+         ================================= -->
+	<target name="javadoc" depends="clean">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc sourcepath="src" classpathref="classpath" destdir="${javadoc.dir}">
+		</javadoc>
+	</target>
+
+	<!-- ================================= 
+          Zkompiluje obsah zdrojové složky.             
+         ================================= -->
+	<target name="compile" depends="clean">
+	    <echo message="${ant.project.name}:compile"/>
+		<echo message="Compilation classpath: ${toString:classpath}"/>
+		<mkdir dir="${tmp.bin.dir}" />		
+		<javac srcdir="${src.dir}" classpathref="classpath" destdir="${tmp.bin.dir}" debug="true"/>
+		<copy todir="${tmp.bin.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<mkdir dir="${tmp.bin.dir}/META-INF" />
+	</target>
+
+	<!-- ================================= 
+          Vytvoří manifest.             
+         ================================= -->
+	<target name="manifest">
+		<manifest file="${tmp.bin.dir}/META-INF/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<section name="common">
+				<attribute name="Specification-Title" value="${ant.project.name}" />
+				<attribute name="Specification-Version" value="${version}.${build.number}" />
+				<attribute name="Specification-Vendor" value="${vendor}" />
+				<attribute name="Implementation-Title" value="${ant.project.name}" />
+				<attribute name="Implementation-Version" value="${version} build ${build.number}" />
+				<attribute name="Implementation-Vendor" value="${vendor}" />
+			</section>
+		</manifest>
+	</target>
+
+	<!-- ================================= 
+          Vytvoří jar se zkompilovanými třídami.             
+         ================================= -->
+	<target name="create-jar" depends="compile,manifest">
+		<jar destfile="${build.dir}/${ant.project.name}_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF" />
+	</target>
+	
+	<!-- ================================= 
+          Vytvoří WAR archiv.             
+         ================================= -->
+	<target name="create-war" depends="create-jar">
+		<mkdir dir="${tmp.war.dir}"/>
+		<copy todir="${tmp.war.dir}">
+			<fileset dir="WebContent"></fileset>			
+		</copy>
+		<copy todir="${tmp.war.dir}/WEB-INF/lib">
+			<fileset file="${build.dir}/${ant.project.name}_${version}.jar"></fileset>
+		</copy>
+		<war destfile="${build.dir}/${ant.project.name}_${version}.war">
+			<fileset dir="${tmp.war.dir}"></fileset>
+		</war>
+	</target>	
+	
+	
+	<target name="create-ear" depends="clean">
+		<antcall target="build-ear-dependencies"></antcall>
+		<antcall target="copy-ear-dependencies"></antcall>
+		<ear destfile="${build.dir}/${ant.project.name}_${version}.ear" appxml="EarContent/META-INF/application.xml">
+			<fileset dir="EarContent">
+				<exclude name="META-INF/application.xml" />
+			</fileset>
+			<fileset dir="${tmp.dir}">
+			</fileset>
+		</ear>
+	</target>
+
+	<target name="junit-integration" depends="create-jar" >
+		<mkdir dir="${build.dir}/junit"/>
+		<junit haltonerror="false" haltonfailure="false" printsummary="true">
+			<classpath refid="classpath"></classpath>
+			<batchtest todir="${build.dir}/junit">				
+				<fileset refid="junit-integration"/>		
+				<formatter type="xml"/>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<target name="junit-deployment" depends="create-jar" >
+		<mkdir dir="${build.dir}/junit"/>
+		<junit haltonerror="false" haltonfailure="false" printsummary="true">
+			<classpath refid="classpath"></classpath>
+			<batchtest todir="${build.dir}/junit">				
+				<fileset refid="junit-deployment"/>		
+				<formatter type="xml"/>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<!-- ================================= 
+	          Vytvoří aar - archiv s webovymi službami.             
+	         ================================= -->
+	<target name="create-aar" depends="create-jar">
+		<move  file="${build.dir}/${ant.project.name}_${version}.jar" tofile="${build.dir}/${ant.project.name}_${version}.aar" />
+	</target>
+
+	<!-- ================================= 
+          Vytvoří jeden jar se zkompilovanými třídami projektu a všemi závislostmi (obsahem jar souborů v lib adresáři).             
+         ================================= -->
+	<target name="create-nodep-jar" depends="create-jar">
+		<unjar dest="${tmp.bin.dir}" overwrite="true">
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</unjar>
+		<antcall target="manifest" />
+		<jar destfile="${build.dir}/${ant.project.name}-nodep_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF" />		
+	</target>
+	<target name="doc" depends="ant-generic.doc,javadoc" />
+	
+	
+	<target name="checkstyle">
+		<mkdir dir="build/checkstyle"/>
+		<checkstyle config="${import.dir}/../checkstyle/sun_checks.xml">
+			<fileset dir="${src.dir}" includes="**/*.java"></fileset>
+		</checkstyle>
+	</target>
+	<target name="checkstyle-xml">
+		<mkdir dir="build/checkstyle"/>
+		<checkstyle config="${import.dir}/../checkstyle/sun_checks.xml" failOnViolation="false">
+			<fileset dir="${src.dir}" includes="**/*.java"></fileset>
+			<formatter type="xml" toFile="build/checkstyle/checkstyle_errors.xml"/>
+		</checkstyle>
+	</target>
+	
+	<target name="export-template">
+		<zip destfile="${build.dir}/${ant.project.name}.zip" >
+			<fileset dir="." >
+				<exclude name=".project"/>
+				<exclude name="build.number"/>
+				<exclude name="build/**"/>
+				<exclude name="bin/**"/>
+				<exclude name="src/**"/>
+			</fileset>
+		</zip>		
+	</target>
+	
+
+</project>

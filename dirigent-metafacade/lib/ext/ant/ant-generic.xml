@@ -1,0 +1,58 @@
+<project name="ant-generic">
+	
+	<!-- ====================================================================== 
+	     ant-generic    
+	     Obecný build script. Definuje obecné vlastnosti a ulohy pro všechny typy projektů.                                                              
+	     ====================================================================== -->	
+	<property name="import.dir" value="../dirigent-metafacade/lib/ext/ant" />
+	<property name="build.dir" value="build" />
+	<property name="tmp.dir" value="${build.dir}/tmp" />
+	<property name="version" value="1.0.0" description="Project version. Override this property in your build script."/>
+	<property name="env.dir" value="env"/>
+	<property name="env.default" value="VIRTUAL"/>
+	<property name="env.list" value="VIRTUAL,GEM_TEST,VZP_TVS1,VZP_TVS2,VZP_PROD"/>	
+	<buildnumber/>
+	<property name="vendor" value="GEM System International s.r.o." description="Vendor name."/>
+
+	<property name="doc.target.dir" value="${build.dir}/doc" />
+	<property name="doc.src.dir" value="doc" />
+	
+	<target name="clean">
+		<delete dir="${build.dir}">
+		</delete>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${tmp.dir}" />
+	</target>
+	
+	<target name="drop-temp">
+		<delete dir="${tmp.dir}"/>
+	</target>
+
+	<target name="doc" depends="clean">
+		<copy todir="${doc.target.dir}">
+			<fileset dir="${doc.src.dir}"/>
+		</copy>
+	</target>	
+	<target name="environmentDialog" unless="mode.headless">
+		<input defaultvalue="${env.default}" addproperty="env.code" validargs="${env.list}" message="Prosim vyberte cílové prostředí." />
+	</target>
+
+	<target name="setEnvironment" depends="environmentDialog">
+		<echo>${env.code} environment selected.</echo>
+		<property file="${env.dir}/environment_${env.code}.properties" />
+		<property name="${env.code}" value="true" />
+	</target>	
+	<macrodef name="svnLog" description="Replace token in target file with svn revision log.">
+		<attribute name="file"/>
+		<attribute name="token"/>
+		<attribute name="limit" default="20"/>
+		<sequential>
+			<exec command="svn" outputproperty="svn.log">
+				<arg line="log -l @{limit}" />
+			</exec>
+			<replace file="@{file}" value="${svn.log}" token="@{token}">
+			</replace>
+		</sequential>
+	</macrodef>
+	
+</project>
