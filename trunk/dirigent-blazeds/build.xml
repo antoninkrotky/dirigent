@@ -159,7 +159,7 @@
          ================================= -->
 	<target name="create-jar" depends="compile,manifest">
 		<jar destfile="${build.dir}/${ant.project.name}_${version}.jar" basedir="${tmp.bin.dir}" manifest="${tmp.bin.dir}/META-INF/MANIFEST.MF">
-			<exclude name="*.properties"/>
+			<exclude name="*.dirigent.properties"/>
 		</jar>	
 	</target>
 

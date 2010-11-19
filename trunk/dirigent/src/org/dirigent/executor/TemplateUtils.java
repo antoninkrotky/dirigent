@@ -56,4 +56,12 @@ public class TemplateUtils {
 		}
 		return sb.toString();
 	}
+	
+	public static String capitalize(String string) {
+		StringBuffer sb=new StringBuffer();		
+		sb.append(Character.toUpperCase(string.charAt(0)));
+		sb.append(string.substring(1));
+		return sb.toString();
+	}
+
 }

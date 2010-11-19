@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+  <Documentation>Documentation</Documentation>
+  <PatternStep ignoreErrors="false" name="Metafacade-Interface"
+		type="File">
+		<Parameter name="fileName" value="src/org/dirigent/metafacade/I${element.name}.java" />
+		<Parameter name="mode" value="overwrite" />
+		<Template>#parse("/patterns/DIRIGENT/IMetafacade.vm")</Template>
+	</PatternStep>
+	  <PatternStep ignoreErrors="false" name="Metafacade-Abstract-parent"
+		type="File">
+		<Parameter name="fileName" value="src/org/dirigent/metafacade/impl/Abstract${element.name}.java" />
+		<Parameter name="mode" value="overwrite" />
+		<Template>#parse("/patterns/DIRIGENT/AbstractMetafacade.vm")</Template>
+	</PatternStep>
+	  <PatternStep ignoreErrors="false" name="Metafacade-default-implementation"
+		type="File">
+		<Parameter name="fileName" value="src/org/dirigent/metafacade/impl/${element.name}Impl.java" />
+		<Parameter name="mode" value="create" />
+		<Template>#parse("/patterns/DIRIGENT/MetafacadeImpl.vm")</Template>
+	</PatternStep>
+</tns:Pattern>
