@@ -58,6 +58,9 @@ public abstract class DirigentConfig {
 	public static final String SCHEMA_PREFIX = "dirigent.schema.";
 	public static final String MODEL_TYPE = "dirigent.model.type";
 
+	//Allow defualt pattern override (default true)
+	public static final String PATTERN_OVERRIDE = "dirigent.pattern.override.default";
+	
 	public static final String DEFAULT_PATTERN_PACKAGE = "dirigent.pattern.default.package";
 	public static final String DEFAULT_PATTERN_ELEMENT = "dirigent.pattern.default.element";
 	public static final String DEFAULT_PATTERN_DIAGRAM = "dirigent.pattern.default.diagram";

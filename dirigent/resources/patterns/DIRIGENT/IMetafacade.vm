@@ -18,7 +18,7 @@
 package org.dirigent.metafacade;
 
 /**
- * ${element.name} metafacade interface. 
+ * ${element.name} metafacade interface.
  * @author Karel Hubl
  *
  */

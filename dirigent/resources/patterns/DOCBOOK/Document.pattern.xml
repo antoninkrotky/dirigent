@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+	<Documentation>Documentation</Documentation>
+	<PatternStep type="File" name="GenerateSection">
+		<Parameter name="fileName" value="src/Document.xml" />
+		<Parameter name="mode" value="overwrite" />
+		<Template>#parse("/patterns/DOCBOOK/Document.vm")</Template>
+	</PatternStep>
+</tns:Pattern>

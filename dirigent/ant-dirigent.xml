@@ -19,9 +19,10 @@
 	uri - URI of model element to generate.
 	model - Model path. 
 	-->
-	<macrodef name="dirigent">
+	<macrodef name="dirigent">		
 		<attribute name="uri" />
 		<sequential>
+			<echo>Launching dirigent. Classpath: ${toString:dirigent.classpath}</echo>
 			<java classname="org.dirigent.Dirigent" classpathref="dirigent.classpath"
 				fork="true">
 				<arg value="@{uri}" />

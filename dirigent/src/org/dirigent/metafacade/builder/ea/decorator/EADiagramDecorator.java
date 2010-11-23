@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IAttribute;
@@ -21,12 +23,31 @@ import org.dirigent.pattern.builder.PatternBuilder;
 public class EADiagramDecorator implements IDiagram {
 
 	private EADiagramVO diagram;
+	private Logger l=Logger.getLogger(this.getClass().getName());
 	private ArrayList<IElement> childElements;
 
 	public EADiagramDecorator(EADiagramVO d) {
 		this.diagram = d;
 	}
 
+	@Override
+	public IPattern getPattern() {
+		String pattern=null;
+ 		if (pattern==null) {
+ 			String confPattern=DirigentConfig.DEFAULT_PATTERN_DIAGRAM;
+ 			if (getStereotype()!=null) {
+ 				confPattern=confPattern+ "." + getStereotype().toLowerCase();
+ 			}
+ 			pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern); 			
+ 			if (pattern==null) {
+ 				l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
+ 				return null;	
+ 			}
+  		}		
+		return PatternBuilder.getPatternBuilder().getPattern(
+					pattern + ".pattern.xml");
+	}
+	
 	@Override
 	public Collection<IAttribute> getAttributes() {
 		return null;
@@ -73,13 +94,7 @@ public class EADiagramDecorator implements IDiagram {
 		return childElements;
 	}
 
-	@Override
-	public IPattern getPattern() {
-		return PatternBuilder.getPatternBuilder().getPattern(
-				DirigentConfig.getDirigentConfig().getProperty(
-						DirigentConfig.DEFAULT_PATTERN_DIAGRAM)
-						+ ".pattern.xml");
-	}
+
 	
 	@Override
 	public IElement getParent() {

@@ -1,0 +1,62 @@
+<section xml:id="${element.uri}" xmlns="http://docbook.org/ns/docbook" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://docbook.org/ns/docbook ../lib/docbook/docbook-5.0/xsd/docbook.xsd ">	
+	<title>
+		${element.name}
+	</title>
+	<para>
+		$!{element.description}
+	</para>
+#if(${element.attributes} && ${element.attributes.size()}>0)	
+<table frame='all'><title>Attributes</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<colspec colname='Name'/>
+<colspec colname='Type'/>
+<colspec colname='Description'/>
+<thead>
+<row>
+  <entry>Name</entry>
+  <entry>Type</entry>
+  <entry>Description</entry>
+</row>
+</thead>
+<tbody>
+#foreach($att in ${element.attributes})	
+<row>
+  <entry>$!{att.name}</entry>
+  <entry>$!{att.type}</entry>
+  <entry>$!{att.description}</entry>
+</row>
+#end
+</tbody>
+</tgroup>
+</table>
+#end
+
+	
+#foreach(${child} in ${element.childElements})
+	#if (${child.type}=="Diagram")
+		  <section>
+			<title>
+				${child.name}
+	        </title>
+			<para>
+				$!{child.description}
+			</para>
+			<para>
+		   <imageobject>
+			<imagedata fileref="images/Images/EAID_${utils.removeBrackets($child.uri).replace("-","_")}.BMP" format="BMP" scale="30"/>
+		   </imageobject>
+			</para>
+		  </section>
+	#end
+#end	
+#foreach(${child} in ${element.childElements})		  
+	#if (${child.type}=="Class" || ${child.type}=="Package")
+		&E${utils.removeBrackets($child.uri)};	  
+	#end	
+#end	
+</section>
+
