@@ -12,6 +12,10 @@ public class TemplateUtils {
 				.replaceAll("[^\\p{ASCII}]", "");
 		return temp.toUpperCase().replace(" ", "_");
 	}
+	
+	public static String removeBrackets(String text) {
+		return text.replace("{","").replace("}","");
+	}
 
 	/**
 	 * Creates SQL Where clause that compares two tables with the equally named columns

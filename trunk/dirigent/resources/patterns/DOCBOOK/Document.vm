@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE book [
+<!ENTITY % myent SYSTEM "DocumentEntities.ent">
+%myent;
+]>
+<article xmlns="http://docbook.org/ns/docbook" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://docbook.org/ns/docbook ../lib/docbook/docbook-5.0/xsd/docbook.xsd ">
+<info>
+<title>${element.name}</title> 
+<author>
+	<affiliation>
+		<org>
+	                    <orgname>${config.organisation.name}</orgname>
+	                    <orgdiv>${config.organisation.division}</orgdiv>
+	                    <address>
+	                        <city>${config.organisation.address.city}</city>
+	                        <street>${config.organisation.address.city}</street>
+	                        <country>${config.organisation.address.country}</country>
+	                    </address>   	
+		</org>
+	</affiliation>
+</author>
+<para>
+${element.description}
+</para>
+</info>
+#foreach(${child} in ${element.childElements})
+&E${utils.removeBrackets($child.uri)};
+#end
+</article>

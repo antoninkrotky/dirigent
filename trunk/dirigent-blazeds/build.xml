@@ -21,7 +21,7 @@
 	<property name="tmp.war.dir" value="${tmp.dir}/war" />
 	<property name="dirigent.gui.dir" value="${tmp.dir}">
 	</property>
-	<property name="version" value="0.1">
+	<property name="version" value="1.0.0">
 	</property>
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="**/*.jar" />

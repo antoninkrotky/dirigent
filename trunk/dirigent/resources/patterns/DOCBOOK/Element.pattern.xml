@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Pattern xmlns:tns="http://www.example.org/dirigent-pattern/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
+	<Documentation>Documentation</Documentation>
+	<PatternStep type="File" name="GenerateSection">
+		<Parameter name="fileName" value="src/E${utils.removeBrackets($element.uri)}.xml" />
+		<Parameter name="mode" value="overwrite" />
+		<Template>#parse("/patterns/DOCBOOK/Element.vm")</Template>
+	</PatternStep>
+	<PatternStep type="File" name="GenerateSection">
+		<Parameter name="fileName" value="src/DocumentEntities.ent" />
+		<Parameter name="mode" value="append" />
+		<Template><![CDATA[<!ENTITY E${utils.removeBrackets($element.uri)} SYSTEM "E${utils.removeBrackets($element.uri)}.xml">]]></Template>
+	</PatternStep>
+</tns:Pattern>

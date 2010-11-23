@@ -24,30 +24,29 @@ import org.dirigent.metafacade.I${element.name};
  * @author Karel Hubl
  *
  */
-public abstract class Abstract${element.name} implements I${element.name}  {
+public abstract class Abstract${element.name} implements I${element.name} {
 
 #foreach(${attribute} in ${element.attributes})
 	/**
 	 * ${attribute.description}
-	 */	
+	 */
 	private ${attribute.type} ${attribute.name};
-	
+
 	/**
 	* Flag indicating that lazy loading of ${attribute.name} was performed.
 	*/
-	private boolean ${attribute.name}LoadedFlag=false;
+	private boolean ${attribute.name}LoadedFlag = false;
 #end
-
 
 #foreach(${attribute} in ${element.attributes})
 	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.I${element.name}.get${utils.capitalize($attribute.name)}()
 	 */
 	@Override
-	public final String get${utils.capitalize($attribute.name)}(){
+	public final String get${utils.capitalize($attribute.name)}() {
 		if (!${attribute.name}LoadedFlag) {
 			load${utils.capitalize($attribute.name)}();
-			${attribute.name}LoadedFlag=true;
+			${attribute.name}LoadedFlag = true;
 		}
 		return ${attribute.name};
 	}
@@ -56,15 +55,16 @@ public abstract class Abstract${element.name} implements I${element.name}  {
 	 * @see org.dirigent.metafacade.I${element.name}.get${utils.capitalize($attribute.name)}()	 
 	 */
 	@Override
-	public final void set${utils.capitalize($attribute.name)}(${attribute.type} new${utils.capitalize($attribute.name)}){
-		this.${attribute.name}=new${utils.capitalize($attribute.name)};
-		${attribute.name}LoadedFlag=true;
+	public final void set${utils.capitalize($attribute.name)}(final ${attribute.type} new${utils.capitalize($attribute.name)}) {
+		this.${attribute.name} = new${utils.capitalize($attribute.name)};
+		${attribute.name}LoadedFlag = true;
 	}
-	
+
 	/**
 	* Hook enabling implementation of lazy loading ${attribute.name}.
 	*/
-	protected void load${utils.capitalize($attribute.name)}() {}
+	protected void load${utils.capitalize($attribute.name)}() {
+	}
 #end	
 }
 

@@ -76,8 +76,11 @@ public class ElementDecorator implements IElement, IGeneratable {
 	}
 	
 	@Override
-	public IPattern getPattern() {				
- 		String pattern=element.properties.get("pattern");
+	public IPattern getPattern() {
+		String pattern=null;
+ 		if ("true".equals(DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.PATTERN_OVERRIDE,"true"))) {
+ 			pattern=element.properties.get("pattern");
+ 		}
  		if (pattern==null) {
  			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
  			if (getStereotype()!=null) {
