@@ -24,13 +24,15 @@
     		#end
     		
     		#set($comma=false)
-    		foreach($dim in $element.relatedDimensions)
-    			if ($comma),#else#set($comma=true)#end
+    		#foreach($dim in $element.relatedDimensions)
+    			#if ($comma),#else#set($comma=true)#end
     			${dim.alias}_KEY INTEGER
     		#end
 	   	);
 	   	
-   		foreach($dim in $element.relatedDimensions)
+	   	${element.relatedDimensions}
+	   	
+   		#foreach($dim in $element.relatedDimensions)
    			ALTER TABLE ${element.name} ADD CONSTRAINT FK_${element.alias}_${dim.alias}
    			FOREIGN KEY (${dim.alias}_KEY) REFERENCES ${dim.name}(${dim.alias}_KEY) DISABLE
    		#end
