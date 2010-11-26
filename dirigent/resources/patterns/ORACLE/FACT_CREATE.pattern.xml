@@ -9,7 +9,7 @@
 	   	/*Drop script for fact table ${element.name}*/
 	
 	   	/*Drop table.*/
-	   	DROP TABLE ${element.name};		
+	   	DROP TABLE ${element.name} cascade constraint;		
 	   ]]>
 	   </Template>
 	</PatternStep>
@@ -30,11 +30,9 @@
     		#end
 	   	);
 	   	
-	   	${element.relatedDimensions}
-	   	
    		#foreach($dim in $element.relatedDimensions)
-   			ALTER TABLE ${element.name} ADD CONSTRAINT FK_${element.alias}_${dim.alias}
-   			FOREIGN KEY (${dim.alias}_KEY) REFERENCES ${dim.name}(${dim.alias}_KEY) DISABLE
+   			ALTER TABLE ${element.name} ADD CONSTRAINT FK_${element.name}_${dim.alias}
+   			FOREIGN KEY (${dim.alias}_KEY) REFERENCES ${dim.name}(${dim.alias}_KEY) DISABLE;
    		#end
 	   ]]>
 	   </Template>

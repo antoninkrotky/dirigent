@@ -10,7 +10,7 @@
     	/*Drop script for dimension ${element.name}*/
 
     	/*Drop table.*/
-    	DROP TABLE ${element.name};
+    	DROP TABLE ${element.name} cascade constraint;
 
     	/*Drop sequence.*/
 		DROP SEQUENCE ${element.alias}_SEQ;		
