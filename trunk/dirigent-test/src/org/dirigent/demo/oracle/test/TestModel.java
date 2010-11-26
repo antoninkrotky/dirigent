@@ -77,8 +77,8 @@ public class TestModel extends TestCase {
 	}*/
 
 	public void testCustomer() {
-		IMapping time=(IMapping)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
-		Generator.generate(time);
+		//IMapping time=(IMapping)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		
 		executeFile("data-model/SCD/CUSTOMER.doscd.sql");
 		exportIntoCSV("results/SCD/d_customer.csv", "D_CUSTOMER");
