@@ -57,6 +57,7 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 						.getObjectProperties(s.id);
 				s.joinCondition = properties.get("joinCondition");
 				s.joinType = properties.get("joinType");
+				s.joinOrder = properties.get("joinOrder");
 				s.mappingUri = v.getStartElementUri();
 				s.sourceUri = v.getEndElementUri();
 				s.uri = v.getUri();

@@ -6,4 +6,5 @@ public class MappingSourceVO extends VO {
 	public String alias;
 	public String joinType;
 	public String joinCondition;
+	public String joinOrder;
 }

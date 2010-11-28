@@ -61,6 +61,28 @@ public class TemplateUtils {
 		return sb.toString();
 	}
 	
+	/**
+	 * joins str1 and str2 by joinSign whether both str1 and str2 are not empty. Otherwise return
+	 * non empty string (or empty string if are both empty)
+	 * @param str1 first String to be joined
+	 * @param str2 second String to be joined
+	 * @param joinSign String which will be between str1 and str2
+	 * @return joined string
+	 */
+	public static String joinStrings(String str1, String str2, String joinSign) {
+		StringBuilder sb = new StringBuilder(str1.length() + str2.length() + joinSign.length());
+		if (str1.isEmpty() || str2.isEmpty()) {
+			if (!str1.isEmpty()) {
+				sb.append(str1);
+			} else if (!str2.isEmpty()) {
+				sb.append(str2);
+			}
+		} else {
+			sb.append(str1).append(" ").append(joinSign).append(" ").append(str2);
+		}
+		return sb.toString();
+	}
+	
 	public static String capitalize(String string) {
 		StringBuffer sb=new StringBuffer();		
 		sb.append(Character.toUpperCase(string.charAt(0)));
