@@ -9,7 +9,10 @@
 	   	/*Drop script for fact table ${element.name}*/
 	
 	   	/*Drop table.*/
-	   	DROP TABLE ${element.name} cascade constraint;		
+	   	DROP TABLE ${element.name} cascade constraint;	
+	   	
+	   	/*Drop sequence.*/
+		DROP SEQUENCE ${element.alias}_SEQ;		
 	   ]]>
 	   </Template>
 	</PatternStep>
@@ -23,17 +26,19 @@
 	   		#foreach($column in $element.columns)${column.name} ${column.dataType},
     		#end
     		
-    		#set($comma=false)
-    		#foreach($dim in $element.relatedDimensions)
-    			#if ($comma),#else#set($comma=true)#end
-    			${dim.alias}_KEY INTEGER
+    		#foreach($dim in $element.relatedDimensions)${dim.alias}_KEY INTEGER,
     		#end
+    		
+    		${element.alias}_KEY NUMBER(38) PRIMARY KEY
 	   	);
 	   	
    		#foreach($dim in $element.relatedDimensions)
-   			ALTER TABLE ${element.name} ADD CONSTRAINT FK_${element.name}_${dim.alias}
+   			ALTER TABLE ${element.name} ADD CONSTRAINT FK_${element.alias}_${dim.alias}
    			FOREIGN KEY (${dim.alias}_KEY) REFERENCES ${dim.name}(${dim.alias}_KEY) DISABLE;
    		#end
+   		
+   		/*Create sequence for generation of surrogate key values.*/   
+    	CREATE SEQUENCE ${element.alias}_SEQ;
 	   ]]>
 	   </Template>
 	</PatternStep>

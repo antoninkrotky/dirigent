@@ -34,7 +34,8 @@
    (	"INVOICE_ITEM_ID" NUMBER(8,0), 
 	"PRODUCT_ID" NUMBER(8,0), 
 	"INVOICE_ID" NUMBER(8,0), 
-	"AMOUNT" NUMBER(4,0)
+	"AMOUNT" NUMBER(4,0),
+	"UNIT_PRICE" NUMBER(8,2)
    ) ;
 --------------------------------------------------------
 --  DDL for Table L0_PRODUCT
