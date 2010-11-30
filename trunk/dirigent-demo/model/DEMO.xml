@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <!DOCTYPE XMI SYSTEM "UML_EA.dtd">
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2010-11-27 12:51:48">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2010-11-30 10:07:46">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -1251,7 +1251,7 @@
 												<UML:TaggedValue tag="version" value="1.0"/>
 												<UML:TaggedValue tag="package" value="EAPK_5A972F49_7A5D_422e_9B85_CE69E4804B64"/>
 												<UML:TaggedValue tag="date_created" value="2010-10-08 19:53:00"/>
-												<UML:TaggedValue tag="date_modified" value="2010-10-08 19:53:14"/>
+												<UML:TaggedValue tag="date_modified" value="2010-11-30 09:26:09"/>
 												<UML:TaggedValue tag="gentype" value="Java"/>
 												<UML:TaggedValue tag="tagged" value="0"/>
 												<UML:TaggedValue tag="package_name" value="Data mapping"/>
@@ -1264,10 +1264,10 @@
 												<UML:TaggedValue tag="ea_localid" value="410"/>
 												<UML:TaggedValue tag="ea_eleType" value="element"/>
 												<UML:TaggedValue tag="style" value="BackColor=8454143;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-												<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={737084AF-563A-4a58-A9A6-C37258113DC0}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BIMapping;@ENDSTEREO;$DES;$CLT={6C513D3D-0C0A-4664-B505-64226C5FC01B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={E765181F-C41B-42e4-B387-9492E8A9B54B}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={6C513D3D-0C0A-4664-B505-64226C5FC01B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+												<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={737084AF-563A-4a58-A9A6-C37258113DC0}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BIMapping;GUID={B083BD31-CC5B-45ae-A6D1-E26A142356A3};@ENDSTEREO;$DES;$CLT={6C513D3D-0C0A-4664-B505-64226C5FC01B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={E765181F-C41B-42e4-B387-9492E8A9B54B}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={6C513D3D-0C0A-4664-B505-64226C5FC01B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 											</UML:ModelElement.taggedValue>
 											<UML:Classifier.feature>
-												<UML:Attribute name="CUSTOMER_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+												<UML:Attribute name="CUST_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
 													<UML:Attribute.initialValue>
 														<UML:Expression/>
 													</UML:Attribute.initialValue>
@@ -1278,7 +1278,7 @@
 														<UML:Stereotype name="BIMappingColumn"/>
 													</UML:ModelElement.stereotype>
 													<UML:ModelElement.taggedValue>
-														<UML:TaggedValue tag="description" value="DC.CUSTOMER_KEY&#xA;"/>
+														<UML:TaggedValue tag="description" value="DC.CUST_KEY&#xA;"/>
 														<UML:TaggedValue tag="type" value="CODE"/>
 														<UML:TaggedValue tag="derived" value="0"/>
 														<UML:TaggedValue tag="containment" value="Not Specified"/>
@@ -1298,7 +1298,7 @@
 														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={0CFCC2C7-E9E4-4b5b-A339-2FFD4BEDA96D}$XID;$NAM=Stereotypes$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BIMappingColumn;GUID={BB139156-7ADD-4bb5-ADD9-E1F3CC09CF2A};@ENDSTEREO;$DES;$CLT={E3DB0DAB-82CC-4b04-B352-933503051D50}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 													</UML:ModelElement.taggedValue>
 												</UML:Attribute>
-												<UML:Attribute name="INVOICE_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+												<UML:Attribute name="INV_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
 													<UML:Attribute.initialValue>
 														<UML:Expression/>
 													</UML:Attribute.initialValue>
@@ -1309,7 +1309,7 @@
 														<UML:Stereotype name="BIMappingColumn"/>
 													</UML:ModelElement.stereotype>
 													<UML:ModelElement.taggedValue>
-														<UML:TaggedValue tag="description" value="DI.INVOICE_KEY&#xA;"/>
+														<UML:TaggedValue tag="description" value="DI.INV_KEY&#xA;"/>
 														<UML:TaggedValue tag="type" value="CODE"/>
 														<UML:TaggedValue tag="derived" value="0"/>
 														<UML:TaggedValue tag="containment" value="Not Specified"/>
@@ -1329,7 +1329,7 @@
 														<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={218B515C-EACB-4180-AC29-C7712675E986}$XID;$NAM=Stereotypes$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=BIMappingColumn;GUID={BB139156-7ADD-4bb5-ADD9-E1F3CC09CF2A};@ENDSTEREO;$DES;$CLT={31574416-7D87-4c6f-8D7C-9D1CD4DA6F92}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 													</UML:ModelElement.taggedValue>
 												</UML:Attribute>
-												<UML:Attribute name="PRODUCT_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
+												<UML:Attribute name="PROD_KEY" changeable="none" visibility="public" ownerScope="instance" targetScope="instance">
 													<UML:Attribute.initialValue>
 														<UML:Expression/>
 													</UML:Attribute.initialValue>
@@ -1340,7 +1340,7 @@
 														<UML:Stereotype name="BIMappingColumn"/>
 													</UML:ModelElement.stereotype>
 													<UML:ModelElement.taggedValue>
-														<UML:TaggedValue tag="description" value="DP.PRODUCT_KEY&#xA;"/>
+														<UML:TaggedValue tag="description" value="DP.PROD_KEY&#xA;"/>
 														<UML:TaggedValue tag="type" value="CODE"/>
 														<UML:TaggedValue tag="derived" value="0"/>
 														<UML:TaggedValue tag="containment" value="Not Specified"/>
@@ -1350,7 +1350,7 @@
 														<UML:TaggedValue tag="scale" value="0"/>
 														<UML:TaggedValue tag="stereotype" value="BIMappingColumn"/>
 														<UML:TaggedValue tag="collection" value="false"/>
-														<UML:TaggedValue tag="position" value="5"/>
+														<UML:TaggedValue tag="position" value="2"/>
 														<UML:TaggedValue tag="lowerBound" value="1"/>
 														<UML:TaggedValue tag="upperBound" value="1"/>
 														<UML:TaggedValue tag="duplicates" value="0"/>
@@ -1381,7 +1381,7 @@
 														<UML:TaggedValue tag="scale" value="0"/>
 														<UML:TaggedValue tag="stereotype" value="BIMappingColumn"/>
 														<UML:TaggedValue tag="collection" value="false"/>
-														<UML:TaggedValue tag="position" value="2"/>
+														<UML:TaggedValue tag="position" value="3"/>
 														<UML:TaggedValue tag="lowerBound" value="1"/>
 														<UML:TaggedValue tag="upperBound" value="1"/>
 														<UML:TaggedValue tag="duplicates" value="0"/>
@@ -1413,7 +1413,7 @@
 														<UML:TaggedValue tag="scale" value="0"/>
 														<UML:TaggedValue tag="stereotype" value="BIMappingColumn"/>
 														<UML:TaggedValue tag="collection" value="false"/>
-														<UML:TaggedValue tag="position" value="3"/>
+														<UML:TaggedValue tag="position" value="4"/>
 														<UML:TaggedValue tag="lowerBound" value="1"/>
 														<UML:TaggedValue tag="upperBound" value="1"/>
 														<UML:TaggedValue tag="duplicates" value="0"/>
@@ -1445,7 +1445,7 @@
 														<UML:TaggedValue tag="scale" value="0"/>
 														<UML:TaggedValue tag="stereotype" value="BIMappingColumn"/>
 														<UML:TaggedValue tag="collection" value="false"/>
-														<UML:TaggedValue tag="position" value="4"/>
+														<UML:TaggedValue tag="position" value="5"/>
 														<UML:TaggedValue tag="lowerBound" value="1"/>
 														<UML:TaggedValue tag="upperBound" value="1"/>
 														<UML:TaggedValue tag="duplicates" value="0"/>
