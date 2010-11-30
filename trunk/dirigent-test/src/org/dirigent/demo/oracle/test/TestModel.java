@@ -1,6 +1,7 @@
 package org.dirigent.demo.oracle.test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,6 +18,7 @@ import junit.framework.TestCase;
 
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.generator.Generator;
+import org.dirigent.test.utils.FileComparator;
 
 /**
  * Tests of dirigent-demo/oracle model.
@@ -67,19 +69,75 @@ public class TestModel extends TestCase {
 
 	public void testCustomer() {
 		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
-
-		executeFile("data-model/SCD/CUSTOMER.doscd.sql");
 		exportIntoCSV("results/SCD/d_customer.csv", "D_CUSTOMER");
 		
-		/*try {
+		try {
 			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_customerExpected.csv"));
 			FileInputStream generated = new FileInputStream(new File("results/SCD/d_customer.csv"));
 			
 			FileComparator.assertEquals(expected, generated);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
+	
+	public void testInvoice() {
+		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
+		exportIntoCSV("results/SCD/d_invoice.csv", "D_INVOICE");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_invoiceExpected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_invoice.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testProduct() {
+		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
+		exportIntoCSV("results/SCD/d_product.csv", "D_PRODUCT");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_productExpected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_product.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testSales() {
+		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
+		exportIntoCSV("results/SCD/d_sales.csv", "D_SALES");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_salesExpected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_sales.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testTime() {
+		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
+		exportIntoCSV("results/SCD/d_time.csv", "D_TIME");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_timeExpected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_time.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	protected void exportIntoCSV(String filename, String table) {
 		File file = new File(filename);
@@ -97,9 +155,9 @@ public class TestModel extends TestCase {
 			
 			for (int i = 1; i < numberOfColumns + 1; i++) {
 				String columnName = rsMetaData.getColumnName(i);
-				if (!columnName.equals("CUST_VALID_FROM_DATETIME") && 
-					!columnName.equals("CUST_VALID_TO_DATETIME") &&
-					!columnName.equals("CUST_UPDATED_DATETIME")) {
+				if ( (!columnName.endsWith("_VALID_FROM_DATETIME") && 
+						!columnName.endsWith("_VALID_TO_DATETIME") && 
+						!columnName.endsWith("_UPDATED_DATETIME"))) {
 					fw.append("\""+ columnName +"\",");
 				}
 			}
@@ -108,9 +166,9 @@ public class TestModel extends TestCase {
 			while (rs.next()) {
 				for (int i = 1; i < numberOfColumns + 1; i++) {
 					String columnName = rs.getMetaData().getColumnName(i); 
-					if (!columnName.equals("CUST_VALID_FROM_DATETIME") && 
-						!columnName.equals("CUST_VALID_TO_DATETIME") &&
-						!columnName.equals("CUST_UPDATED_DATETIME")) {
+					if (!columnName.endsWith("_VALID_FROM_DATETIME") && 
+						!columnName.endsWith("_VALID_TO_DATETIME") &&
+						!columnName.endsWith("_UPDATED_DATETIME")) {
 						fw.append("\""+ rs.getString(i) +"\",");
 					}
 				}
