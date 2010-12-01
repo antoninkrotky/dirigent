@@ -24,7 +24,8 @@
 	"CUSTOMER_ID" NUMBER(8,0), 
 	"DUE_DATE" DATE, 
 	"PAYMENT_DATE" DATE, 
-	"PAYMENT_FLAG" CHAR(1)
+	"PAYMENT_FLAG" CHAR(1),
+	"INVOICE_DATE" DATE
    ) ;
 --------------------------------------------------------
 --  DDL for Table L0_INVOICE_ITEM
