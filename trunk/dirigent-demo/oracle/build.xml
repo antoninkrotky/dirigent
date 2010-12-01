@@ -72,6 +72,9 @@
 		
 		<!--Load PRODUCT dimension -->
 		<dirigent uri="{4746A82F-EAE7-4477-8B77-F05C71BE08B8}"/>
+		
+		<!--Load SALES fact table -->
+		<dirigent uri="{6C513D3D-0C0A-4664-B505-64226C5FC01B}"/>
 	</target>
 	
 	<target name="dirigent-GUI">
