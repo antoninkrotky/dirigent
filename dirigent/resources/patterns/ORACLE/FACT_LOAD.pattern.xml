@@ -4,18 +4,14 @@
 	xsi:schemaLocation="http://www.example.org/dirigent-pattern/ ../dirigent-pattern.xsd ">
 	<Documentation>TODO</Documentation>
 
-	<PatternStep ignoreErrors="true" name="Drop Stage Table" type="File">
-		<Parameter name="fileName" value="data-model/L2/${element.name}.factLoad.sql" />
-		<Parameter name="mode" value="overwrite" />
+	<PatternStep ignoreErrors="true" name="Drop Stage Table" type="JDBCStatement">
 		<Template><![CDATA[    
 		DROP TABLE STG_${element.targetTable.name}
     ]]>
     </Template>
 	</PatternStep>
 
-	<PatternStep name="Create Stage Table" type="File">
-	<Parameter name="fileName" value="data-model/L2/${element.name}.factLoad.sql" />
-	<Parameter name="mode" value="append" />
+	<PatternStep name="Create Stage Table" type="JDBCStatement">
 		<Template><![CDATA[    
 		CREATE TABLE STG_${element.targetTable.name}
 		(
@@ -27,44 +23,7 @@
     </Template>
 	</PatternStep>
 
-	<PatternStep name="Dimension Lookup Update" type="File">
-	<Parameter name="fileName" value="data-model/L2/${element.name}.factLoad.sql" />
-	<Parameter name="mode" value="append" />
-		<Template><![CDATA[
-		#set( $naturalKeyProperty = "naturalKey" )
-		    
-		UPDATE ${element.targetTable.name} target
-		SET
-		#set($comma = false)
-		#foreach( ${dim} in ${element.targetTable.relatedDimensions} )
-			#if($comma),#else#set($comma = true)#end
-			target.${dim.alias}_KEY = (
-				SELECT d2.${dim.alias}_KEY 
-				FROM ${dim.name} d1 JOIN ${dim.name} d2 ON (
-					${utils.getWhereClausule(${dim.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "d1", "d2")}
-				)
-				WHERE d1.${dim.alias}_KEY = target.${dim.alias}_KEY AND d2.${dim.alias}_CURRENT_FLAG = 'Y'
-			)
-		#end
-		WHERE EXISTS (
-			SELECT *
-			FROM ${element.targetTable.name} fact
-				#set($i = 1)
-				#set($res = "")
-				#foreach( ${dim} in ${element.targetTable.relatedDimensions} )
-					JOIN ${dim.name} d${i} ON (fact.${dim.alias}_KEY = d${i}.${dim.alias}_KEY)
-					#set($res = ${utils.joinStrings(${res}, "d${i}.${dim.alias}_CURRENT_FLAG = 'N'", "OR")})
-					#set($i = $i + 1)
-				#end
-			WHERE fact.${element.targetTable.alias}_KEY = target.${element.targetTable.alias}_KEY AND ($res)
-		)
-    ]]>
-    </Template>
-	</PatternStep>
-
-	<PatternStep name="Merge" type="File">
-	<Parameter name="fileName" value="data-model/L2/${element.name}.factLoad.sql" />
-	<Parameter name="mode" value="append" />
+	<PatternStep name="Merge" type="JDBCStatement">
 		<Template><![CDATA[ 
 	MERGE INTO ${element.targetTable.name} target
 	USING
