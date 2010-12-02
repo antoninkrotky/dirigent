@@ -49,6 +49,7 @@ public class TestModel extends TestCase {
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_INVOICE.create.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_PRODUCT.create.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_TIME.create.sql");
+		executeFile("../dirigent-demo/oracle/data-model/L2/F_SALES.create.sql");
 	}
 	
 	@Override
@@ -58,6 +59,7 @@ public class TestModel extends TestCase {
 		//executeFile("results/SCD/sql/deleteFromTables.sql");
 		// drop all tables
 		//executeFile("results/SCD/sql/dropTables.sql");
+		executeFile("../dirigent-demo/oracle/data-model/L2/F_SALES.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_TIME.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_PRODUCT.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_INVOICE.drop.sql");
@@ -67,13 +69,27 @@ public class TestModel extends TestCase {
 		super.tearDown();
 	}
 
-	public void testCustomer() {
+	public void testCustomerCreate() {
 		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		exportIntoCSV("results/SCD/d_customer.csv", "D_CUSTOMER");
 		
 		try {
 			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_customerExpected.csv"));
 			FileInputStream generated = new FileInputStream(new File("results/SCD/d_customer.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		// update and delete
+		executeFile("results/SCD/sql/data2.sql");
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		exportIntoCSV("results/SCD/d_customer2.csv", "D_CUSTOMER");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_customer2Expected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_customer2.csv"));
 			
 			FileComparator.assertEquals(expected, generated);
 		} catch (FileNotFoundException e) {
@@ -93,6 +109,20 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		// update and delete
+		executeFile("results/SCD/sql/data2.sql");
+		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
+		exportIntoCSV("results/SCD/d_invoice2.csv", "D_INVOICE");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_invoice2Expected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_invoice2.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void testProduct() {
@@ -107,15 +137,15 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void testSales() {
-		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
-		exportIntoCSV("results/SCD/d_sales.csv", "D_SALES");
+		
+		// update and delete
+		executeFile("results/SCD/sql/data2.sql");
+		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
+		exportIntoCSV("results/SCD/d_product2.csv", "D_PRODUCT");
 		
 		try {
-			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_salesExpected.csv"));
-			FileInputStream generated = new FileInputStream(new File("results/SCD/d_sales.csv"));
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_product2Expected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_product2.csv"));
 			
 			FileComparator.assertEquals(expected, generated);
 		} catch (FileNotFoundException e) {
@@ -135,6 +165,48 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		// update and delete
+		executeFile("results/SCD/sql/data2.sql");
+		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
+		exportIntoCSV("results/SCD/d_time2.csv", "D_TIME");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/d_time2Expected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/d_time2.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testSales() {
+		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
+		exportIntoCSV("results/SCD/f_sales.csv", "F_SALES");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/f_salesExpected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/f_sales.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		/*// update and delete
+		executeFile("results/SCD/sql/data2.sql");
+		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
+		exportIntoCSV("results/SCD/f_sales2.csv", "F_SALES");
+		
+		try {
+			FileInputStream expected = new FileInputStream(new File("results/SCD/expected/f_sales2Expected.csv"));
+			FileInputStream generated = new FileInputStream(new File("results/SCD/f_sales2.csv"));
+			
+			FileComparator.assertEquals(expected, generated);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}*/
 	}
 	
 	
