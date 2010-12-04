@@ -126,7 +126,7 @@ public class TestModel extends TestCase {
 		}
 	}
 	
-	/*public void testProduct() {
+	public void testProduct() {
 		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
 		exportIntoCSV("results/SCD/d_product.csv", "D_PRODUCT");
 		
@@ -152,9 +152,9 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
-	/*public void testTime() {
+	public void testTime() {
 		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
 		exportIntoCSV("results/SCD/d_time.csv", "D_TIME");
 		
@@ -180,9 +180,9 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
-	/*public void testSales() {
+	public void testSales() {
 		// makde dimensions
 		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
@@ -204,10 +204,10 @@ public class TestModel extends TestCase {
 		// update and delete
 		executeFile("results/SCD/sql/data2.sql");
 		// makde dimensions
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
 		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
 		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
-		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		
 		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
 		exportIntoCSV("results/SCD/f_sales2.csv", "F_SALES");
@@ -220,7 +220,7 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 	
 	
