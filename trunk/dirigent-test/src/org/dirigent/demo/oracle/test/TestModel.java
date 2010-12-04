@@ -65,6 +65,7 @@ public class TestModel extends TestCase {
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_INVOICE.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_CUSTOMER.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L0/drop.sql");
+		closeConnection();
 		
 		super.tearDown();
 	}
@@ -125,7 +126,7 @@ public class TestModel extends TestCase {
 		}
 	}
 	
-	public void testProduct() {
+	/*public void testProduct() {
 		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
 		exportIntoCSV("results/SCD/d_product.csv", "D_PRODUCT");
 		
@@ -151,9 +152,9 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
-	public void testTime() {
+	/*public void testTime() {
 		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
 		exportIntoCSV("results/SCD/d_time.csv", "D_TIME");
 		
@@ -179,9 +180,15 @@ public class TestModel extends TestCase {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
-	public void testSales() {
+	/*public void testSales() {
+		// makde dimensions
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
+		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
+		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
+		
 		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
 		exportIntoCSV("results/SCD/f_sales.csv", "F_SALES");
 		
@@ -194,8 +201,14 @@ public class TestModel extends TestCase {
 			e.printStackTrace();
 		}
 		
-		/*// update and delete
+		// update and delete
 		executeFile("results/SCD/sql/data2.sql");
+		// makde dimensions
+		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
+		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
+		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
+		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		
 		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
 		exportIntoCSV("results/SCD/f_sales2.csv", "F_SALES");
 		
@@ -206,10 +219,18 @@ public class TestModel extends TestCase {
 			FileComparator.assertEquals(expected, generated);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}*/
+		}
+	}*/
+	
+	
+	
+	protected void delay() {
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	
 	
 	protected void exportIntoCSV(String filename, String table) {
 		File file = new File(filename);
@@ -266,9 +287,25 @@ public class TestModel extends TestCase {
 	
 	protected Connection getConnection() {
 		if (connection == null) {
+			//System.out.println("----------------------------\ncreate connection\n----------------------------");
 			try {
-				Class.forName(JDBC_DRIVER);
-				connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+				while ( connection == null ) {
+					try {
+						Class.forName(JDBC_DRIVER);
+						connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+					} catch (SQLException e) {
+						//System.out.println(e.getMessage());
+						//System.out.println(e.getClass());
+						//System.exit(1);
+						if (e.getMessage().equals("Io exception: The Network Adapter could not establish the connection")) {
+							// System.exit(1);
+							// delay();
+							continue;
+						} else {
+							throw e;
+						}
+					}
+				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
@@ -277,6 +314,16 @@ public class TestModel extends TestCase {
 		}
 		
 		return connection;
+	}
+	
+	protected void closeConnection() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	protected void executeFile(String file) {
