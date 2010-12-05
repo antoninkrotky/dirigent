@@ -49,7 +49,7 @@ public class JDBCStatementExecutor implements IStepExecutor {
 			throw new RuntimeException( e);
 
 		}
-
+		this.closeConnection(c);
 	}
 
 	private Connection getConnection(ISchema schema) {
@@ -61,6 +61,15 @@ public class JDBCStatementExecutor implements IStepExecutor {
 			throw new RuntimeException(
 					"Unable to create connection for schema URI: "
 							+ schema.getUri() + "\n details: " + e.getMessage(),e);
+		}
+	}
+	
+	private void closeConnection(Connection c) {
+		try {
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			l.severe("SQLException while closing connection ");
 		}
 	}
 
