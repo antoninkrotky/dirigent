@@ -14,7 +14,7 @@ import org.dirigent.pattern.IPatternStep;
 
 public class JDBCStatementExecutor implements IStepExecutor {
 
-	private Logger l = Logger.getLogger(JDBCStatementExecutor.class.getName());
+	private Logger l = Logger.getLogger(this.getClass().getName());
 
 	@Override
 	public void execute(IGeneratable gen, IPatternStep step) {
@@ -48,8 +48,9 @@ public class JDBCStatementExecutor implements IStepExecutor {
 					+ step.getName());
 			throw new RuntimeException( e);
 
+		} finally {
+			this.closeConnection(c);
 		}
-		this.closeConnection(c);
 	}
 
 	private Connection getConnection(ISchema schema) {
