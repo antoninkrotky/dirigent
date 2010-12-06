@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="lib/ext/swt/runtime.jar"/>
 	<classpathentry kind="lib" path="lib/ext/swt/linux/x86_64/swt.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/apache/commons-lang-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

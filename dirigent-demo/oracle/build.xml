@@ -85,7 +85,7 @@
 				<include name="*.properties"/>
 			</fileset>
 		</copy>
-		<java jar="${gui.dist.dir}/dirigent-blazeds_0.1.war" fork="true">
+		<java jar="${gui.dist.dir}/dirigent-blazeds_1.0.0.war" fork="true">
 			<arg value="${gui.dist.dir}"/>
 		</java>		
 	</target>

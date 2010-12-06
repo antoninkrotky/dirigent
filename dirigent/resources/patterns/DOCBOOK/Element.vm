@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <section xml:id="${element.uri}" xmlns="http://docbook.org/ns/docbook" 
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
@@ -7,7 +8,7 @@
 		${element.name}
 	</title>
 	<para>
-		$!{element.description}
+		${utils.getStringEscapeUtils().unescapeHtml("$!{element.description}")}
 	</para>
 #if(${element.attributes} && ${element.attributes.size()}>0)	
 <table frame='all'><title>Attributes</title>
@@ -27,7 +28,7 @@
 <row>
   <entry>$!{att.name}</entry>
   <entry>$!{att.type}</entry>
-  <entry>$!{att.description}</entry>
+  <entry>${utils.getStringEscapeUtils().unescapeHtml("$!{att.description}")}</entry>
 </row>
 #end
 </tbody>
@@ -43,7 +44,7 @@
 				${child.name}
 	        </title>
 			<para>
-				$!{child.description}
+				${utils.getStringEscapeUtils().unescapeHtml("$!{child.description}")}
 			</para>
 			<para>
 		   <imageobject>

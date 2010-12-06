@@ -3,9 +3,7 @@ package org.dirigent.pdi.job.dirigent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.dirigent.config.DirigentConfig;
@@ -33,9 +31,16 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	private String uri;
 	private String modelType;
 
+	private static boolean handlerInitialized=false;
+
 	public JobEntryDirigentPlugin(String n) {
 		super(n, "");
-		setID(-1L);
+		synchronized (JobEntryDirigentPlugin.MODEL) {
+			if (!JobEntryDirigentPlugin.handlerInitialized) {
+				Logger.getLogger("org.dirigent").addHandler(new JobHandler());
+				JobEntryDirigentPlugin.handlerInitialized = true;
+			}
+		}
 	}
 
 	public JobEntryDirigentPlugin() {
@@ -135,53 +140,33 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.pentaho.di.job.entry.JobEntryBase#resetErrorsBeforeExecution()
+	 */
+	@Override
+	public boolean resetErrorsBeforeExecution() {
+		return false;
+	}
+	
+	
+	/*
+	 * This job supports conditional true/false results.
+	 * 
+	 * @see org.pentaho.di.job.entry.JobEntryBase#evaluates()
+	 */
+	@Override
+	public boolean evaluates() {
+		return true;
+	}
+
 	@Override
 	public Result execute(Result prevResult, int nr) throws KettleException {
-
-		Logger logger = Logger.getLogger("org.dirigent");
-		Handler lmh = new Handler() {
-
-			@Override
-			public void publish(LogRecord record) {
-				int logLevel = record.getLevel().intValue();
-				String message = record.getMessage();
-
-				if (logLevel == 1000) {
-					logError(message);
-				}
-				if (logLevel == 900) {
-					logMinimal(message);
-				}
-				if (logLevel == 800) {
-					logBasic(message);
-				}
-				if (logLevel < 800 && logLevel >= 500) {
-					logDetailed(message);
-				}
-				if (logLevel < 500 && logLevel >= 300) {
-					logDebug(message);
-				}
-				if (logLevel < 300) {
-					logRowlevel(message);
-				}
-
-			}
-
-			@Override
-			public void flush() {
-			}
-
-			@Override
-			public void close() throws SecurityException {
-			}
-		};
-
-		logger.addHandler(lmh);
+		JobHandler.setJobDirigentPlugin(this);
+		Logger logger = Logger.getLogger(this.getClass().getName());
 
 		Result result = new Result(nr);
-		result.setResult(false);
 
-		logger.log(Level.INFO, "Starting DIRIGENT Job ");
+		logger.log(Level.INFO, "Starting DIRIGENT Job " + getName());
 
 		try {
 			if (model != null) {
@@ -194,21 +179,20 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			if (dirigentConfigName != null) {
 				DirigentConfig.setConfigName(dirigentConfigName);
 			}
-
 			Generator.generate(uri);
-
-		} catch (Throwable e) {
-			logger.log(Level.SEVERE, "Exception executing dirigent.\n"
-					+ stackTraceToString(e));
-			result.setNrErrors(result.getEntryNr() + 1);
+			result.setResult(true);
+			logger.log(Level.INFO, "DIRIGENT Job finished sucefully.");
+			
+		} catch (Throwable t) {
+			result.setNrErrors(1);
 			result.setResult(false);
-			return result;
-
+			prevResult.add(result);
+			prevResult.setResult(false);
+			logger.log(Level.SEVERE, "Exception executing Dirigent.", t);
 		}
-
-		result.setResult(true);
-		logger.log(Level.INFO, "Finishing DIRIGENT Job with "
-				+ result.getNrErrors() + " errors");
+		finally {
+			JobHandler.setJobDirigentPlugin(null);
+		}
 		return result;
 	}
 

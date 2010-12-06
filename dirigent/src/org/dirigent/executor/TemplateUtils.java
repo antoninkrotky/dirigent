@@ -3,6 +3,8 @@ package org.dirigent.executor;
 import java.text.Normalizer;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.dirigent.metafacade.IAttribute;
 
 public class TemplateUtils {
@@ -15,6 +17,15 @@ public class TemplateUtils {
 	
 	public static String removeBrackets(String text) {
 		return text.replace("{","").replace("}","");
+	}
+	
+	public static Class<StringUtils> getStringUtils() {		
+		return StringUtils.class;
+	}
+	
+
+	public static Class<StringEscapeUtils> getStringEscapeUtils() {		
+		return StringEscapeUtils.class;
 	}
 
 	/**
@@ -83,7 +94,7 @@ public class TemplateUtils {
 		return sb.toString();
 	}
 	
-	public static String capitalize(String string) {
+	public static String capitalize(String string) {	
 		StringBuffer sb=new StringBuffer();		
 		sb.append(Character.toUpperCase(string.charAt(0)));
 		sb.append(string.substring(1));
