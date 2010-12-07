@@ -1,8 +1,9 @@
-package org.dirigent.executor;
+package org.dirigent.generator;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -41,6 +42,7 @@ public class TestFileExecutor extends TestCase {
 		assertFalse(appendFile.exists());
 		assertFalse(overwriteFile.exists());
 		assertFalse(createFile.exists());
+		Generator.generatedStack.set(new LinkedList<String>());
 		Generator.generate(gen);
 		FileComparator.assertEquals("results/fileExecutor/Append.txt",
 				appendFile);
@@ -51,6 +53,7 @@ public class TestFileExecutor extends TestCase {
 		appendToFile(appendFile);
 		appendToFile(overwriteFile);
 		appendToFile(createFile);
+		Generator.generatedStack.set(new LinkedList<String>());
 		Generator.generate(gen);
 		FileComparator.assertEquals("results/fileExecutor/Append2.txt",
 				appendFile);
@@ -72,6 +75,7 @@ public class TestFileExecutor extends TestCase {
 			throw new RuntimeException(e);
 		}
 	}
+
 
 	@Override
 	protected void tearDown() throws Exception {
@@ -110,10 +114,9 @@ public class TestFileExecutor extends TestCase {
 				// TODO Auto-generated method stub
 				return null;
 			}
-
+					
 			@Override
 			public String getUri() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
