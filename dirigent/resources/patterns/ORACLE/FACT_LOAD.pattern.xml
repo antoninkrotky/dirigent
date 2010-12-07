@@ -22,52 +22,18 @@
     ]]>
     </Template>
 	</PatternStep>
-
+	
 	<PatternStep name="Merge" type="JDBCStatement">
 		<Template><![CDATA[ 
-	MERGE INTO ${element.targetTable.name} target
-	USING
-		(
-		SELECT *
-		FROM STG_${element.targetTable.name}
-		MINUS
-			(
-			SELECT ${element.targetColumnList}
-			FROM ${element.targetTable.fullName}
-			)
-		) stage
-	ON
-		(
-			#set($res = "")
-			#foreach( ${dim} in ${element.targetTable.relatedDimensions} )
-				#set($res = ${utils.joinStrings($res, "target.${dim.alias}_KEY = stage.${dim.alias}_KEY", " AND ")})
-			#end
-			${res}
-			#*${utils.getWhereClausule(${element.targetTable.relatedDimensionsColumn}, "=", "AND", "target", "stage")}*#
-		)
-	WHEN MATCHED THEN
-		UPDATE
-		SET
-		${utils.getWhereClausule(${element.targetTable.columns}, "=", ",", "target", "stage")}
-		
-	WHEN NOT MATCHED THEN
-		INSERT
+		INSERT INTO ${element.targetTable.name}
 		(
 			${element.targetColumnList},
 			${element.targetTable.alias}_KEY
     	)
-    	VALUES
-    	(
-    		#set($res = "")
-    		#foreach( ${col} in ${element.columnMappings} )#set($res = ${utils.joinStrings(${res}, "stage.${col.column.name}", ",")})#end
-    		
-			#*
-			#foreach( ${column} in ${element.targetTable.columns} )#set($res = ${utils.joinStrings(${res}, "stage.${column.name}", ",")})#end
-			#foreach( ${column} in ${element.targetTable.relatedDimensions} )#set($res = ${utils.joinStrings(${res}, "stage.${column.alias}_KEY", ",")})#end
-			*#
-			#set($res = ${utils.joinStrings(${res}, "${element.targetTable.alias}_SEQ.NEXTVAL", ",")})
-			$res
-    	)
+	    	SELECT 
+	    		${element.targetColumnList},
+	    		${element.targetTable.alias}_SEQ.NEXTVAL
+			FROM STG_${element.targetTable.name} stg
     ]]>
     </Template>
 	</PatternStep>
