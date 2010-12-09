@@ -70,7 +70,7 @@ public class TestModel extends TestCase {
 		super.tearDown();
 	}
 
-	public void testCustomerCreate() {
+	public void testCustomer() {
 		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
 		exportIntoCSV("results/SCD/d_customer.csv", "D_CUSTOMER");
 		
@@ -205,9 +205,13 @@ public class TestModel extends TestCase {
 		executeFile("results/SCD/sql/data2.sql");
 		// makde dimensions
 		Generator.generate("{A0848078-956D-4833-AF60-E8FE9794BE1B}");
+		delay();
 		Generator.generate("{62D7D3A6-90F4-4056-90F0-BA9F41A097EF}");
+		delay();
 		Generator.generate("{4746A82F-EAE7-4477-8B77-F05C71BE08B8}");
+		delay();
 		Generator.generate("{D11D5BA3-61BF-4f2a-98A5-34DCA8B877A8}");
+		delay();
 		
 		Generator.generate("{6C513D3D-0C0A-4664-B505-64226C5FC01B}");
 		exportIntoCSV("results/SCD/f_sales2.csv", "F_SALES");
