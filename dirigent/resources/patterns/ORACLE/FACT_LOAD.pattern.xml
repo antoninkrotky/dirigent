@@ -28,11 +28,13 @@
 		INSERT INTO ${element.targetTable.name}
 		(
 			${element.targetColumnList},
-			${element.targetTable.alias}_KEY
+			${element.targetTable.alias}_KEY,
+			${element.targetTable.alias}_UPDATED_DATETIME
     	)
 	    	SELECT 
 	    		${element.targetColumnList},
-	    		${element.targetTable.alias}_SEQ.NEXTVAL
+	    		${element.targetTable.alias}_SEQ.NEXTVAL,
+	    		sysdate
 			FROM STG_${element.targetTable.name} stg
     ]]>
     </Template>

@@ -88,19 +88,20 @@
 #set( $addRowOnChangeProperty = "addRowOnChange" )
 #set( $naturalKeyProperty = "naturalKey" )
 
-#if(${element.targetTable.isColumnOfSCDType($addRowOnChangeProperty)})
+#*#if(${element.targetTable.isColumnOfSCDType($addRowOnChangeProperty)})*#
 
 	UPDATE ${element.targetTable.fullName} target
    	SET 
    		target.${element.targetTable.alias}_CURRENT_FLAG = 'N',
    		target.${element.targetTable.alias}_VALID_TO_DATETIME = sysdate
-   	WHERE EXISTS
+   	WHERE 
+#if(${element.targetTable.isColumnOfSCDType($addRowOnChangeProperty)})
+   	EXISTS
    	(
    		SELECT * from STG_${element.targetTable.name} stage
    		WHERE
    		target.${element.targetTable.alias}_VALID_TO_DATETIME > sysdate
-   		AND
-   		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}   		
+   		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage", true)}   		
    		
    		#set( $writeOr = false )
    		#set( $writeAnd = true )
@@ -113,7 +114,9 @@
 		#end
 		#if($writeAnd == false) ) #end
 	)
-	OR NOT EXISTS
+	OR 
+#end
+	NOT EXISTS
 	(
 		SELECT * from STG_${element.targetTable.name} stage
    		WHERE
@@ -121,14 +124,11 @@
    		AND
    		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
 	)
+#*
 #else
-	DELETE FROM ${element.targetTable.fullName} target
-	WHERE NOT EXISTS
-	(
-		SELECT * from STG_${element.targetTable.name} stage
-   		WHERE ${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
-	)
+	select sysdate from dual;
 #end
+*#
     ]]>
     </Template>
 	</PatternStep>

@@ -29,7 +29,8 @@
     		#foreach($dim in $element.relatedDimensions)${dim.alias}_KEY INTEGER,
     		#end
     		
-    		${element.alias}_KEY NUMBER(38) PRIMARY KEY
+    		${element.alias}_KEY NUMBER(38) PRIMARY KEY,
+    		${element.alias}_UPDATED_DATETIME DATE
 	   	);
 	   	
    		#foreach($dim in $element.relatedDimensions)
