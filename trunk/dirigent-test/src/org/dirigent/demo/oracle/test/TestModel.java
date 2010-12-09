@@ -40,9 +40,6 @@ public class TestModel extends TestCase {
 		DirigentConfig.resetConfig();
 		
 		// create tables
-		//executeFile("results/SCD/sql/createTables.sql");
-		// insert data into tables
-		//executeFile("results/SCD/sql/insertIntoTablesRun1.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L0/create.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L0/data01.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_CUSTOMER.create.sql");
@@ -56,9 +53,6 @@ public class TestModel extends TestCase {
 	protected void tearDown() throws Exception {
 		
 		// delete from tables
-		//executeFile("results/SCD/sql/deleteFromTables.sql");
-		// drop all tables
-		//executeFile("results/SCD/sql/dropTables.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/F_SALES.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_TIME.drop.sql");
 		executeFile("../dirigent-demo/oracle/data-model/L2/D_PRODUCT.drop.sql");
