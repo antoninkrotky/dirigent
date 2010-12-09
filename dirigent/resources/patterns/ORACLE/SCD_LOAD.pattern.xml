@@ -83,7 +83,7 @@
     </Template>
 	</PatternStep>
 	
-	<PatternStep name="end validity of old record" type="JDBCStatement">
+	<PatternStep name="end validity/delete of old record" type="JDBCStatement">
 		<Template><![CDATA[    
 #set( $addRowOnChangeProperty = "addRowOnChange" )
 #set( $naturalKeyProperty = "naturalKey" )
@@ -113,8 +113,21 @@
 		#end
 		#if($writeAnd == false) ) #end
 	)
+	OR NOT EXISTS
+	(
+		SELECT * from STG_${element.targetTable.name} stage
+   		WHERE
+   		target.${element.targetTable.alias}_VALID_TO_DATETIME > sysdate
+   		AND
+   		${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
+	)
 #else
-	select sysdate from dual
+	DELETE FROM ${element.targetTable.fullName} target
+	WHERE NOT EXISTS
+	(
+		SELECT * from STG_${element.targetTable.name} stage
+   		WHERE ${utils.getWhereClausule(${element.targetTable.getColumnListBySCDType(${naturalKeyProperty})}, "=", "AND", "target", "stage")}
+	)
 #end
     ]]>
     </Template>
