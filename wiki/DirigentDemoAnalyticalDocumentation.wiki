@@ -31,7 +31,10 @@ Project Dirigent contains GUI using Flex technology, which is not available neit
 
 The program operation starts with an org.dirigent.Dirigent.main(String[]) method call, which expects the first parameter to be an URI of the model object to be transformed into the output data. 
 
-Dirigent - component diagram
+*Image:* Dirigent - component diagram
+
+http://dirigent.googlecode.com/files/image1.png
+
 
 The program has following inputs:
 
@@ -76,9 +79,11 @@ Contains Generator class, generating output using patterns.
 ===org.dirigent.metafacade===
 The root package contains interfaces defining the metafacade objects  (e.g. IMapping, IDimension, ITable). Following diagram shows all the metafacade interfaces and its inheritance relationships.
 
-org.dirigent.metafacade package - class diagram (part 1)
+*Image:* org.dirigent.metafacade package - class diagram (part 1, 2)
 
-org.dirigent.metafacade package - class diagram (part 2)
+http://dirigent.googlecode.com/files/image2.png
+http://dirigent.googlecode.com/files/image4.png
+
 ===org.dirigent.metafacade.builder===
 Contains abstract class MetafacadeBuilder wiht abstract methods defining interface for children metafacade builders (with implementation depending on the model format). Next, it contains static method getMetafacadeBuilder, which according to the model type setup (property dirigent.model.type of DirigentConfig class) returns appropriate MetafacadeBuilder.
 Important (but in MetafacadeBuilder abstract) method is getMetafacade(String), which returns the metafacade object (IElement) for object with specified URI (string in the parameter).
@@ -102,6 +107,8 @@ Integration to the Pentahoo Data Integration. This document does not deal with t
 =Sequence diagrams=
 ==Basic course==
 
+http://dirigent.googlecode.com/files/image0.png
+
 After being executed, program calls the Generator.generate(String) method and passes the first argument of the command line to it. The argument of the overloaded generate method is either and string with model element URI or an IGenerable instance, which is an metafacade object
 Method generate(String), which has and model element URI in the argument, provides metafacade generation for the object with the specified URI and than calls method generate, with the generated IGenerable instance in the argument.
 Method generate(IGenerable) choses appropriate pattern (IPattern) according to the  IGenerable type and provides the output generation (not displayed in the diagram).
@@ -113,6 +120,8 @@ Note: as can be seen, one object type in the original model can be represented b
 
 ==Metafacade creation==
 
+http://dirigent.googlecode.com/files/image3.png
+
 Static method MetafacadeBuilder.getMetafacadeBuilder() is called. This method returns implementation of abstract class MetafacadeBuilder, which corresponds to the model type (defined in the configuration file). In this example, Enterprise Architect model is used, so a new instance of EAMetafacadeBuilder is returned. This object generates the metafacade from the model.
 Method getMetafacade(String) is called with model element URI in parameter (in our example, this object will be of “type” Dimension). The EAElementDAO retrieves instance v:EAElementVO for this model element (by the EAElementDAO.getEAElement(String) method with model element URI in parameter). The VO object provides access to the properties of the model element with the selected URI.
 According to the v properties (in this case v.type a v.stereotype) the appropriate metafacade object type is chosen to be generated and a decorator is created - in this case, it is EADimensionDecorator. More in the following diagram.
@@ -120,6 +129,7 @@ According to the v properties (in this case v.type a v.stereotype) the appropria
 ==Metafacade creation - decorator==
 The diagram shows calls of parent’s methods and constructors from children’s methods and constructors during the creation of the metafacade for Dimension element. The meaning of the UML Sequence diagram elements is different from the standard in this diagram. When :A instance calls a method of super:B instance, it means, that a method of B class, which is a parent class of A class (object :A and object super:B are therefore the same object; this call means therefore a call of super.xyz() method). When the first action after creation of :A instance a super:B instance is created, it means a parent’s constructor call in the constructor of the :A object (ie. the super() call).
 
+http://dirigent.googlecode.com/files/image5.png
 
 (Continues from the previous diagram.) Class EADimensionDecorator implements IDimension interface and so, the EADimensionDecorator instance itself is the resulting metafacade. In the constructor parameter, an EAElementVO object for the selected model element is passed (this is the v:EAElementVO from the previous diagram). The EADimensionDecorator parent’s constructors are of course being called by the constructor of this class.
 In the constructor of EATableDecorator (direct parent of EADimensionDecorator) a TableVO instance is created, which is a metafacade VO object (not an EA model VO object). EATableDecorator.init(EAElementVO, TableVO) method is called, which calls EAElementDecorator.init(EAElementVO, ElementVO) method. This method loads the data from  EAElementVO (first parameter) into ElementVO (second parameter) - pseudomethods EAElementVO.getProperties() and ElementVO.setProperties(). This is the metafacade creation itself:
