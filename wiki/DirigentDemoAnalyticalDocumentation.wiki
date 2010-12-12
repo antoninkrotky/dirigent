@@ -124,7 +124,7 @@ The diagram shows calls of parent’s methods and constructors from children’s
 (Continues from the previous diagram.) Class EADimensionDecorator implements IDimension interface and so, the EADimensionDecorator instance itself is the resulting metafacade. In the constructor parameter, an EAElementVO object for the selected model element is passed (this is the v:EAElementVO from the previous diagram). The EADimensionDecorator parent’s constructors are of course being called by the constructor of this class.
 In the constructor of EATableDecorator (direct parent of EADimensionDecorator) a TableVO instance is created, which is a metafacade VO object (not an EA model VO object). EATableDecorator.init(EAElementVO, TableVO) method is called, which calls EAElementDecorator.init(EAElementVO, ElementVO) method. This method loads the data from  EAElementVO (first parameter) into ElementVO (second parameter) - pseudomethods EAElementVO.getProperties() and ElementVO.setProperties(). This is the metafacade creation itself:
 
-<code>
+{{{
 public static ElementVO init(EAElementVO ea,ElementVO v) {        
        v.uri=ea.guid;
        v.id=ea.objectId;
@@ -140,7 +140,7 @@ public static ElementVO init(EAElementVO ea,ElementVO v) {
        v.keywords = ea.keywords;
        return v;
    }
-</code>
+}}}
 
 Some properties have different names in the metafacade: e.g. in the EA model, element’s ID is stored in guid, while in the metafacade the name of this property is uri. Etc.
 
@@ -150,7 +150,7 @@ For example, if a getName() method is called (a method of  IElement interface, s
 Directly in EADimensionDecorator, methods dealing with dimension-specific properties are implemented - e.g. getSCDType().
 
 There are also some methods returning another metafacade objects, for example IElement.getParent(). This method returns an IElement instance containing the metafacade of the current element’s parent. In this case, the generating of the required metafacade objects is called in the body of this method:
-<code>
+{{{
    @Override
    public IElement getParent() {
        if ( ! element.parentUri.equals("") ) {
@@ -162,7 +162,7 @@ There are also some methods returning another metafacade objects, for example IE
            return null;
        }
    }
-</code>
+}}}
 
 So, when we call this method, a metafacade object is generated for the parent element (if it exists), ie. whole the process described by this and previous diagram runs again (for another object of the model).
 Similarly, the object’s attributes are generated for example (method getAttributes() returning a collection of IAttribute). The only difference is, that IElement holds a pointer to the collection, but the collection is initialized and generated after the first call of getAttributes() method (lazy loading).
