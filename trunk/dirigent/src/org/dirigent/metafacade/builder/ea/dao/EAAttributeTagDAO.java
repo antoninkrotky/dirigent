@@ -11,15 +11,15 @@ public class EAAttributeTagDAO extends EADao<String[]> {
 
 	@Override
 	protected String[] createVO(ResultSet res) throws SQLException {
-		return new String[]{res.getString(1),res.getString(2)};
+		return new String[]{res.getString(1),("<memo>".equals(res.getString(2))?res.getString(3):res.getString(2))};
 	}
 	
 	public String[] getObjectProperty(long attributeId,String property) {
-		return findVO("select Property,Value from t_attributetag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});
+		return findVO("select Property,Value,Notes from t_attributetag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});
 	}
 
 	public Map<String,String> getObjectProperties(long attributeId) {
-		Iterator<String[]> i=findVOs("select Property,Value from t_attributetag where ElementID=?",new Object[]{new BigDecimal(attributeId)}).iterator();
+		Iterator<String[]> i=findVOs("select Property,Value,Notes from t_attributetag where ElementID=?",new Object[]{new BigDecimal(attributeId)}).iterator();
 		Map<String, String> m=new HashMap<String, String>();
 		while (i.hasNext()) {
 			String[] s=i.next();

@@ -8,11 +8,11 @@ public class EAConnectorPropertyDAO extends EADao<String> {
 
 	@Override
 	protected String createVO(ResultSet res) throws SQLException {
-		return res.getString(1);
+		return ("<memo>".equals(res.getString(1))?res.getString(2):res.getString(1));
 	}
 	
 	public String getObjectProperty(long id,String property) {
-		return findVO("select value from t_connectortag where elementid=? and property=?",new Object[]{new BigDecimal(id),property});
+		return findVO("select value,Notes from t_connectortag where elementid=? and property=?",new Object[]{new BigDecimal(id),property});
 	}
 
 	@Override
