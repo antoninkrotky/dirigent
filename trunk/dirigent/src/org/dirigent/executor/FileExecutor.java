@@ -1,8 +1,9 @@
 package org.dirigent.executor;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import org.dirigent.metafacade.IGeneratable;
@@ -48,7 +49,7 @@ public class FileExecutor implements IStepExecutor {
 				}
 			}
 			
-			Writer w = new FileWriter(fileName, true);
+			Writer w = new OutputStreamWriter(new FileOutputStream(fileName,true),"UTF-8");
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
 		} catch (IOException e) {

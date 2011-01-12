@@ -1,0 +1,1 @@
+java -cp dirigent_1.0.jar;. -Djava.ext.dirs=plugins/jobentries/Dirigent/lib org.dirigent.Dirigent %1

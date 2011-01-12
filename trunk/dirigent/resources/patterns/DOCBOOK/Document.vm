@@ -7,7 +7,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://docbook.org/ns/docbook ../lib/docbook/docbook-5.0/xsd/docbook.xsd ">
+	xsi:schemaLocation="http://docbook.org/ns/docbook ../lib/docbook/docbook-5.0/xsd/docbook.xsd " >
 <info>
 <title>${element.name}</title> 
 <author>

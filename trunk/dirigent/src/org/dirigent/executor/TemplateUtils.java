@@ -16,6 +16,9 @@ public class TemplateUtils {
 	}
 	
 	public static String removeBrackets(String text) {
+		if (text==null) {
+			return null;
+		}
 		return text.replace("{","").replace("}","");
 	}
 	

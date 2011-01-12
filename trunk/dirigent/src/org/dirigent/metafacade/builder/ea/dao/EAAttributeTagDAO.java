@@ -11,7 +11,12 @@ public class EAAttributeTagDAO extends EADao<String[]> {
 
 	@Override
 	protected String[] createVO(ResultSet res) throws SQLException {
-		return new String[]{res.getString(1),("<memo>".equals(res.getString(2))?res.getString(3):res.getString(2))};
+		String name=res.getString(1);
+		String value=res.getString(2);
+		if ("<memo>".equals(value)) {
+			value=res.getString(3);
+		}
+		return new String[]{name,value};
 	}
 	
 	public String[] getObjectProperty(long attributeId,String property) {

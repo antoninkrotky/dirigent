@@ -19,7 +19,7 @@ import org.dirigent.pattern.IPatternStep;
 public class Generator {
 	private static Logger l = Logger.getLogger(Generator.class.getName());
 	
-	private static ThreadLocal<Collection<String>> generatedStack=new ThreadLocal<Collection<String>>();
+	protected static ThreadLocal<Collection<String>> generatedStack=new ThreadLocal<Collection<String>>();
 
 	public static void generate(String elementURI) {
 		generatedStack.set(new LinkedList<String>());
@@ -32,7 +32,7 @@ public class Generator {
 		generate(gen);
 	}
 
-	public static void generate(IGeneratable gen) {
+	protected static void generate(IGeneratable gen) {
 		//prevent deadlocks
 		if (generatedStack.get().contains(gen.getUri())) {			
 			return;
