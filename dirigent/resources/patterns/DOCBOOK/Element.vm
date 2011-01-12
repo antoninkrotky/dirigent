@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section xml:id="${element.uri}" xmlns="http://docbook.org/ns/docbook" 
+<section xml:id="${utils.removeBrackets($element.uri).replace("-","_")}" xmlns="http://docbook.org/ns/docbook" 
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -12,10 +12,11 @@
 	</para>
 #if(${element.attributes} && ${element.attributes.size()}>0)	
 <table frame='all'><title>Attributes</title>
+<?dbfo table-width="100%" ?>
 <tgroup cols='3' align='left' colsep='1' rowsep='1'>
-<colspec colname='Name'/>
-<colspec colname='Type'/>
-<colspec colname='Description'/>
+<colspec colname='Name' colwidth="2*"/>
+<colspec colname='Type' colwidth="2*"/>
+<colspec colname='Description' colwidth="6*"/>
 <thead>
 <row>
   <entry>Name</entry>
@@ -48,7 +49,7 @@
 			</para>
 			<para>
 		   <imageobject>
-			<imagedata fileref="images/Images/EAID_${utils.removeBrackets($child.uri).replace("-","_")}.BMP" format="BMP" scale="30"/>
+			<imagedata fileref="images/Images/EAID_${utils.removeBrackets($child.uri).replace("-","_")}.jpg" format="jpg" scale="30"/>
 		   </imageobject>
 			</para>
 		  </section>
