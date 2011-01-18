@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section xml:id="${utils.removeBrackets($element.uri).replace("-","_")}" xmlns="http://docbook.org/ns/docbook" 
+<section xmlns="http://docbook.org/ns/docbook" 
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -7,8 +7,7 @@
 	<title>
 		${element.name}
 	</title>
-	<para>
-		${utils.getStringEscapeUtils().unescapeHtml("$!{element.description}")}
+	<para><![CDATA[${utils.getStringEscapeUtils().unescapeHtml("$!{element.description}")}]]>
 	</para>
 #if(${element.attributes} && ${element.attributes.size()}>0)	
 <table frame='all'><title>Attributes</title>
@@ -56,7 +55,7 @@
 	#end
 #end	
 #foreach(${child} in ${element.childElements})		  
-	#if (${child.type}=="Class" || ${child.type}=="Package")
+	#if (${child.type}=="Class" || ${child.type}=="Package" || ${child.type}=="Diagram")
 		&E${utils.removeBrackets($child.uri)};	  
 	#end	
 #end	
