@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import org.dirigent.metafacade.IPackage;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
 import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
@@ -22,11 +23,21 @@ public class EAObjectDao extends EADao<ObjectVO> {
 		v.name = res.getString(3);
 		v.stereotype = res.getString(4);
 		v.uri = res.getString(5);
+		v.pdata1 = res.getString(6);
+
+		//Replace diagram link with referenced diagram
+		if ("Text".equals(v.type) && v.pdata1!=null && !"0".equals(v.pdata1)) {
+			long diagramId=Long.parseLong(v.pdata1);
+			EADiagramVO diagram=new EADiagramDAO().getDiagram(diagramId);
+			v.id=diagram.diagramId;
+			v.uri=diagram.ea_guid;
+		}
+		
 		return v;
 	}
 
 	public Collection<ObjectVO> getDiagramObjects(long diagramId) {
-		return findVOs("select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where object_id in (select object_id from t_diagramobjects where diagram_id=?) order by tpos",new Object[]{new BigDecimal(diagramId)});
+		return findVOs("select o.Object_ID,o.Object_Type,o.Name,o.Stereotype,o.ea_guid,o.pdata1 from t_object o,t_diagramobjects d where o.object_id=d.object_id and d.diagram_id=? order by d.recttop desc",new Object[]{new BigDecimal(diagramId)});
 	}
 	
 	public ObjectVO getMappingTarget(long mappingId) {
@@ -42,12 +53,12 @@ public class EAObjectDao extends EADao<ObjectVO> {
 
 	public ObjectVO getObject(String guid) {
 		ObjectVO v= findVO(
-				"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where ea_guid=?",
+				"select Object_ID,Object_Type,Name,Stereotype,ea_guid,pdata1 from t_object where ea_guid=?",
 				new Object[] { guid });
 		//Root models are not stored in t_object table - try lookup in t_package table
 		if (v==null) {
 			v=findVO(
-					"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid from t_package t where ea_guid=?",
+					"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid,pdata1 from t_package t where ea_guid=?",
 					new Object[] { guid });
 		}
 		return v;
@@ -55,7 +66,7 @@ public class EAObjectDao extends EADao<ObjectVO> {
 	}
 	public ObjectVO getObjectById(long id) {
 		ObjectVO v= findVO(
-				"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where Object_ID=?",
+				"select Object_ID,Object_Type,Name,Stereotype,ea_guid,pdata1 from t_object where Object_ID=?",
 				new Object[] { new BigDecimal(id) });
 		return v;
 		
@@ -66,13 +77,13 @@ public class EAObjectDao extends EADao<ObjectVO> {
 		if (packageId==0) {
 		r
 				.addAll(findVOs(
-						"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid from t_package t where parent_id=?",
+						"select t.package_id,'Package' as type,t.Name,null as Stereotype,t.ea_guid,pdata1 from t_package t where parent_id=?",
 						new Object[] { new BigDecimal(packageId) }));
 		}
 		else  {
 			r
 					.addAll(findVOs(
-							"select Object_ID,Object_Type,Name,Stereotype,ea_guid from t_object where package_id=?  order by tpos",
+							"select Object_ID,Object_Type,Name,Stereotype,ea_guid,pdata1 from t_object where package_id=?  order by tpos",
 							new Object[] { new BigDecimal(packageId) }));
 		}
 		return r;

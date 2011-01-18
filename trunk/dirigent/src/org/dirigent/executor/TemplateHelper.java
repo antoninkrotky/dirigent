@@ -26,6 +26,7 @@ public class TemplateHelper {
 	private static void initVelocity() {
 
 		Properties p = new Properties();
+		p.setProperty("input.encoding", "UTF-8");
 		p.setProperty("resource.loader", "class");
 		p.setProperty("class.resource.loader.class", "org.dirigent.executor.DirigentResourceLoader");
 		try {

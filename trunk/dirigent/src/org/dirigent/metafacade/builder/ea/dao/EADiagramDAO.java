@@ -10,6 +10,10 @@ public class EADiagramDAO extends EADao<EADiagramVO>{
 	public EADiagramVO getDiagram(String uri) {
 		return findVO("select diagram_id,ea_guid,name,notes,package_id,parentid,stereotype from t_diagram where ea_guid=?",new Object[]{uri});
 	}
+	
+	public EADiagramVO getDiagram(long id) {
+		return findVO("select diagram_id,ea_guid,name,notes,package_id,parentid,stereotype from t_diagram where diagram_id=?",new Object[]{id});
+	}
 
 	@Override
 	protected EADiagramVO createVO(ResultSet res) throws SQLException {
