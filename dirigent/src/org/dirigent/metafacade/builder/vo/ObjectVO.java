@@ -8,5 +8,6 @@ public class ObjectVO {
 	public String type;
 	public String name;
 	public String stereotype;
+	public String pdata1;
 	
 }
