@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xmlns="http://docbook.org/ns/docbook" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://docbook.org/ns/docbook ../lib/docbook/docbook-5.0/xsd/docbook.xsd ">	
+	<title>
+		${element.name}
+	</title>
+	<para>
+		${utils.getStringEscapeUtils().unescapeHtml("$!{element.description}")}
+	</para>
+	<para>
+		   <imageobject>
+			<imagedata fileref="images/Images/EAID_${utils.removeBrackets($element.uri).replace("-","_")}.jpg" format="jpg" scale="30"/>
+		   </imageobject>
+	</para>
+	#foreach(${child} in ${element.childElements})		  
+	#if (${child.type}=="Class" || ${child.type}=="Package" || ${child.type}=="Diagram")
+		&E${utils.removeBrackets($child.uri)};	  
+	#end	
+#end
+</section>
+
