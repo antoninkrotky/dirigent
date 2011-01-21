@@ -26,4 +26,9 @@ public interface IAttribute {
 	 * */
 	public String getInitialValue();
 	
+	/**
+	 * Attribute classifier. Classifier is model class representing attribute type.
+	 * */
+	public IElement getClassifier();
+	
 }

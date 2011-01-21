@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.IColumnMapping;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IMapping;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 
@@ -59,6 +60,12 @@ public class ColumnMappingDecorator extends AttributeDecorator implements IColum
 
 			@Override
 			public String getInitialValue() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public IElement getClassifier() {
 				// TODO Auto-generated method stub
 				return null;
 			}

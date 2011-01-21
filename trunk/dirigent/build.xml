@@ -163,12 +163,6 @@
 		</exec>
 	</target>
 	
-	<import file="../JAVA-lib/lib/ext/ant/ant-java.xml"/>
-
-	<target name="check-style" depends="checkstyle">
-	        
-	</target>
-	
 	<target name="dist" depends="doc,create-jar,kettle-plugin">
 		<copy todir="${build.dir}">
 			<fileset dir="resources">
