@@ -143,4 +143,20 @@ public class ElementDecorator implements IElement, IGeneratable {
 		return element.type;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public IRelation getFirstStartingRelation(String type, String stereotype) {
+		Collection<IRelation> c=getStartingRelations();
+		if (c!=null) {
+			for (IRelation iRelation : c) {
+				if ((type==null || type.equals(iRelation.getType())) && (stereotype==null || stereotype.equals(iRelation.getStereotype()))) {
+					return iRelation;
+				}
+			}
+		}
+		return null;
+	}
+
 }
