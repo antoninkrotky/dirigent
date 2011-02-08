@@ -140,4 +140,13 @@ public class EADiagramDecorator implements IDiagram {
 		return "Diagram";
 	}
 
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public IRelation getFirstStartingRelation(String type, String stereotype) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
