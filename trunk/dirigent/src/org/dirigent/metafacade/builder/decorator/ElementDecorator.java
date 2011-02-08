@@ -85,10 +85,15 @@ public class ElementDecorator implements IElement, IGeneratable {
  			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
  			if (getStereotype()!=null) {
  				confPattern=confPattern+ "." + getStereotype().toLowerCase();
+ 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
+ 				if (pattern==null) {
+ 					pattern=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DEFAULT_PATTERN_ELEMENT);
+ 				}
+ 			} else {
+ 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
  			}
- 			pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern); 			
  			if (pattern==null) {
- 				l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
+ 				ElementDecorator.l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
  				return null;	
  			}
   		}		

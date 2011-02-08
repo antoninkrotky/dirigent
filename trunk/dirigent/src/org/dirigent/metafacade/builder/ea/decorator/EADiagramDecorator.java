@@ -23,7 +23,7 @@ import org.dirigent.pattern.builder.PatternBuilder;
 public class EADiagramDecorator implements IDiagram {
 
 	private EADiagramVO diagram;
-	private Logger l=Logger.getLogger(this.getClass().getName());
+	private static Logger l=Logger.getLogger(EADiagramDecorator.class.getName());
 	private ArrayList<IElement> childElements;
 
 	public EADiagramDecorator(EADiagramVO d) {
@@ -37,10 +37,14 @@ public class EADiagramDecorator implements IDiagram {
  			String confPattern=DirigentConfig.DEFAULT_PATTERN_DIAGRAM;
  			if (getStereotype()!=null) {
  				confPattern=confPattern+ "." + getStereotype().toLowerCase();
+ 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
+ 				if (pattern==null) {
+ 					pattern=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DEFAULT_PATTERN_DIAGRAM); 				}
+ 			} else {
+ 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
  			}
- 			pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern); 			
  			if (pattern==null) {
- 				l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
+ 				EADiagramDecorator.l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
  				return null;	
  			}
   		}		

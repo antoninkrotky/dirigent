@@ -15,10 +15,5 @@
 			<imagedata fileref="images/Images/EAID_${utils.removeBrackets($element.uri).replace("-","_")}.jpg" format="jpg" scale="30"/>
 		   </imageobject>
 	</para>
-	#foreach(${child} in ${element.childElements})		  
-	#if (${child.type}=="Class" || ${child.type}=="Package" || ${child.type}=="Diagram")
-		&E${utils.removeBrackets($child.uri)};	  
-	#end	
-#end
 </section>
 
