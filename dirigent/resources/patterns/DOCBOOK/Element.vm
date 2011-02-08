@@ -28,7 +28,7 @@
 <row>
   <entry>$!{att.name}</entry>
   <entry>$!{att.type}</entry>
-  <entry>${utils.getStringEscapeUtils().unescapeHtml("$!{att.description}")}</entry>
+  <entry><![CDATA[${utils.getStringEscapeUtils().unescapeHtml("$!{att.description}")}]]></entry>
 </row>
 #end
 </tbody>
