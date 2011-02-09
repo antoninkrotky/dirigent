@@ -98,7 +98,7 @@
 			</fileset>
 			<manifest>
 				<attribute name="Main-Class" value="DirigentGUI" />
-				<attribute name="Class-Path" value=". ../lib/jetty-all-7.2.0.RC0.jar ../lib/servlet-api-2.5.jar " />
+				<attribute name="Class-Path" value=". lib/jetty-all-7.2.0.RC0.jar lib/servlet-api-2.5.jar " />
 			</manifest>
 		</war>
 		
