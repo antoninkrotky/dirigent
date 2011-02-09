@@ -67,7 +67,11 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 				return new EADomainDecorator(v);
 			} else if ("Class".equals(v.type) && "table".equals(v.stereotype)) {
 				return new EATableDecorator(v);
-			} else if ("Package".equals(v.type)) {
+			}
+			else if ("Class".equals(v.type) && "BIStage".equals(v.stereotype)) {
+				return new EATableDecorator(v);
+			}
+			else if ("Package".equals(v.type)) {
 				return new EAPackageDecorator(v);
 			} else {
 				return new EAElementDecorator(v);
