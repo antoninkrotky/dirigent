@@ -11,9 +11,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -38,11 +36,13 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 	private Label wlStepname;
 	private FormData fdlStepname, fdStepname;
 	private Text wStepname;
-	private TextVar wModel, wURI;
-	private Button wbbModel, wOK, wCancel;
+	//private TextVar wModel;
+	private TextVar wURI;
+	//private Button wbbModel;
+	private Button  wOK, wCancel;
 	private Listener lsOK, lsCancel;
 	private SelectionAdapter lsDef;
-	private Combo wModelType;
+	//private Combo wModelType;
 
 	private boolean changed;
 	private JobEntryDirigentPlugin jobEntry;
@@ -107,37 +107,37 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 		Control lastControl = wStepname;
 
 		// source folder label
-		Label wlModel = new Label(shell, SWT.RIGHT);
-		wlModel.setText(BaseMessages
-				.getString(PKG, "JobEntryDirigentPluginDialog.InputFileLabel")); //$NON-NLS-1$
-		props.setLook(wlModel);
-		FormData fdlModel = new FormData();
-		fdlModel.top = new FormAttachment(lastControl, margin);
-		fdlModel.left = new FormAttachment(0, 0);
-		fdlModel.right = new FormAttachment(middle, -margin);
-		wlModel.setLayoutData(fdlModel);
-
-		wbbModel = new Button(shell, SWT.PUSH | SWT.CENTER);
-		props.setLook(wbbModel);
-
-		wbbModel.setText(BaseMessages.getString(PKG, "System.Button.Browse")); //$NON-NLS-1$
-		wbbModel.setToolTipText(BaseMessages
-				.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd")); //$NON-NLS-1$
-		FormData fdbModel = new FormData();
-		fdbModel.top = new FormAttachment(lastControl, margin);
-		fdbModel.right = new FormAttachment(100, 0);
-		wbbModel.setLayoutData(fdbModel);
-
-		wModel = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
-				| SWT.BORDER);
-		props.setLook(wModel);
-		wModel.addModifyListener(lsMod);
-		FormData fdFilename = new FormData();
-		fdFilename.top = new FormAttachment(lastControl, margin);
-		fdFilename.left = new FormAttachment(middle, 0);
-		fdFilename.right = new FormAttachment(wbbModel, 0);
-		wModel.setLayoutData(fdFilename);
-		lastControl = wModel;
+//		Label wlModel = new Label(shell, SWT.RIGHT);
+//		wlModel.setText(BaseMessages
+//				.getString(PKG, "JobEntryDirigentPluginDialog.InputFileLabel")); //$NON-NLS-1$
+//		props.setLook(wlModel);
+//		FormData fdlModel = new FormData();
+//		fdlModel.top = new FormAttachment(lastControl, margin);
+//		fdlModel.left = new FormAttachment(0, 0);
+//		fdlModel.right = new FormAttachment(middle, -margin);
+//		wlModel.setLayoutData(fdlModel);
+//
+//		wbbModel = new Button(shell, SWT.PUSH | SWT.CENTER);
+//		props.setLook(wbbModel);
+//
+//		wbbModel.setText(BaseMessages.getString(PKG, "System.Button.Browse")); //$NON-NLS-1$
+//		wbbModel.setToolTipText(BaseMessages
+//				.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd")); //$NON-NLS-1$
+//		FormData fdbModel = new FormData();
+//		fdbModel.top = new FormAttachment(lastControl, margin);
+//		fdbModel.right = new FormAttachment(100, 0);
+//		wbbModel.setLayoutData(fdbModel);
+//
+//		wModel = new TextVar(jobEntry, shell, SWT.SINGLE | SWT.LEFT
+//				| SWT.BORDER);
+//		props.setLook(wModel);
+//		wModel.addModifyListener(lsMod);
+//		FormData fdFilename = new FormData();
+//		fdFilename.top = new FormAttachment(lastControl, margin);
+//		fdFilename.left = new FormAttachment(middle, 0);
+//		fdFilename.right = new FormAttachment(wbbModel, 0);
+//		wModel.setLayoutData(fdFilename);
+//		lastControl = wModel;
 
 		Label wlURI = new Label(shell, SWT.RIGHT);
 		wlURI.setText(BaseMessages.getString(PKG, "JobEntryDirigentPluginDialog.URILabel")); //$NON-NLS-1$ 
@@ -158,29 +158,29 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 		wURI.setLayoutData(fdURI);
 		lastControl = wURI;
 
-		Label wlModelType = new Label(shell, SWT.RIGHT);
-		wlModelType.setText(BaseMessages
-				.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeLabel")); //$NON-NLS-1$ 
-		props.setLook(wlModelType);
-		FormData fdlModelType = new FormData();
-		fdlModelType.top = new FormAttachment(lastControl, margin);
-		fdlModelType.left = new FormAttachment(0, 0);
-		fdlModelType.right = new FormAttachment(middle, -margin);
-		wlModelType.setLayoutData(fdlModelType);
-
-		wModelType = new Combo(shell, SWT.DROP_DOWN);
-		wModelType
-				.add(BaseMessages.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeCSV")); //$NON-NLS-1$
-		wModelType.add(BaseMessages.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeEA")); //$NON-NLS-1$
-
-		props.setLook(wModelType);
-		wModelType.addModifyListener(lsMod);
-		FormData fdModelType = new FormData();
-		fdModelType.top = new FormAttachment(lastControl, margin);
-		fdModelType.left = new FormAttachment(middle, 0);
-		fdModelType.right = new FormAttachment(100, 0);
-		wModelType.setLayoutData(fdModelType);
-		lastControl = wModelType;
+//		Label wlModelType = new Label(shell, SWT.RIGHT);
+//		wlModelType.setText(BaseMessages
+//				.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeLabel")); //$NON-NLS-1$ 
+//		props.setLook(wlModelType);
+//		FormData fdlModelType = new FormData();
+//		fdlModelType.top = new FormAttachment(lastControl, margin);
+//		fdlModelType.left = new FormAttachment(0, 0);
+//		fdlModelType.right = new FormAttachment(middle, -margin);
+//		wlModelType.setLayoutData(fdlModelType);
+//
+//		wModelType = new Combo(shell, SWT.DROP_DOWN);
+//		wModelType
+//				.add(BaseMessages.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeCSV")); //$NON-NLS-1$
+//		wModelType.add(BaseMessages.getString(PKG, "JobEntryDirigentPluginDialog.ModelTypeEA")); //$NON-NLS-1$
+//
+//		props.setLook(wModelType);
+//		wModelType.addModifyListener(lsMod);
+//		FormData fdModelType = new FormData();
+//		fdModelType.top = new FormAttachment(lastControl, margin);
+//		fdModelType.left = new FormAttachment(middle, 0);
+//		fdModelType.right = new FormAttachment(100, 0);
+//		wModelType.setLayoutData(fdModelType);
+//		lastControl = wModelType;
 
 		// Some buttons
 		wOK = new Button(shell, SWT.PUSH);
@@ -211,23 +211,23 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 			}
 		};
 
-		if (wModel != null)
-			wModel.addSelectionListener(lsDef);
+		//if (wModel != null)
+		//	wModel.addSelectionListener(lsDef);
 
 		wURI.addSelectionListener(lsDef);
 
-		if (wbbModel != null) {
-			// Listen to the browse button next to the file name
-			wbbModel.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent event) {
-					DirectoryDialog dialog = new DirectoryDialog(shell,
-							SWT.OPEN);
-					String objectname = dialog.open();
-					if (objectname != null)
-						wModel.setText(objectname);
-				}
-			});
-		}
+//		if (wbbModel != null) {
+//			// Listen to the browse button next to the file name
+//			wbbModel.addSelectionListener(new SelectionAdapter() {
+//				public void widgetSelected(SelectionEvent event) {
+//					DirectoryDialog dialog = new DirectoryDialog(shell,
+//							SWT.OPEN);
+//					String objectname = dialog.open();
+//					if (objectname != null)
+//						wModel.setText(objectname);
+//				}
+//			});
+//		}
 
 		// Detect X or ALT-F4 or something that kills this window...
 		shell.addShellListener(new ShellAdapter() {
@@ -251,9 +251,9 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 
 	public void getData(JobEntryDirigentPlugin jobEntry) {
 		wStepname.setText(Const.NVL(jobEntry.getName(), ""));
-		wModel.setText(Const.NVL(jobEntry.getModel(), ""));
+		//wModel.setText(Const.NVL(jobEntry.getModel(), ""));
 		wURI.setText(Const.NVL(jobEntry.getUri(), ""));
-		wModelType.setText(Const.NVL(jobEntry.getModelType(), ""));
+		//wModelType.setText(Const.NVL(jobEntry.getModelType(), ""));
 
 	}
 
@@ -271,9 +271,9 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 
 	private void ok() {
 		jobEntry.setName(wStepname.getText());
-		jobEntry.setModel(wModel.getText());
+		//jobEntry.setModel(wModel.getText());
 		jobEntry.setUri(wURI.getText());
-		jobEntry.setModelType(wModelType.getText());
+		//jobEntry.setModelType(wModelType.getText());
 		jobEntry.setChanged();
 		dispose();
 	}
