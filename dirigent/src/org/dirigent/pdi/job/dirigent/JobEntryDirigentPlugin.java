@@ -2,11 +2,12 @@ package org.dirigent.pdi.job.dirigent;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.dirigent.config.DirigentConfig;
+import org.dirigent.executor.PatternExecutionStatistics;
+import org.dirigent.executor.StepStatistics;
 import org.dirigent.generator.Generator;
 import org.pentaho.di.cluster.SlaveServer;
 import org.pentaho.di.core.Result;
@@ -31,16 +32,9 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	private String uri;
 	private String modelType;
 
-	private static boolean handlerInitialized=false;
 
 	public JobEntryDirigentPlugin(String n) {
 		super(n, "");
-		synchronized (JobEntryDirigentPlugin.MODEL) {
-			if (!JobEntryDirigentPlugin.handlerInitialized) {
-				Logger.getLogger("org.dirigent").addHandler(new JobHandler());
-				JobEntryDirigentPlugin.handlerInitialized = true;
-			}
-		}
 	}
 
 	public JobEntryDirigentPlugin() {
@@ -158,15 +152,13 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	public boolean evaluates() {
 		return true;
 	}
-
+	
 	@Override
-	public Result execute(Result prevResult, int nr) throws KettleException {
-		JobHandler.setJobDirigentPlugin(this);
-		Logger logger = Logger.getLogger(this.getClass().getName());
+	public Result execute(Result prevResult, int nr) throws KettleException {	
 
 		Result result = new Result(nr);
 
-		logger.log(Level.INFO, "Starting DIRIGENT Job " + getName());
+		this.log.logBasic("Starting DIRIGENT Job " + getName());
 
 		try {
 			if (model != null) {
@@ -181,25 +173,28 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			}
 			Generator.generate(uri);
 			result.setResult(true);
-			logger.log(Level.INFO, "DIRIGENT Job finished sucefully.");
-			
+			result.setNrLinesUpdated(PatternExecutionStatistics.getStepStatistics().lastElement().getAffectedRows());
+			result.setNrLinesWritten(PatternExecutionStatistics.getStepStatistics().lastElement().getAffectedRows());			
+			this.log.logBasic("DIRIGENT Job "+ getName()+" finished sucefully.");
+			logStepStatistics();			
 		} catch (Throwable t) {
 			result.setNrErrors(1);
 			result.setResult(false);
 			prevResult.add(result);
 			prevResult.setResult(false);
-			logger.log(Level.SEVERE, "Exception executing Dirigent.", t);
-		}
-		finally {
-			JobHandler.setJobDirigentPlugin(null);
+			this.log.logError("Exception executing Dirigent.\n",t);
 		}
 		return result;
 	}
 
-	private String stackTraceToString(Throwable t) {
-		StringWriter sw = new StringWriter();
-		t.printStackTrace(new PrintWriter(sw));
-		return sw.toString();
+	/**
+	 * 
+	 */
+	private void logStepStatistics() {
+		this.log.logBasic("Dirigent steps statistics:");
+		Iterator<StepStatistics> i=PatternExecutionStatistics.getStepStatistics().iterator();
+		while (i.hasNext()) {
+			this.log.logBasic(i.next().getExecutionSummary());
+		}		
 	}
-
 }
