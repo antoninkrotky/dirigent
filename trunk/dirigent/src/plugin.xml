@@ -8,10 +8,8 @@
    classname="org.dirigent.pdi.job.dirigent.JobEntryDirigentPlugin">
    <libraries>
     	<library name="dirigent_1.0.jar"/>
-    	<library name="lib/hsqldb.jar"/>
-    	<library name="lib/csvjdbc.jar"/>
-    	<library name="lib/ojdbc14.jar"/>
     	<library name="lib/velocity-1.6.2-dep.jar"/>
+    	<library name="lib/commons-lang-2.5.jar"/>    	
     </libraries>
     
    <localized_category>
