@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IDimensionColumn;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
