@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.context.Context;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
@@ -45,8 +46,8 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 	public MappingDecorator(MappingVO mapping) {
 		super(mapping);
 		this.mapping = mapping;
-		initSources();
-		initColumnMappings();
+		
+		
 
 	}
 
@@ -115,6 +116,9 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 
 	@Override
 	public Collection<IColumnMapping> getColumnMappings() {
+		if (columnMappings==null) {
+			initColumnMappings();
+		}
 		return columnMappings;
 	}
 
@@ -301,13 +305,16 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 
 	@Override
 	public Map<MappingSourceVO, IElement> getSources() {
+		if (sources==null) {
+			initSources();
+		}
 		return sources;
 	}
 
 	public String injectSubqueries(String template) {
 		StringWriter sb = new StringWriter();
 		try {
-			if (!Velocity.evaluate(subqueriesContext, sb,
+			if (!Velocity.evaluate(getSubqueriesContext(), sb,
 					"MappingDecorator.injectSubqueries", new StringReader(
 							template))) {
 				throw new RuntimeException(
@@ -318,5 +325,16 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 		}
 		return sb.toString().replace("\n", "\n\t" + new String(getOffset()));
 
+	}
+
+	/**
+	 * @return
+	 */
+	private Context getSubqueriesContext() {
+		if (subqueriesContext==null) {
+			//subqueriesContext is initialized within initSource method.
+			initSources();
+		}
+		return subqueriesContext;
 	}
 }

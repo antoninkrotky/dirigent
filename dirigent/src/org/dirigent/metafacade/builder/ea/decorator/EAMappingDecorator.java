@@ -30,10 +30,15 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 		if (columnMappings == null) {
 			columnMappings = new ArrayList<IColumnMapping>();
 			for (IAttribute a : getAttributes()) {
-				EAColumnMappingDecorator m = new EAColumnMappingDecorator(
+				if (a instanceof EAColumnMappingDecorator) {
+					EAColumnMappingDecorator m=(EAColumnMappingDecorator)a;
+					m.setMapping(this);
+					columnMappings.add(m);
+				}
+				/*EAColumnMappingDecorator m = new EAColumnMappingDecorator(
 						((EAAttributteDecorator) a).getEAAttribute());
-				m.setMapping(this);
-				columnMappings.add(m);
+				m.setMapping(this);*/
+				
 
 			}
 		}
