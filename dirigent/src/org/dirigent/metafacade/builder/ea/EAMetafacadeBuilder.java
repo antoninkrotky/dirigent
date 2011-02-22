@@ -120,7 +120,9 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 			EAAttributeVO a = i.next();
 			if ("column".equals(a.stereotype)) {
 				res.add(new EAColumnDecorator(a));
-			} else if ("BIDimensionColumn".equals(a.stereotype)) {
+			} else if ("BIColumn".equals(a.stereotype)) {
+				res.add(new EADimensionColumnDecorator(a));
+			}else if ("BIDimensionColumn".equals(a.stereotype)) {
 				res.add(new EADimensionColumnDecorator(a));
 			} else if ("BIMappingColumn".equals(a.stereotype)) {
 				res.add(new EAColumnMappingDecorator(a));
