@@ -36,7 +36,7 @@ public class ElementDecorator implements IElement, IGeneratable {
 
 	@Override
 	public Map<String, String> getProperties() {
-		return element.properties;
+		return element.getProperties();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class ElementDecorator implements IElement, IGeneratable {
 	public IPattern getPattern() {
 		String pattern=null;
  		if ("true".equals(DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.PATTERN_OVERRIDE,"true"))) {
- 			pattern=element.properties.get("pattern");
+ 			pattern=element.getProperties().get("pattern");
  		}
  		if (pattern==null) {
  			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;

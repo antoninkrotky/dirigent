@@ -33,7 +33,7 @@ public class MappingDao extends CsvDao<MappingVO> {
 		v.columnMappings = cmDao.getColumnMappingByMappingURI(v.uri);
 		v.sources = mstDao
 				.getMappingSourceTablesByMappingUri(v.uri);
-		v.properties=new HashMap<String, String>();
+		v.setProperties(new HashMap<String, String>());
 		return v;
 	}
 
