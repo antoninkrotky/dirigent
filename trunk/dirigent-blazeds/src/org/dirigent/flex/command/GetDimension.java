@@ -28,7 +28,7 @@ public class GetDimension implements ICommand {
 		vo.columns=getColumnsVO(d);
 		vo.description=d.getDescription();
 		vo.id=d.getValueObject().id;
-		vo.properties=d.getProperties();
+		vo.setProperties(d.getProperties());
 		vo.scdType=d.getSCDType();
 		vo.stereotype=d.getStereotype();		
 		vo.name=d.getName();
