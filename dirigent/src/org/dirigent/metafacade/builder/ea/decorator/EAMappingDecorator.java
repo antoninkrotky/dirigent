@@ -9,6 +9,7 @@ import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IColumnMapping;
 import org.dirigent.metafacade.IMapping;
 import org.dirigent.metafacade.IRelation;
+import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.ColumnMappingDecorator;
 import org.dirigent.metafacade.builder.decorator.MappingDecorator;
@@ -107,5 +108,13 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 				columnMappings.add(cm);
 			}
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.builder.decorator.MappingDecorator#getSchema()
+	 */
+	@Override
+	public ISchema getSchema() {
+		return EACommon.getSchema(this);
 	}
 }
