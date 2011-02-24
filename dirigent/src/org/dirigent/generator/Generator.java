@@ -24,6 +24,7 @@ public class Generator {
 	protected static ThreadLocal<Collection<String>> generatedStack = new ThreadLocal<Collection<String>>();
 
 	public static void generate(String elementURI) {
+		MetafacadeBuilder.getMetafacadeBuilder().clearCache();
 		generatedStack.set(new LinkedList<String>());
 		l.info("Getting metafacade for URI=" + elementURI);
 		IGeneratable gen = (IGeneratable) MetafacadeBuilder

@@ -50,6 +50,8 @@ public abstract class MetafacadeBuilder {
 	public abstract void save(IElement element);
 
 	public abstract Vector<IElement> getChildElements(String uri);
+	
+	public abstract void clearCache();
 
 	@Deprecated
 	public abstract Collection<ObjectVO> getChildObjects(String uri);
