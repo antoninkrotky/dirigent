@@ -27,9 +27,11 @@ public class JDBCStatementExecutor implements IStepExecutor {
 		try {
 			c.setAutoCommit(false);
 		} catch (SQLException e1) {
-			l.log(Level.WARNING,
-					"Unable to set autocommit to false. Check your DB settings.",
-					e1);
+			l
+					.log(
+							Level.WARNING,
+							"Unable to set autocommit to false. Check your DB settings.",
+							e1);
 		}
 		String sql = TemplateHelper.generateTemplate(gen, step);
 		try {
@@ -46,7 +48,8 @@ public class JDBCStatementExecutor implements IStepExecutor {
 			} catch (SQLException ee) {
 				l.log(Level.WARNING, "Unable to rollback transaction.", ee);
 			}
-			l.severe("SQLException while executing step " + step.getName());
+			l.severe("SQLException while executing step " + step.getName()
+					+ ": " + e.getMessage());
 			throw new RuntimeException(e);
 
 		} finally {
@@ -57,8 +60,8 @@ public class JDBCStatementExecutor implements IStepExecutor {
 	private Connection getConnection(ISchema schema) {
 		try {
 			Class.forName(schema.getJdbcDriver());
-			return DriverManager.getConnection(schema.getJdbcUrl(),
-					schema.getUsername(), schema.getPassword());
+			return DriverManager.getConnection(schema.getJdbcUrl(), schema
+					.getUsername(), schema.getPassword());
 		} catch (Exception e) {
 			throw new RuntimeException(
 					"Unable to create connection for schema URI: "
