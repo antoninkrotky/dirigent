@@ -15,10 +15,14 @@ public class EAColumnDecorator extends EAAttributteDecorator implements IColumn{
 	public String getDataType() {
 		if (dataType==null) {
 			dataType=getType();
-			if (getEAAttribute().length!=null) {
+			if (getEAAttribute().length!=null && getEAAttribute().length.intValue()>0) {
 				dataType=dataType+'('+getEAAttribute().length+')';
-			} else if (getEAAttribute().scale!=null) {
-				dataType=dataType+'('+getEAAttribute().scale+','+getEAAttribute().precision+')';
+			}  else if (getEAAttribute().precision!=null && getEAAttribute().precision.intValue()>0) {
+				if (getEAAttribute().scale!=null && getEAAttribute().scale.intValue()>0) {
+					dataType=dataType+'('+getEAAttribute().precision+','+getEAAttribute().scale+')';
+				} else {
+					dataType=dataType+'('+getEAAttribute().precision+')';
+				}
 			}
 		}
 		return dataType;
