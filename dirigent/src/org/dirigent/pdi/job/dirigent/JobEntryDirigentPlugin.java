@@ -180,9 +180,18 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			result.setResult(false);
 			prevResult.add(result);
 			prevResult.setResult(false);
-			this.log.logError("Exception executing Dirigent.\n",t);
+			logException("Exception executing Dirigent.",t);
 		}
 		return result;
+	}
+	
+	
+	private void logException(String message,Throwable t) {
+		this.log.logError(message,t);
+		while (t.getCause()!=null) {
+			t=t.getCause();
+			this.log.logError("Caused by:",t);			
+		} 
 	}
 
 	/**

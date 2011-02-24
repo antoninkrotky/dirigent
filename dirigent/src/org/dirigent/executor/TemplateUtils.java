@@ -2,6 +2,7 @@ package org.dirigent.executor;
 
 import java.text.Normalizer;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.dirigent.metafacade.IAttribute;
 
 public class TemplateUtils {
 
+	private static Logger l=Logger.getLogger(TemplateUtils.class.getName());
 	public static String normalizeString(String text) {
 		String temp = Normalizer.normalize(text, Normalizer.Form.NFD)
 				.replaceAll("[^\\p{ASCII}]", "");
@@ -59,6 +61,10 @@ public class TemplateUtils {
 	public static String getWhereClausule(Collection<IAttribute> elements,
 			String compSign, String joinString, String firstTableName,
 			String secondTableName, boolean joinImmediatelly) {
+		if (elements == null) {
+			l.warning("No elements passed to getWhereClausule method.");
+			return null;
+		}
 		boolean connectSign = joinImmediatelly;
 		StringBuilder sb = new StringBuilder(50);
 		for (IAttribute el : elements) {
