@@ -2,6 +2,7 @@ package org.dirigent.metafacade.builder.ea;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -44,9 +45,25 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	private EADiagramDAO diagramDao = new EADiagramDAO();
 
 	private ConfigSchemaDao schemaDao = new ConfigSchemaDao();
-
+	private static ThreadLocal<HashMap<String, IElement>> localCache=new ThreadLocal<HashMap<String,IElement>>();
+	
 	@Override
 	public IElement getMetafacade(String uri) {
+		HashMap<String, IElement> cache=localCache.get();
+		if (cache==null) {
+			cache=new HashMap<String, IElement>();
+			localCache.set(cache);
+		}
+		IElement element=cache.get(uri);
+		if (element==null) {
+			element=createMetafacade(uri);
+			cache.put(uri, element);
+		}
+		return element;
+	}
+	
+	
+	protected IElement createMetafacade(String uri) {
 		// SCHEMA
 		if (uri.startsWith("schema:")) {
 			return new SchemaDecorator(schemaDao.getSchemaVO(uri));
@@ -147,6 +164,14 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	public Collection<IRelation> getEndingRelations(String elementUri) {
 		return EARelationDecorator.convertCollection(connectorDao
 				.getEndingConnectors(elementUri));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#clearCache()
+	 */
+	@Override
+	public void clearCache() {
+		localCache.set(null);		
 	}
 
 }

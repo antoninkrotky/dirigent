@@ -118,6 +118,15 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 						+ this.getClass().getName());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#clearCache()
+	 */
+	@Override
+	public void clearCache() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }
