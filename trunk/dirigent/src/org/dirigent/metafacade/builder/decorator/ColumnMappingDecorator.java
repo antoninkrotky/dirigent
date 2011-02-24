@@ -3,6 +3,7 @@ package org.dirigent.metafacade.builder.decorator;
 
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.dirigent.metafacade.IColumn;
 import org.dirigent.metafacade.IColumnMapping;
@@ -11,7 +12,7 @@ import org.dirigent.metafacade.IMapping;
 import org.dirigent.metafacade.builder.vo.ColumnMappingVO;
 
 public class ColumnMappingDecorator extends AttributeDecorator implements IColumnMapping {
-
+	private Logger l=Logger.getLogger(AttributeDecorator.class.getName());
 	private final ColumnMappingVO columnMapping;
 	private IMapping mapping;
 	public ColumnMappingDecorator(ColumnMappingVO columnMapping) {
@@ -76,6 +77,10 @@ public class ColumnMappingDecorator extends AttributeDecorator implements IColum
 	public String getExpression() {
 		if (mapping==null) {
 			throw new IllegalStateException("Mapping property must be set on ColumnMappingDescorator before call to getExpression() method.");
+		}		
+		if (columnMapping.expression==null) {
+			l.warning("Missing expression for column mapping "+getName()+".");
+			return null;
 		}
 		return getMapping().injectSubqueries(columnMapping.expression);
 	}
