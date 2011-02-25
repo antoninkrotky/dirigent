@@ -157,6 +157,7 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 		sb.append(getFromClause());
 		sb.append(getWhereClause());
 		sb.append(getGroupByClause());
+		sb.append(getOrderByClause());
 		sb.append("\n");
 
 		sb.append(getOffset());
@@ -174,7 +175,21 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 			sb.append(getOffset());
 			sb.append("GROUP BY \n");
 			sb.append(getOffset());
-			sb.append("\t(" + mapping.groupByClause.trim() + ")");
+			sb.append("\t" + mapping.groupByClause.trim());
+		}
+
+		return sb.toString();
+	}
+	
+	public String getOrderByClause() {
+		StringBuffer sb = new StringBuffer();
+		if (mapping.orderByClause != null
+				&& !mapping.orderByClause.trim().equals("")) {
+			sb.append("\n");
+			sb.append(getOffset());
+			sb.append("ORDER BY \n");
+			sb.append(getOffset());
+			sb.append("\t" + mapping.orderByClause.trim());
 		}
 
 		return sb.toString();
