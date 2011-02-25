@@ -9,6 +9,7 @@ public class MappingVO extends ElementVO{
 	public String filterCondition;
 	public String havingClause;
 	public String groupByClause;
+	public String orderByClause;
 	public String businessRule;
 	public Collection<ColumnMappingVO> columnMappings;
 	public Collection<MappingSourceVO> sources;

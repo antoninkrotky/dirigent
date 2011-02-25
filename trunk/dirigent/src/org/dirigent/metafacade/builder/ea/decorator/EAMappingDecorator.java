@@ -81,6 +81,8 @@ public class EAMappingDecorator extends MappingDecorator implements IMapping {
 		v.sources = getMapingSourceVOs(v.uri);
 		v.targetTableUri = getTargetTableUri(v.uri);
 		v.filterCondition=v.getProperties().get("filterCondition");
+		v.groupByClause=v.getProperties().get("groupByClause");
+		v.orderByClause=v.getProperties().get("orderByClause");
 		v.pattern=v.getProperties().get("pattern");
 		return v;
 	}
