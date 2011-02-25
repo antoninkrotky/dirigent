@@ -16,7 +16,12 @@ public class EAColumnDecorator extends EAAttributteDecorator implements IColumn{
 		if (dataType==null) {
 			dataType=getType();
 			if (getEAAttribute().length!=null && getEAAttribute().length.intValue()>0) {
-				dataType=dataType+'('+getEAAttribute().length+')';
+				String length=getEAAttribute().length.toString();
+				String lengthType=this.getProperties().get("LengthType");
+				if (lengthType!=null) {
+					length=length+" "+lengthType;
+				}				
+				dataType=dataType+'('+length+')';
 			}  else if (getEAAttribute().precision!=null && getEAAttribute().precision.intValue()>0) {
 				if (getEAAttribute().scale!=null && getEAAttribute().scale.intValue()>0) {
 					dataType=dataType+'('+getEAAttribute().precision+','+getEAAttribute().scale+')';
