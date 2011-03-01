@@ -12,7 +12,7 @@
 	<property name="build.dir" value="build" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />	
 	<property name="version" value="1.0" description="Project version. Override this property in your build script."/>
-	<buildnumber/>
+
 	<property name="vendor" value="DIRIGENT" description="Vendor name."/>
 	<property name="doc.target.dir" value="${build.dir}/doc" />
 	<property name="doc.src.dir" value="doc" />
@@ -118,10 +118,10 @@
 			<attribute name="Built-By" value="${user.name}" />
 			<section name="common">
 				<attribute name="Specification-Title" value="${ant.project.name}" />
-				<attribute name="Specification-Version" value="${version}.${build.number}" />
+				<attribute name="Specification-Version" value="${version}" />
 				<attribute name="Specification-Vendor" value="${vendor}" />
 				<attribute name="Implementation-Title" value="${ant.project.name}" />
-				<attribute name="Implementation-Version" value="${version}.${build.number}" />
+				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Vendor" value="${vendor}" />
 			</section>
 		</manifest>
