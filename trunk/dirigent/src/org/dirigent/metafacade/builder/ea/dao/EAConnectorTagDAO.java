@@ -11,11 +11,16 @@ public class EAConnectorTagDAO extends EADao<String[]> {
 
 	@Override
 	protected String[] createVO(ResultSet res) throws SQLException {
-		return new String[]{res.getString(1),res.getString(2)};
+        String value=res.getString(2);
+        String notes=res.getString(3);
+        if ("<memo>".equals(value)) {
+                        value=notes;
+        }
+        return new String[]{res.getString(1),value};
 	}
 	
 	public String[] getObjectProperty(long attributeId,String property) {
-		return findVO("select Property,Value from t_connectortag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});
+		return findVO("select Property,Value,Notes from t_connectortag where ElementID=? and Property=?",new Object[]{new BigDecimal(attributeId),property});		
 	}
 
 	public Map<String,String> getObjectProperties(long attributeId) {
