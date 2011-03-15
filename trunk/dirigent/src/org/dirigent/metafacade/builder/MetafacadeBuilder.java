@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
@@ -39,10 +38,7 @@ public abstract class MetafacadeBuilder {
 	 * */
 	public abstract IElement getMetafacade(String uri);
 
-	/**
-	 * Get attributes for specified element.
-	 * */
-	public abstract Collection<IAttribute> getAttributes(String elementURI);
+
 
 	/**
 	 * Save metafacede to model.
@@ -67,4 +63,6 @@ public abstract class MetafacadeBuilder {
 	 * */
 	public abstract Collection<IRelation> getEndingRelations(
 			String elementUri);
+
+
 }

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.logging.Logger;
 
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.pattern.IPatternStep;
@@ -23,6 +24,7 @@ public class FileExecutor implements IStepExecutor {
 	public static final String MODE_OVERWRITE = "overwrite";
 	public static final String MODE_CREATE = "create";
 
+	private Logger l=Logger.getLogger(FileExecutor.class.getName());
 	@Override
 	public void execute(IGeneratable gen, IPatternStep step) {
 		try {
@@ -52,6 +54,8 @@ public class FileExecutor implements IStepExecutor {
 			Writer w = new OutputStreamWriter(new FileOutputStream(fileName,true),"UTF-8");
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
+			l.info("Step "+step.getName()+" generated file "+file.getAbsolutePath()+".");
+
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to generate pattern step "
 					+ step.getName(), e);

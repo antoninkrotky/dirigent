@@ -1,36 +1,28 @@
 package org.dirigent.metafacade.builder.ea;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.dirigent.config.ConfigSchemaDao;
-import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.decorator.SchemaDecorator;
-import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAConnectorDAO;
 import org.dirigent.metafacade.builder.ea.dao.EADiagramDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAElementDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectDao;
-import org.dirigent.metafacade.builder.ea.decorator.EAAttributteDecorator;
-import org.dirigent.metafacade.builder.ea.decorator.EAColumnDecorator;
-import org.dirigent.metafacade.builder.ea.decorator.EAColumnMappingDecorator;
+import org.dirigent.metafacade.builder.ea.decorator.EAClassDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADiagramDecorator;
-import org.dirigent.metafacade.builder.ea.decorator.EADimensionColumnDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADimensionDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EADomainDecorator;
-import org.dirigent.metafacade.builder.ea.decorator.EAElementDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAFactTableDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAMappingDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EAPackageDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EARelationDecorator;
 import org.dirigent.metafacade.builder.ea.decorator.EATableDecorator;
-import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
@@ -40,7 +32,6 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 
 	private EAObjectDao objectDao = new EAObjectDao();
 	private EAElementDAO elementDao = new EAElementDAO();
-	private EAAttributeDAO attributeDao = new EAAttributeDAO();
 	private EAConnectorDAO connectorDao = new EAConnectorDAO();
 	private EADiagramDAO diagramDao = new EADiagramDAO();
 
@@ -91,7 +82,7 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 			else if ("Package".equals(v.type)) {
 				return new EAPackageDecorator(v);
 			} else {
-				return new EAElementDecorator(v);
+				return new EAClassDecorator(v);
 			}
 		}
 		// DIAGRAM
@@ -128,27 +119,7 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 		return r;
 	}
 
-	@Override
-	public Collection<IAttribute> getAttributes(String elementURI) {
-		Collection<EAAttributeVO> c = attributeDao.getAttributes(elementURI);
-		Collection<IAttribute> res = new ArrayList<IAttribute>(c.size());
-		Iterator<EAAttributeVO> i = c.iterator();
-		while (i.hasNext()) {
-			EAAttributeVO a = i.next();
-			if ("column".equals(a.stereotype)) {
-				res.add(new EAColumnDecorator(a));
-			} else if ("BIColumn".equals(a.stereotype)) {
-				res.add(new EADimensionColumnDecorator(a));
-			}else if ("BIDimensionColumn".equals(a.stereotype)) {
-				res.add(new EADimensionColumnDecorator(a));
-			} else if ("BIMappingColumn".equals(a.stereotype)) {
-				res.add(new EAColumnMappingDecorator(a));
-			} else {
-				res.add(new EAAttributteDecorator(a));
-			}
-		}
-		return res;
-	}
+	
 	@Deprecated
 	public Collection<EAConnectorVO> getStartingConnectors(String elementUri) {
 		return connectorDao.getStartingConnectors(elementUri);
@@ -173,5 +144,8 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	public void clearCache() {
 		localCache.set(null);		
 	}
+
+
+
 
 }

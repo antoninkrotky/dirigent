@@ -11,7 +11,7 @@ import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.builder.vo.DimensionColumnVO;
 import org.dirigent.metafacade.builder.vo.DimensionVO;
 
-public class DimensionDecorator extends TableDecorator implements IDimension,IGeneratable {
+public abstract class DimensionDecorator extends TableDecorator implements IDimension,IGeneratable {
 	public static final String SCD_COLUMN_TYPE_PROPERTY = "scdColumnType";
 	private DimensionVO dimension;
 	private Collection<IColumn> columns=new ArrayList<IColumn>();

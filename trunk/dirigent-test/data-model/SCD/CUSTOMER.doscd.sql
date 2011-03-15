@@ -23,7 +23,7 @@ SELECT
 	 AS "CUST_ADDRESS_ZIP",
 	C.CUSTOMER_ID
 	 AS "CUST_ID",
-	C.FIRST_NAME || ' ' || C.SURNAME
+	C.FIRST_NAME + ' ' + C.SURNAME
 	 AS "CUST_NAME"
 FROM
 	L0_CUSTOMER_ADDRESS A
@@ -44,13 +44,7 @@ WHERE
     
     
  
-   
-							
-							
 
-								
-						
---	target.CUST_ID = stage.CUST_ID
 
 	MERGE INTO D_CUSTOMER target
 	USING
@@ -72,17 +66,17 @@ WHERE
 	ON
 		(
 			target.CUST_ID = stage.CUST_ID
-			 AND target.CUST_NAME = stage.CUST_NAME
+			
 			AND target.CUST_VALID_TO_DATETIME > sysdate
 		)
 	WHEN MATCHED THEN
 		UPDATE
 		SET
-																			target.CUST_ADDRESS_STREET = stage.CUST_ADDRESS_STREET,
+														target.CUST_NAME = stage.CUST_NAME,
+												target.CUST_ADDRESS_STREET = stage.CUST_ADDRESS_STREET,
 												target.CUST_ADDRESS_CITY = stage.CUST_ADDRESS_CITY,
 												target.CUST_ADDRESS_ZIP = stage.CUST_ADDRESS_ZIP,
 							target.CUST_UPDATED_DATETIME = sysdate
-		
 		
 	WHEN NOT MATCHED THEN
 		INSERT
@@ -121,9 +115,8 @@ WHERE
    		WHERE
    		target.CUST_VALID_TO_DATETIME > sysdate
    		AND
-   		target.CUST_ID = stage.CUST_ID    		
+   		target.CUST_ID = stage.CUST_ID   		
    		
-   																 AND ( 				 				target.CUST_NAME <> stage.CUST_NAME
-																						 ) 	);
+   																																);
     
     

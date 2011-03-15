@@ -2,7 +2,6 @@ package org.dirigent.metafacade.builder.ea.decorator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.logging.Logger;
 
 import org.dirigent.metafacade.IColumn;
@@ -21,11 +20,10 @@ public class EAFactTableDecorator extends EATableDecorator implements IFactTable
 		super(ea);
 		
 	}
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public Collection<IColumn> getColumns() {
-				return Collections.checkedCollection((Collection)getAttributes(), IColumn.class);	
-		
+		return EACommon.copyAssignable(getAttributes(), IColumn.class);
 	}
 	
 	@Override
