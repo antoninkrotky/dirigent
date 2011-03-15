@@ -17,6 +17,7 @@ public class JAXBPatternBuilder extends PatternBuilder {
 
 	private static Logger l = Logger.getLogger(JAXBPatternBuilder.class.getName());
 	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public IPattern getPattern(String uri) {

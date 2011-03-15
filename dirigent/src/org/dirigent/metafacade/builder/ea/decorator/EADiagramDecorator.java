@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
@@ -52,10 +51,6 @@ public class EADiagramDecorator implements IDiagram {
 					pattern + ".pattern.xml");
 	}
 	
-	@Override
-	public Collection<IAttribute> getAttributes() {
-		return null;
-	}
 
 	@Override
 	public String getName() {
@@ -148,5 +143,9 @@ public class EADiagramDecorator implements IDiagram {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
 
 }

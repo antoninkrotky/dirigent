@@ -10,7 +10,7 @@ public class EAPackageDecorator extends PackageDecorator {
 	}
 
 	private static ElementVO init(EAElementVO ea, ElementVO v) {
-		EAElementDecorator.init(ea, v);
+		EAClassDecorator.init(ea, v);
 		//for package id is stored in PDATA1 field.
 		if (ea.pdata1!=null) {
 			v.id=Long.parseLong(ea.pdata1);

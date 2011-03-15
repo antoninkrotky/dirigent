@@ -12,7 +12,7 @@ import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 
-public class PackageDecorator extends ElementDecorator implements IPackage {
+public abstract class PackageDecorator extends ElementDecorator implements IPackage {
 
 	private ElementVO element;
 	

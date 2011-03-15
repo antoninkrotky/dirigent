@@ -9,8 +9,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.generator.Generator;
-import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.IRelation;
@@ -93,12 +91,6 @@ public class TestFileExecutor extends TestCase {
 			}
 
 			@Override
-			public Collection<IAttribute> getAttributes() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
 			public String getName() {
 				return "FileExecutorTest";
 			}
@@ -164,6 +156,13 @@ public class TestFileExecutor extends TestCase {
 
 			@Override
 			public String getType() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public IRelation getFirstStartingRelation(String type,
+					String stereotype) {
 				// TODO Auto-generated method stub
 				return null;
 			}

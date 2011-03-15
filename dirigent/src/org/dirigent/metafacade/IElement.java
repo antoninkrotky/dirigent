@@ -16,7 +16,7 @@ public interface IElement {
 
 	public Map<String, String> getProperties();
 
-	public Collection<IAttribute> getAttributes();
+
 
 	public VO getValueObject();
 

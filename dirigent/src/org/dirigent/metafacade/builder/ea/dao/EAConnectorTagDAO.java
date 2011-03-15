@@ -24,7 +24,7 @@ public class EAConnectorTagDAO extends EADao<String[]> {
 	}
 
 	public Map<String,String> getObjectProperties(long attributeId) {
-		Iterator<String[]> i=findVOs("select Property,Value from t_connectortag where ElementID=?",new Object[]{new BigDecimal(attributeId)}).iterator();
+		Iterator<String[]> i=findVOs("select Property,Value,Notes from t_connectortag where ElementID=?",new Object[]{new BigDecimal(attributeId)}).iterator();
 		Map<String, String> m=new HashMap<String, String>();
 		while (i.hasNext()) {
 			String[] s=i.next();

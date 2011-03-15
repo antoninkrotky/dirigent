@@ -17,6 +17,10 @@
  */
 package org.dirigent.metafacade.builder.ea.decorator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
@@ -40,5 +44,21 @@ public class EACommon {
 		}
 		return (ISchema) MetafacadeBuilder.getMetafacadeBuilder()
 				.getMetafacade(DEFAULT_SCHEMA);
+	}
+	
+	/**
+	 * Create new colection conatining references to all assignable elements from original collection. 
+	 * */
+	@SuppressWarnings("unchecked")
+	public static <E> Collection<E> copyAssignable(Collection<?> c,Class<E> clazz) {
+		Collection<E> res=new ArrayList<E>(c.size());
+		Iterator<?> i=c.iterator();
+		while (i.hasNext()) {
+			Object o=i.next();
+			if (clazz.isInstance(o)) {
+				res.add((E)o);
+			}
+		}
+		return res;
 	}
 }

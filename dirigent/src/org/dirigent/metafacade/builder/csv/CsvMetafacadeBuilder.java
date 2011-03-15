@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
@@ -97,12 +96,7 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 						+ this.getClass().getName());
 	}
 
-	@Override
-	public Collection<IAttribute> getAttributes(String elementURI) {
-		throw new RuntimeException(
-				"Operation getAttributes is not supported on "
-						+ this.getClass().getName());
-	}
+
 
 	@Override
 	public Collection<IRelation> getEndingRelations(String elementUri) {
@@ -126,6 +120,8 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 
