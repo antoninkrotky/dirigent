@@ -213,7 +213,7 @@ public class TemplateUtils {
 			return null;
 		}
 		String type=element.getName();
-		if ("DomainObject".equals(element.getStereotype())) {
+		if ("MDADomainObject".equals(element.getStereotype()) || "MDAValueObject".equals(element.getStereotype())) {
 			type=type+"VO";
 		}
 		if (isCollection) {
