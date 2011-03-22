@@ -146,40 +146,50 @@ public class TemplateUtils {
 	 *            upper case the result
 	 * @return reformatted string
 	 */
-	public static String camelToDb(String s, boolean uppercase) {
-		if (s == null)
-			throw new NullPointerException();
+    public static String camelToDb(String s, boolean uppercase) {
+        if (s == null)
+              throw new NullPointerException();
 
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			if (Character.isUpperCase(ch)) {
-				if (i > 0) {
-					sb.append('_');
-				}
-				sb.append(Character.toLowerCase(ch));
-			} else {
-				sb.append(ch);
-			}
-		}
+        StringBuilder sb = new StringBuilder();
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+              char ch = s.charAt(i);
+              if (Character.isUpperCase(ch)) {
+                    if (i > 0 && (i + 1) < length && !Character.isUpperCase(s.charAt(i + 1))) {
+                         sb.append('_');
+                    }
+                    sb.append(Character.toLowerCase(ch));
+              } else {
+                    sb.append(ch);
+              }
+        }
 
-		if (sb.length() > 30)
-			throw new IllegalArgumentException("Result '" + sb.toString()
-					+ "' is too long (" + sb.length()
-					+ " chars, maximum is 30)");
+        if (sb.length() > 30)
+              throw new IllegalArgumentException("Result '" + sb.toString()
+                         + "' is too long (" + sb.length()
+                         + " chars, maximum is 30)");
 
-		String result = sb.toString();
-		if (uppercase)
-			result = result.toUpperCase();
-		return result;
-	}
+        String result = sb.toString();
+        if (uppercase)
+              result = result.toUpperCase();
+        return result;
+  }
+
 
 	public static String getJavaServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
-		String returnType = getJavaServiceParameterTypeFromClassifier(operation
-				.getReturnClassifier(),operation.isReturningArray());
+		String returnType = getJavaServiceParameterTypeFromClassifier(
+				operation.getReturnClassifier(), operation.isReturningArray());
 		if (returnType == null) {
 			returnType = operation.getReturnType();
+			if (returnType != null && !"".equals(returnType)
+					&& !Character.isLowerCase(returnType.charAt(0))
+					&& !"String".equals(returnType)) {
+				l.warning("No classifier associated with return type "
+						+ " (type "
+						+ returnType
+						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+			}
 			if (returnType == null || "".equals(returnType)) {
 				returnType = "void";
 			}
@@ -191,9 +201,19 @@ public class TemplateUtils {
 		Iterator<IParameter> i = operation.getParameters().iterator();
 		while (i.hasNext()) {
 			IParameter p = i.next();
-			String type=getJavaServiceParameterTypeFromClassifier(p.getClassifier(),p.isArray());
-			if (type==null||"".equals(type)) {
-				type=p.getType();
+			String type = getJavaServiceParameterTypeFromClassifier(
+					p.getClassifier(), p.isArray());
+			if (type == null || "".equals(type)) {
+				type = p.getType();
+				if (type != null && !"".equals(type)
+						&& !Character.isLowerCase(type.charAt(0))
+						&& !"String".equals(type)) {
+					l.warning("No classifier associated with parameter "
+							+ p.getName()
+							+ " (type "
+							+ type
+							+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+				}
 			}
 			sb.append(type);
 			sb.append(' ');
@@ -209,16 +229,18 @@ public class TemplateUtils {
 
 	private static String getJavaServiceParameterTypeFromClassifier(
 			IElement element, boolean isCollection) {
-		if (element==null) {
+		if (element == null) {
 			return null;
 		}
-		String type=element.getName();
-		if ("MDADomainObject".equals(element.getStereotype()) || "MDAValueObject".equals(element.getStereotype())) {
-			type=type+"VO";
+		String type = element.getName();
+		if ("MDADomainObject".equals(element.getStereotype())
+				|| "MDAValueObject".equals(element.getStereotype())) {
+			type = type + "VO";
 		}
 		if (isCollection) {
-			type="Collection<"+type+">";
+			type = "Collection<" + type + ">";
 		}
-		return type;				
+		return type;
 	}
+	
 }
