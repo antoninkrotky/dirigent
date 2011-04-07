@@ -9,7 +9,8 @@ public class GetSQLQuery implements ICommand {
 	public String uri;
 
 	@Override
-	public Object execute() {		
+	public Object execute() {	
+		MetafacadeBuilder.getMetafacadeBuilder().clearCache();
 		IQueriable m=(IQueriable)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(uri);
 		GetSQLQueryResult result=new GetSQLQueryResult();
 		result.query=m.getSQLQuery();

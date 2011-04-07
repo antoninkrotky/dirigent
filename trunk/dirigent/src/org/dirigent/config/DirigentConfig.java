@@ -39,7 +39,7 @@ public abstract class DirigentConfig {
 	private static final ThreadLocal<String> configName = new ThreadLocal<String>() {
 		@Override
 		protected String initialValue() {
-			return "default";
+			return System.getProperty("dirigent.config", "default");
 		}
 	};
 
