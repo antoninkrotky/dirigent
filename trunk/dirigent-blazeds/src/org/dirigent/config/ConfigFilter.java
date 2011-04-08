@@ -32,7 +32,6 @@ public class ConfigFilter implements javax.servlet.Filter {
 				configName="default";
 			}
 		}
-		DirigentConfig.setConfigName(configName);
 		arg2.doFilter(arg0, arg1);
 	}
 
