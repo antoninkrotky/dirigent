@@ -232,15 +232,22 @@ public class TemplateUtils {
 		if (element == null) {
 			return null;
 		}
-		String type = element.getName();
+		String type;
 		if ("MDADomainObject".equals(element.getStereotype())
 				|| "MDAValueObject".equals(element.getStereotype())) {
-			type = type + "VO";
-		}
+			type = element.getName() + "VO";
+		}  else if ("MDADomainType".equals(element.getStereotype())) {
+	        type = element.getProperties().get("java.dataType");
+		 } else {
+			 type = element.getName();
+		 }
 		if (isCollection) {
 			type = "Collection<" + type + ">";
 		}
 		return type;
+		
+	
+
 	}
 	
 }
