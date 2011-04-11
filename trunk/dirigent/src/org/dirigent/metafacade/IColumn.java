@@ -9,6 +9,6 @@ public interface IColumn  extends IAttribute{
 	 * */
 	public String getDataType();
 
-
+	public Boolean isMandatory();
 	
 }

@@ -15,5 +15,7 @@ public String endElementUri;
 public String alias;
 //TODO Ask Karel
 public int lineColor;
+public String sourceRole;
+public String destRole;
 
 }

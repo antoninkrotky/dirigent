@@ -10,6 +10,7 @@ import org.dirigent.metafacade.builder.ea.dao.EAConnectorTagDAO;
 import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 import org.dirigent.metafacade.builder.vo.RelationVO;
 
+
 public class EARelationDecorator extends RelationDecorator {
 
 	public EARelationDecorator(EAConnectorVO ea) {
@@ -30,6 +31,9 @@ public class EARelationDecorator extends RelationDecorator {
 		v.endElementUri = ea.endObjectGuid;
 		v.lineColor = ea.lineColor;
 		v.alias = ea.alias;
+		v.sourceRole = ea.sourceRole;
+		v.destRole = ea.destRole;
+		
 		return v;
 	}
 
@@ -43,4 +47,5 @@ public class EARelationDecorator extends RelationDecorator {
 		}
 		return res;
 	}
+
 }

@@ -10,6 +10,7 @@ public class EAColumnDecorator extends EAAttributteDecorator implements IColumn{
 	}
 
 	private String dataType;
+	private Boolean mandatory;
 	
 	@Override
 	public String getDataType() {
@@ -33,4 +34,17 @@ public class EAColumnDecorator extends EAAttributteDecorator implements IColumn{
 		return dataType;
 	}
 
+	@Override
+	public Boolean isMandatory() {
+		if (mandatory==null) {
+			if ("1".equals(getEAAttribute().allowDuplicates)) {
+				mandatory=true;
+			}
+			else {
+				mandatory=false;
+			}
+		}
+		return mandatory;
+	}
+	
 }

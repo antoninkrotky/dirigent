@@ -70,6 +70,13 @@ public class ColumnMappingDecorator extends AttributeDecorator implements IColum
 				// TODO Auto-generated method stub
 				return null;
 			}
+			
+			@Override
+			public Boolean isMandatory() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
 		};
 	}
 

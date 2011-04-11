@@ -14,5 +14,10 @@ public class ColumnDecorator extends AttributeDecorator implements IColumn {
 	public String getDataType() {
 		return super.getType();
 	}
-
+	
+	@Override
+	public Boolean isMandatory() {
+		return null;
+	}
+	
 }

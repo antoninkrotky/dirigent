@@ -13,7 +13,7 @@ public class EAConnectorDAO extends EADao<EAConnectorVO> {
 	 * */
 	public Collection<EAConnectorVO> getStartingConnectors(String elementUri) {
 		return findVOs(
-				"select ea_guid,name,connector_type,stereotype,notes,start_object_id,end_object_id,connector_id,(select ea_guid from t_object where object_id = start_object_id) as start_guid,(select ea_guid from t_object where object_id = end_object_id) as end_guid, linecolor, styleex from t_connector where start_object_id=(select object_id from t_object where ea_guid=?)",
+				"select ea_guid,name,connector_type,stereotype,notes,start_object_id,end_object_id,connector_id,(select ea_guid from t_object where object_id = start_object_id) as start_guid,(select ea_guid from t_object where object_id = end_object_id) as end_guid, linecolor, styleex, sourcerole, destrole from t_connector where start_object_id=(select object_id from t_object where ea_guid=?)",
 				new Object[] { elementUri });
 	}
 
@@ -22,7 +22,7 @@ public class EAConnectorDAO extends EADao<EAConnectorVO> {
 	 * */
 	public Collection<EAConnectorVO> getEndingConnectors(String elementUri) {
 		return findVOs(
-				"select ea_guid,name,connector_type,stereotype,notes,start_object_id,end_object_id,connector_id,(select ea_guid from t_object where object_id = start_object_id) as start_guid,(select ea_guid from t_object where object_id = end_object_id) as end_guid, linecolor, styleex from t_connector where end_object_id=(select object_id from t_object where ea_guid=?)",
+				"select ea_guid,name,connector_type,stereotype,notes,start_object_id,end_object_id,connector_id,(select ea_guid from t_object where object_id = start_object_id) as start_guid,(select ea_guid from t_object where object_id = end_object_id) as end_guid, linecolor, styleex, sourcerole, destrole from t_connector where end_object_id=(select object_id from t_object where ea_guid=?)",
 				new Object[] { elementUri });
 	}
 
@@ -41,6 +41,8 @@ public class EAConnectorDAO extends EADao<EAConnectorVO> {
 		v.endObjectGuid = res.getString(10);
 		v.lineColor = res.getInt(11);
 		v.alias = retrieveAlias(res.getString(12));
+		v.sourceRole = res.getString(13);
+		v.destRole = res.getString(14);
 
 		return v;
 	}
