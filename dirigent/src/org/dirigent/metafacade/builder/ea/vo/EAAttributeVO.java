@@ -15,5 +15,6 @@ public class EAAttributeVO {
 	public String type;
 	public long classifier;
 	public String initialValue;
+	public String allowDuplicates;
 
 }

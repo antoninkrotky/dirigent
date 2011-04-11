@@ -11,4 +11,5 @@ public class AttributeVO extends VO {
 	public String stereotype;
 	public String initialValue;
 	public int position;
+	public String allowDuplicates;
 }

@@ -9,7 +9,7 @@ import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 public class EAAttributeDAO extends EADao<EAAttributeVO> {
 
 	public Collection<EAAttributeVO> getAttributes(String uri) {
-		return findVOs("select id,name,notes,length,precision,scale,stereotype,pos,ea_guid,type,Classifier, \"Default\" from t_attribute where object_id=(select object_id from t_object where ea_guid=?)  order by pos", new Object[] { uri });
+		return findVOs("select id,name,notes,length,precision,scale,stereotype,pos,ea_guid,type,Classifier, \"Default\", allowduplicates from t_attribute where object_id=(select object_id from t_object where ea_guid=?)  order by pos", new Object[] { uri });
 	}
 
 	@Override
@@ -27,6 +27,7 @@ public class EAAttributeDAO extends EADao<EAAttributeVO> {
 		v.type=res.getString(10);
 		v.classifier=res.getLong(11);
 		v.initialValue=res.getString(12);
+		v.allowDuplicates=res.getString(13);
 		return v;
 	}
 

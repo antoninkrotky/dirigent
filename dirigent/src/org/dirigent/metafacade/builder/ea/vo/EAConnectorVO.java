@@ -13,4 +13,6 @@ public class EAConnectorVO {
 	public String endObjectGuid;
 	public int lineColor;
 	public String alias;
+	public String sourceRole;
+	public String destRole;
 }

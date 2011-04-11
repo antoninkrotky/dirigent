@@ -94,4 +94,12 @@ public class RelationDecorator implements IRelation {
 		return relation.endElementUri;
 	}
 	
+	public String getSourceRole() {
+		return relation.sourceRole;
+	}
+	
+	public String getDestRole() {
+		return relation.destRole;
+	}
+	
 }
