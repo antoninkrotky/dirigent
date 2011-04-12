@@ -178,21 +178,22 @@ public class TemplateUtils {
 
 	public static String getJavaServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
-		String returnType = getJavaServiceParameterTypeFromClassifier(
-				operation.getReturnClassifier(), operation.isReturningArray());
+		String returnType = getJavaServiceParameterTypeFromClassifier(operation.getReturnClassifier(), operation.isReturningArray());
 		if (returnType == null) {
 			returnType = operation.getReturnType();
 			if (returnType != null && !"".equals(returnType)
 					&& !Character.isLowerCase(returnType.charAt(0))
 					&& !"String".equals(returnType)) {
 				l.warning("No classifier associated with return type "
-						+ " (type "
-						+ returnType
+						+ " (type " + returnType
 						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 			}
 			if (returnType == null || "".equals(returnType)) {
 				returnType = "void";
+			} else if (operation.isReturningArray()) {
+				returnType = "Collection<" + returnType + ">";
 			}
+
 		}
 		sb.append(returnType);
 		sb.append(' ');
@@ -245,9 +246,6 @@ public class TemplateUtils {
 			type = "Collection<" + type + ">";
 		}
 		return type;
-		
-	
-
 	}
 	
 }
