@@ -30,7 +30,6 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	private String uri;
 	private String modelType;
 
-
 	public JobEntryDirigentPlugin(String n) {
 		super(n, "");
 	}
@@ -132,15 +131,16 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.pentaho.di.job.entry.JobEntryBase#resetErrorsBeforeExecution()
 	 */
 	@Override
 	public boolean resetErrorsBeforeExecution() {
 		return false;
 	}
-	
-	
+
 	/*
 	 * This job supports conditional true/false results.
 	 * 
@@ -150,11 +150,11 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	public boolean evaluates() {
 		return true;
 	}
-	
-	@Override
-	public Result execute(Result prevResult, int nr) throws KettleException {	
 
-		Result result = new Result(nr);
+	@Override
+	public Result execute(Result prevResult, int nr) throws KettleException {
+
+		Result result = prevResult;
 
 		this.log.logBasic("Starting DIRIGENT Job " + getName());
 
@@ -171,27 +171,31 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			}
 			Generator.generate(uri);
 			result.setResult(true);
-			result.setNrLinesUpdated(PatternExecutionStatistics.getStepStatistics().lastElement().getAffectedRows());
-			result.setNrLinesWritten(PatternExecutionStatistics.getStepStatistics().lastElement().getAffectedRows());			
-			this.log.logBasic("DIRIGENT Job "+ getName()+" finished sucefully.");
-			logStepStatistics();			
+			result.setNrLinesUpdated(PatternExecutionStatistics
+					.getStepStatistics().lastElement().getAffectedRows());
+			result.setNrLinesWritten(PatternExecutionStatistics
+					.getStepStatistics().lastElement().getAffectedRows());
+			this.log.logBasic("DIRIGENT Job " + getName()
+					+ " finished sucefully.");
+			logStepStatistics();
 		} catch (Throwable t) {
 			result.setNrErrors(1);
+			logException("Exception executing Dirigent.", t);
+		}
+		if (result.getNrErrors() == 0) {
+			result.setResult(true);
+		} else {
 			result.setResult(false);
-			prevResult.add(result);
-			prevResult.setResult(false);
-			logException("Exception executing Dirigent.",t);
 		}
 		return result;
 	}
-	
-	
-	private void logException(String message,Throwable t) {
-		this.log.logError(message,t);
-		while (t.getCause()!=null) {
-			t=t.getCause();
-			this.log.logError("Caused by:",t);			
-		} 
+
+	private void logException(String message, Throwable t) {
+		this.log.logError(message, t);
+		while (t.getCause() != null) {
+			t = t.getCause();
+			this.log.logError("Caused by:", t);
+		}
 	}
 
 	/**
@@ -199,9 +203,10 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 	 */
 	private void logStepStatistics() {
 		this.log.logBasic("Dirigent steps statistics:");
-		Iterator<StepStatistics> i=PatternExecutionStatistics.getStepStatistics().iterator();
+		Iterator<StepStatistics> i = PatternExecutionStatistics
+				.getStepStatistics().iterator();
 		while (i.hasNext()) {
 			this.log.logBasic(i.next().getExecutionSummary());
-		}		
+		}
 	}
 }
