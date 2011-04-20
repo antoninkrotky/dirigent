@@ -96,4 +96,19 @@ public class EAClassDecorator extends ElementDecorator implements IClass {
 		return operations;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IClass#getOperations(java.lang.String)
+	 */
+	@Override
+	public Collection<IOperation> getOperations(String stereotype) {
+		ArrayList<IOperation> res=new ArrayList<IOperation>();
+		for (Iterator<IOperation> iterator = getOperations().iterator(); iterator.hasNext();) {
+			IOperation iOperation =  iterator.next();
+			if (stereotype.equals(iOperation.getStereotype())) {
+				res.add(iOperation);
+			}
+		}
+		return res;
+	}
+
 }

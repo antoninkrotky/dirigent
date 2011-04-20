@@ -24,7 +24,11 @@ import java.util.Collection;
  *
  */
 public interface IClass extends IElement {
-	public Collection<IAttribute> getAttributes();
-	
+	public Collection<IAttribute> getAttributes();	
 	public Collection<IOperation> getOperations();
+	/**
+	 * Get operations with specified stereotype.
+	 * */
+	public Collection<IOperation> getOperations(String stereotype);
+	
 }
