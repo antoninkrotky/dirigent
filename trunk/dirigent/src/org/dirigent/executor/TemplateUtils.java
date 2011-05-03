@@ -1,6 +1,8 @@
 package org.dirigent.executor;
 
+import java.lang.reflect.Method;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -12,6 +14,10 @@ import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IOperation;
 import org.dirigent.metafacade.IParameter;
 
+/**
+ * Utility class containing static helper methods to be used in Dirigent
+ * templates.
+ * */
 public class TemplateUtils {
 
 	private static Logger l = Logger.getLogger(TemplateUtils.class.getName());
@@ -146,46 +152,78 @@ public class TemplateUtils {
 	 *            upper case the result
 	 * @return reformatted string
 	 */
-    public static String camelToDb(String s, boolean uppercase) {
-        if (s == null)
-              throw new NullPointerException();
+	public static String camelToDb(String s, boolean uppercase) {
+		if (s == null)
+			throw new NullPointerException();
 
-        StringBuilder sb = new StringBuilder();
-        int length = s.length();
-        for (int i = 0; i < length; i++) {
-              char ch = s.charAt(i);
-              if (Character.isUpperCase(ch)) {
-                    if (i > 0 && (i + 1) < length && !Character.isUpperCase(s.charAt(i + 1))) {
-                         sb.append('_');
-                    }
-                    sb.append(Character.toLowerCase(ch));
-              } else {
-                    sb.append(ch);
-              }
-        }
+		StringBuilder sb = new StringBuilder();
+		int length = s.length();
+		for (int i = 0; i < length; i++) {
+			char ch = s.charAt(i);
+			if (Character.isUpperCase(ch)) {
+				if (i > 0 && (i + 1) < length
+						&& !Character.isUpperCase(s.charAt(i + 1))) {
+					sb.append('_');
+				}
+				sb.append(Character.toLowerCase(ch));
+			} else {
+				sb.append(ch);
+			}
+		}
 
-        if (sb.length() > 30)
-              throw new IllegalArgumentException("Result '" + sb.toString()
-                         + "' is too long (" + sb.length()
-                         + " chars, maximum is 30)");
+		if (sb.length() > 30)
+			throw new IllegalArgumentException("Result '" + sb.toString()
+					+ "' is too long (" + sb.length()
+					+ " chars, maximum is 30)");
 
-        String result = sb.toString();
-        if (uppercase)
-              result = result.toUpperCase();
-        return result;
-  }
+		String result = sb.toString();
+		if (uppercase)
+			result = result.toUpperCase();
+		return result;
+	}
 
+	/**
+	 * Joins element names provided by the collection to single string.
+	 * Result of element's getName() method is used as element name. If the element does not implement
+	 * getName() method, result of toString() method is used as element name.
+	 * */
+	public static String joinNames(Collection<?> col, String separator) {
+		ArrayList<String> c = new ArrayList<String>();
+		Iterator<?> i=col.iterator();
+		while (i.hasNext()) {
+			Object o = i.next();
+			String value = null;
+			if (o != null) {
+				try {
+					Method methodGetName = o.getClass().getMethod("getName");
+					if (String.class.equals(methodGetName.getReturnType())) {
+						c.add((String) methodGetName.invoke(o));
+					} else {
+						value = o.toString();
+					}
+				} catch (Exception e) {
+					value = o.toString();
+				}
+			}
+			if (value!=null) {
+				c.add(value);
+			}
+		}
+		return StringUtils.join(c, separator);
+	}
 
 	public static String getJavaServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
-		String returnType = getJavaServiceParameterTypeFromClassifier(operation.getReturnClassifier(), operation.isReturningArray());
+		String returnType = getJavaServiceParameterTypeFromClassifier(
+				operation.getReturnClassifier(), operation.isReturningArray());
 		if (returnType == null) {
 			returnType = operation.getReturnType();
 			if (returnType != null && !"".equals(returnType)
 					&& !Character.isLowerCase(returnType.charAt(0))
 					&& !"String".equals(returnType)) {
 				l.warning("No classifier associated with return type "
-						+ " (type " + returnType
+						+ " (type "
+						+ returnType
 						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 			}
 			if (returnType == null || "".equals(returnType)) {
@@ -228,6 +266,70 @@ public class TemplateUtils {
 		return sb.toString();
 	}
 
+	public static String getFlexServiceMethodSignature(IOperation operation) {
+		StringBuffer sb = new StringBuffer();
+		String returnType = getFlexServiceParameterTypeFromClassifier(
+				operation.getReturnClassifier(), operation.isReturningArray());
+		if (returnType == null) {
+			returnType = operation.getReturnType();
+			if (returnType != null && !"".equals(returnType)
+					&& !Character.isLowerCase(returnType.charAt(0))
+					&& !"String".equals(returnType)) {
+				l.warning("No classifier associated with return type "
+						+ " (type "
+						+ returnType
+						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+			}
+			if (returnType == null || "".equals(returnType)) {
+				returnType = "void";
+			} else if (operation.isReturningArray()) {
+				returnType = "IList";
+			}
+
+		}
+
+		sb.append(operation.getName());
+		sb.append('(');
+		sb.append(getFlexServiceMethodParameterList(operation));
+		sb.append(')');
+		sb.append(':');
+		sb.append(returnType);
+		return sb.toString();
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 */
+	public static String getFlexServiceMethodParameterList(IOperation operation) {
+		StringBuffer sb = new StringBuffer();
+		Iterator<IParameter> i = operation.getParameters().iterator();
+		while (i.hasNext()) {
+			IParameter p = i.next();
+			String type = getFlexServiceParameterTypeFromClassifier(
+					p.getClassifier(), p.isArray());
+			if (type == null || "".equals(type)) {
+				type = p.getType();
+				if (type != null && !"".equals(type)
+						&& !Character.isLowerCase(type.charAt(0))
+						&& !"String".equals(type)) {
+					l.warning("No classifier associated with parameter "
+							+ p.getName()
+							+ " (type "
+							+ type
+							+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+				}
+			}			
+			sb.append(p.getName());
+			sb.append(':');
+			sb.append(type);
+			if (i.hasNext()) {
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
+	}
+
 	private static String getJavaServiceParameterTypeFromClassifier(
 			IElement element, boolean isCollection) {
 		if (element == null) {
@@ -237,15 +339,35 @@ public class TemplateUtils {
 		if ("MDADomainObject".equals(element.getStereotype())
 				|| "MDAValueObject".equals(element.getStereotype())) {
 			type = element.getName() + "VO";
-		}  else if ("MDADomainType".equals(element.getStereotype())) {
-	        type = element.getProperties().get("java.dataType");
-		 } else {
-			 type = element.getName();
-		 }
+		} else if ("MDADomainType".equals(element.getStereotype())) {
+			type = element.getProperties().get("java.dataType");
+		} else {
+			type = element.getName();
+		}
 		if (isCollection) {
 			type = "Collection<" + type + ">";
 		}
 		return type;
 	}
-	
+
+	private static String getFlexServiceParameterTypeFromClassifier(
+			IElement element, boolean isCollection) {
+		if (element == null) {
+			return null;
+		}
+		String type;
+		if ("MDADomainObject".equals(element.getStereotype())
+				|| "MDAValueObject".equals(element.getStereotype())) {
+			type = element.getName() + "VO";
+		} else if ("MDADomainType".equals(element.getStereotype())) {
+			type = element.getProperties().get("flex.dataType");
+		} else {
+			type = element.getName();
+		}
+		if (isCollection) {
+			type = "IList";
+		}
+		return type;
+	}
+
 }
