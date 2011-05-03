@@ -22,12 +22,18 @@ public class TemplateUtils {
 
 	private static Logger l = Logger.getLogger(TemplateUtils.class.getName());
 
+	/**
+	 * Normalize the string.
+	 * */
 	public static String normalizeString(String text) {
 		String temp = Normalizer.normalize(text, Normalizer.Form.NFD)
 				.replaceAll("[^\\p{ASCII}]", "");
 		return temp.toUpperCase().replace(" ", "_");
 	}
 
+	/**
+	 * Remove brackets ({, }) from string.
+	 * */
 	public static String removeBrackets(String text) {
 		if (text == null) {
 			return null;
@@ -35,10 +41,16 @@ public class TemplateUtils {
 		return text.replace("{", "").replace("}", "");
 	}
 
+	/**
+	 * Get reference to Apache StringUtils class.
+	 * */
 	public static Class<StringUtils> getStringUtils() {
 		return StringUtils.class;
 	}
-
+	
+	/**
+	 * Get reference to Apache StringEscapeUtils class.
+	 * */
 	public static Class<StringEscapeUtils> getStringEscapeUtils() {
 		return StringEscapeUtils.class;
 	}
@@ -135,6 +147,9 @@ public class TemplateUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Capitalize string.
+	 * */
 	public static String capitalize(String string) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(Character.toUpperCase(string.charAt(0)));
@@ -183,13 +198,14 @@ public class TemplateUtils {
 	}
 
 	/**
-	 * Joins element names provided by the collection to single string.
-	 * Result of element's getName() method is used as element name. If the element does not implement
-	 * getName() method, result of toString() method is used as element name.
+	 * Joins element names provided by the collection to single string. Result
+	 * of element's getName() method is used as element name. If the element
+	 * does not implement getName() method, result of toString() method is used
+	 * as element name.
 	 * */
 	public static String joinNames(Collection<?> col, String separator) {
 		ArrayList<String> c = new ArrayList<String>();
-		Iterator<?> i=col.iterator();
+		Iterator<?> i = col.iterator();
 		while (i.hasNext()) {
 			Object o = i.next();
 			String value = null;
@@ -205,13 +221,16 @@ public class TemplateUtils {
 					value = o.toString();
 				}
 			}
-			if (value!=null) {
+			if (value != null) {
 				c.add(value);
 			}
 		}
 		return StringUtils.join(c, separator);
 	}
 
+	/**
+	 * Get java service method signature for specified operation.
+	 * */
 	public static String getJavaServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
 		String returnType = getJavaServiceParameterTypeFromClassifier(
@@ -266,6 +285,9 @@ public class TemplateUtils {
 		return sb.toString();
 	}
 
+	/**
+	 * Get flex service method signature for specified operation.
+	 * */
 	public static String getFlexServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
 		String returnType = getFlexServiceParameterTypeFromClassifier(
@@ -298,8 +320,7 @@ public class TemplateUtils {
 	}
 
 	/**
-	 * @param operation
-	 * @return
+	 * Get service method parameter list in flex (ActionScript) syntax. 
 	 */
 	public static String getFlexServiceMethodParameterList(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
@@ -319,7 +340,7 @@ public class TemplateUtils {
 							+ type
 							+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 				}
-			}			
+			}
 			sb.append(p.getName());
 			sb.append(':');
 			sb.append(type);
