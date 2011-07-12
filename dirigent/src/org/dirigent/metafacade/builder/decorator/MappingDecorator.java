@@ -214,7 +214,9 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 	public String getFromClause() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(getOffset());
-		sb.append("FROM\n");
+		sb.append("FROM ");
+		//we enclose the whole from clause into this extra parenthesis so that we can use set operators in joinType tagged values.		
+		sb.append("(\n");
 
 		Iterator<MappingSourceVO> i = getSources().keySet().iterator();
 		boolean first = true;
@@ -240,13 +242,17 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 				sb.append(" LEFT JOIN ");
 			} else if ("fullOuter".equals(s.joinType)) {
 				sb.append(" FULL JOIN ");
+			} else if ("unionAll".equals(s.joinType)) {
+				sb.append(" UNION ALL ");
 			}
 			if (element instanceof ITable) {
 				ITable table = (ITable) element;
 
 				sb.append(table.getFullName());
 				sb.append(' ');
-				sb.append(s.alias);
+				if (s.alias!=null) {
+					sb.append(s.alias);
+				}
 			}
 
 			if (element instanceof IMapping) {
@@ -257,7 +263,9 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 				sb.append(mapping.getSQLQuery(getOffset().length + 1));
 				sb.append(getOffset());
 				sb.append("\n) ");
-				sb.append(s.alias);
+				if (s.alias!=null) {
+					sb.append(s.alias);
+				}
 
 			}
 
@@ -267,12 +275,13 @@ public class MappingDecorator extends ElementDecorator implements IMapping,
 					&& (s.joinCondition == null || "".equals(s.joinCondition
 							.trim()))) {
 				// DO NOTHING
-			} else {
+			} else if ("inner".equals(s.joinType) || "leftOuter".equals(s.joinType) || "fullOuter".equals(s.joinType)) {
 				sb.append(" ON ");
 				sb.append(s.joinCondition);
 			}
-			sb.append('\n');
+			sb.append("\n");
 		}
+		sb.append(")\n");
 
 		return sb.toString();
 	}
