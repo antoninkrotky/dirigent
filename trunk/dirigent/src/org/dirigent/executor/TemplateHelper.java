@@ -41,15 +41,19 @@ public class TemplateHelper {
 		return generateValue(step.getTemplate(), gen) + '\n';
 	}
 
-	public static String generateValue(String template, IGeneratable gen) {
+	private static VelocityContext getVelocityContext(IGeneratable gen) {
 		VelocityContext vCtx = new VelocityContext();
 		vCtx.put("element", gen);
 		vCtx.put("config", DirigentConfig.getDirigentConfig());
 		vCtx.put("utils", TemplateUtils.class);
+		return vCtx;
+	}
+	
+	public static String generateValue(String template, IGeneratable gen) {
 		try {
 			Writer w = new StringWriter();
 			Velocity
-					.evaluate(vCtx, w, gen.getName() + ":" + template, template);
+					.evaluate(getVelocityContext(gen), w, gen.getName() + ":" + template, template);
 			w.close();
 			return w.toString();
 		} catch (Exception e) {
@@ -59,11 +63,9 @@ public class TemplateHelper {
 	}
 
 	public static boolean evaluateCondition(IGeneratable gen, IPatternStep step) {
-		VelocityContext ctx = new VelocityContext();
-		ctx.put("element", gen);
 		StringWriter sw = new StringWriter();
 		try {
-			Velocity.evaluate(ctx, sw, "Dirigent", "#if ("
+			Velocity.evaluate(getVelocityContext(gen), sw, "Dirigent", "#if ("
 					+ step.getCondition() + ")true#{else}false#end");
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to evaluate condition ["
