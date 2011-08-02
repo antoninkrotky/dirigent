@@ -8,4 +8,5 @@ public class EADiagramVO {
 	public String notes;
 	public String stereotype;
 	public String ea_guid;	
+	public String status;
 }

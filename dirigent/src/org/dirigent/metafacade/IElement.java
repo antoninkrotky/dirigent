@@ -50,4 +50,6 @@ public interface IElement {
 	public String getAlias();
 
 	public String getKeywords();
+	
+	public String getStatus();
 }

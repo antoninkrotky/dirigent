@@ -34,4 +34,5 @@ public class ElementVO extends VO {
 	public String parentUri;
 	public String alias;
 	public String keywords;
+	public String status;
 }

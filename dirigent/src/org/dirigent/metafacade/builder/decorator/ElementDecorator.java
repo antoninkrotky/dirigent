@@ -145,5 +145,14 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 		}
 		return null;
 	}
+	
+	public String getStatus() {
+		if (element.status!=null) {
+			return element.status;
+		} else if (getParent()!=null) {
+			return getParent().getStatus();
+		}
+		return null;
+	}
 
 }
