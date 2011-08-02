@@ -143,6 +143,15 @@ public class EADiagramDecorator implements IDiagram {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String getStatus() {
+		if (diagram.status!=null) {
+			return diagram.status;
+		} else if (getParent()!=null) {
+			return getParent().getStatus();
+		}
+		return null;
+	}
 
 
 

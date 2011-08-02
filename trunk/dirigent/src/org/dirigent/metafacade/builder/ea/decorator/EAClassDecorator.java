@@ -35,6 +35,7 @@ public class EAClassDecorator extends ElementDecorator implements IClass {
 		v.parentUri = ea.parentGuid;
 		v.alias = ea.alias;
 		v.keywords = ea.keywords;
+		v.status=ea.status;
 		v.setPropertiesLazyLoader(new ILazyLoader<Map<String, String>>() {
 			@Override
 			public Map<String, String> load() {
