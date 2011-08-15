@@ -390,5 +390,42 @@ public class TemplateUtils {
 		}
 		return type;
 	}
+	
+	/**
+	 * Return name of table according to conventions on project BAMBI
+	 * 
+	 * @param element
+	 *            input parameter
+	 */
+	public static String getBAMBITableName(IElement element) {
+		if (element == null) {
+			return null;
+		}
+		String tableName;
+		if ("BIFact".equals(element.getStereotype())){
+			tableName = "F";
+			if ("monthly".equals(element.getProperties().get("factPeriodicity"))){
+				tableName += "M";
+			}
+			else {
+				tableName += "D";
+			}
+			if ("state".equals(element.getProperties().get("factType"))){
+				tableName += "S_";
+			}
+			else {
+				tableName += "T_";
+			}
+			tableName += element.getName();
+		} else if ("BIDimension".equals(element.getStereotype())) {
+			tableName = "D_";
+			tableName += element.getName();	
+		} else {
+			tableName = element.getName();
+		}
+		
+		return tableName;	
+	}
+	
 
 }
