@@ -21,21 +21,30 @@ import java.util.Stack;
 
 /**
  * @author khubl
- *
+ * 
  */
 public class PatternExecutionStatistics {
-	private static ThreadLocal<Stack<StepStatistics>> stepStatistics=new ThreadLocal<Stack<StepStatistics>>();
-	
+	private static ThreadLocal<Stack<StepStatistics>> stepStatistics = new ThreadLocal<Stack<StepStatistics>>();
+
 	public static void reset() {
 		stepStatistics.set(null);
 	}
-	
+
 	public static Stack<StepStatistics> getStepStatistics() {
-		Stack<StepStatistics> s=stepStatistics.get();
-		if (s==null) {
-			s=new Stack<StepStatistics>();
+		Stack<StepStatistics> s = stepStatistics.get();
+		if (s == null) {
+			s = new Stack<StepStatistics>();
 			stepStatistics.set(s);
 		}
 		return s;
+	}
+
+	public static long getMaxAffectedRows() {
+		Stack<StepStatistics> s = stepStatistics.get();
+		long rowsAffected=0;
+		for (StepStatistics i : s) {
+			rowsAffected=Math.max(rowsAffected, i.getAffectedRows());
+		}
+		return rowsAffected;
 	}
 }

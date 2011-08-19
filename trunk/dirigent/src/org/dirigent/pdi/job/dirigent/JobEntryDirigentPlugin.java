@@ -171,10 +171,9 @@ public class JobEntryDirigentPlugin extends JobEntryBase implements Cloneable,
 			}
 			Generator.generate(uri);
 			result.setResult(true);
-			result.setNrLinesUpdated(PatternExecutionStatistics
-					.getStepStatistics().lastElement().getAffectedRows());
-			result.setNrLinesWritten(PatternExecutionStatistics
-					.getStepStatistics().lastElement().getAffectedRows());
+			long affectedRows=PatternExecutionStatistics.getMaxAffectedRows();
+			result.setNrLinesUpdated(affectedRows);
+			result.setNrLinesWritten(affectedRows);
 			this.log.logBasic("DIRIGENT Job " + getName()
 					+ " finished sucefully.");
 			logStepStatistics();
