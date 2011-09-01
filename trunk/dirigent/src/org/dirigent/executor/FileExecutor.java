@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.logging.Logger;
 
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.pattern.IPatternStep;
 
@@ -50,8 +51,7 @@ public class FileExecutor implements IStepExecutor {
 					return;
 				}
 			}
-			
-			Writer w = new OutputStreamWriter(new FileOutputStream(fileName,true),"UTF-8");
+			Writer w = new OutputStreamWriter(new FileOutputStream(fileName,true), DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DIRIGENT_FILEEXECUTOR_ENCODING,"UTF-8"));
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
 			l.info("Step "+step.getName()+" generated file "+file.getAbsolutePath()+".");
