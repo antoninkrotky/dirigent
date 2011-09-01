@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.pattern.IPatternStep;
 
@@ -28,7 +27,8 @@ public class TemplateHelper {
 		Properties p = new Properties();
 		p.setProperty("input.encoding", "UTF-8");
 		p.setProperty("resource.loader", "class");
-		p.setProperty("class.resource.loader.class", "org.dirigent.executor.DirigentResourceLoader");
+		p.setProperty("class.resource.loader.class",
+				"org.dirigent.executor.DirigentResourceLoader");
 		try {
 			Velocity.init(p);
 			l.info("Velocity template engine initialized.");
@@ -42,18 +42,37 @@ public class TemplateHelper {
 	}
 
 	private static VelocityContext getVelocityContext(IGeneratable gen) {
-		VelocityContext vCtx = new VelocityContext();
-		vCtx.put("element", gen);
-		vCtx.put("config", DirigentConfig.getDirigentConfig());
-		vCtx.put("utils", TemplateUtils.class);
-		return vCtx;
+		String contextFactoryName = System
+				.getProperty("dirigent.context.factory");
+		if (contextFactoryName != null) {
+			try {
+				return ((AbstractContextFactory) Class.forName(
+						contextFactoryName).newInstance())
+						.createVelocityContext(gen);
+			} catch (InstantiationException e) {
+				throw new RuntimeException(
+						"InstantiationException when creating instance of "
+								+ contextFactoryName + ". "
+								+ contextFactoryName
+								+ " is either abstract or interface. ");
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(
+						"IllegalAccessException when creating instance of "
+								+ contextFactoryName, e);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException("Class " + contextFactoryName
+						+ " not found.");
+			}
+		} else {
+			return AbstractContextFactory.getVelocityContext(gen);
+		}
 	}
-	
+
 	public static String generateValue(String template, IGeneratable gen) {
 		try {
 			Writer w = new StringWriter();
-			Velocity
-					.evaluate(getVelocityContext(gen), w, gen.getName() + ":" + template, template);
+			Velocity.evaluate(getVelocityContext(gen), w, gen.getName() + ":"
+					+ template, template);
 			w.close();
 			return w.toString();
 		} catch (Exception e) {

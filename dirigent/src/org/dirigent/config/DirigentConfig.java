@@ -67,6 +67,9 @@ public abstract class DirigentConfig {
 	
 	public static final String DIRIGENT_BROWSER_ROOT_URI="dirigent.gui.browser.root.uri";
 
+	public static final String DIRIGENT_CONTEXT_FACTORY = "dirigent.context.factory";
+	public static final String DIRIGENT_FILEEXECUTOR_ENCODING = "dirigent.fileexecutor.encoding";
+	
 	//public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
 	//public static final String DEFAULT_PATTERN_DIMENSION = "dirigent.pattern.default.dimension";
 	//public static final String DEFAULT_PATTERN_TABLE = "dirigent.pattern.default.table";
