@@ -1,5 +1,6 @@
 package org.dirigent.metafacade.builder.ea.dao;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ public class EADiagramDAO extends EADao<EADiagramVO>{
 	}
 	
 	public EADiagramVO getDiagram(long id) {
-		return findVO("select diagram_id,ea_guid,name,notes,package_id,parentid,stereotype from t_diagram where diagram_id=?",new Object[]{id});
+		return findVO("select diagram_id,ea_guid,name,notes,package_id,parentid,stereotype from t_diagram where diagram_id=?",new Object[]{new BigDecimal(id)});
 	}
 
 	@Override
