@@ -1,11 +1,14 @@
 package org.dirigent.executor;
 
 import java.lang.reflect.Method;
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,9 +29,24 @@ public class TemplateUtils {
 	 * Normalize the string.
 	 * */
 	public static String normalizeString(String text) {
-		String temp = Normalizer.normalize(text, Normalizer.Form.NFD)
-				.replaceAll("[^\\p{ASCII}]", "");
+		String temp = Normalizer.normalize(removeExtraWhitespaces(text),
+				Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 		return temp.toUpperCase().replace(" ", "_");
+	}
+
+	public static String removeExtraWhitespaces(String text) {
+		String str = null;
+		if (text != null) {
+			Pattern pattern = Pattern.compile("\\s+");
+			Matcher matcher = pattern.matcher(text.trim());
+			str = matcher.replaceAll(" ");
+		}
+		return str;
+	}
+
+	public static String lpad(String text, String lpadChar, int length) {
+		return String.format("%1$#" + length + "s", text).replace(' ',
+				lpadChar.charAt(0));
 	}
 
 	/**
@@ -47,7 +65,7 @@ public class TemplateUtils {
 	public static Class<StringUtils> getStringUtils() {
 		return StringUtils.class;
 	}
-	
+
 	/**
 	 * Get reference to Apache StringEscapeUtils class.
 	 * */
@@ -141,8 +159,8 @@ public class TemplateUtils {
 				sb.append(str2);
 			}
 		} else {
-			sb.append(str1).append(" ").append(joinSign).append(" ")
-					.append(str2);
+			sb.append(str1).append(" ").append(joinSign).append(" ").append(
+					str2);
 		}
 		return sb.toString();
 	}
@@ -233,17 +251,18 @@ public class TemplateUtils {
 	 * */
 	public static String getJavaServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
-		String returnType = getJavaServiceParameterTypeFromClassifier(
-				operation.getReturnClassifier(), operation.isReturningArray());
+		String returnType = getJavaServiceParameterTypeFromClassifier(operation
+				.getReturnClassifier(), operation.isReturningArray());
 		if (returnType == null) {
 			returnType = operation.getReturnType();
 			if (returnType != null && !"".equals(returnType)
 					&& !Character.isLowerCase(returnType.charAt(0))
 					&& !"String".equals(returnType)) {
-				l.warning("No classifier associated with return type "
-						+ " (type "
-						+ returnType
-						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+				l
+						.warning("No classifier associated with return type "
+								+ " (type "
+								+ returnType
+								+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 			}
 			if (returnType == null || "".equals(returnType)) {
 				returnType = "void";
@@ -259,18 +278,19 @@ public class TemplateUtils {
 		Iterator<IParameter> i = operation.getParameters().iterator();
 		while (i.hasNext()) {
 			IParameter p = i.next();
-			String type = getJavaServiceParameterTypeFromClassifier(
-					p.getClassifier(), p.isArray());
+			String type = getJavaServiceParameterTypeFromClassifier(p
+					.getClassifier(), p.isArray());
 			if (type == null || "".equals(type)) {
 				type = p.getType();
 				if (type != null && !"".equals(type)
 						&& !Character.isLowerCase(type.charAt(0))
 						&& !"String".equals(type)) {
-					l.warning("No classifier associated with parameter "
-							+ p.getName()
-							+ " (type "
-							+ type
-							+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+					l
+							.warning("No classifier associated with parameter "
+									+ p.getName()
+									+ " (type "
+									+ type
+									+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 				}
 			}
 			sb.append(type);
@@ -290,17 +310,18 @@ public class TemplateUtils {
 	 * */
 	public static String getFlexServiceMethodSignature(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
-		String returnType = getFlexServiceParameterTypeFromClassifier(
-				operation.getReturnClassifier(), operation.isReturningArray());
+		String returnType = getFlexServiceParameterTypeFromClassifier(operation
+				.getReturnClassifier(), operation.isReturningArray());
 		if (returnType == null) {
 			returnType = operation.getReturnType();
 			if (returnType != null && !"".equals(returnType)
 					&& !Character.isLowerCase(returnType.charAt(0))
 					&& !"String".equals(returnType)) {
-				l.warning("No classifier associated with return type "
-						+ " (type "
-						+ returnType
-						+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+				l
+						.warning("No classifier associated with return type "
+								+ " (type "
+								+ returnType
+								+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 			}
 			if (returnType == null || "".equals(returnType)) {
 				returnType = "void";
@@ -320,25 +341,26 @@ public class TemplateUtils {
 	}
 
 	/**
-	 * Get service method parameter list in flex (ActionScript) syntax. 
+	 * Get service method parameter list in flex (ActionScript) syntax.
 	 */
 	public static String getFlexServiceMethodParameterList(IOperation operation) {
 		StringBuffer sb = new StringBuffer();
 		Iterator<IParameter> i = operation.getParameters().iterator();
 		while (i.hasNext()) {
 			IParameter p = i.next();
-			String type = getFlexServiceParameterTypeFromClassifier(
-					p.getClassifier(), p.isArray());
+			String type = getFlexServiceParameterTypeFromClassifier(p
+					.getClassifier(), p.isArray());
 			if (type == null || "".equals(type)) {
 				type = p.getType();
 				if (type != null && !"".equals(type)
 						&& !Character.isLowerCase(type.charAt(0))
 						&& !"String".equals(type)) {
-					l.warning("No classifier associated with parameter "
-							+ p.getName()
-							+ " (type "
-							+ type
-							+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
+					l
+							.warning("No classifier associated with parameter "
+									+ p.getName()
+									+ " (type "
+									+ type
+									+ "). This is OK for generic types like int or String. For types defined in model ensure, that parameter type is defined by reference in model (not by string name of type).");
 				}
 			}
 			sb.append(p.getName());
@@ -390,5 +412,4 @@ public class TemplateUtils {
 		}
 		return type;
 	}
-
 }
