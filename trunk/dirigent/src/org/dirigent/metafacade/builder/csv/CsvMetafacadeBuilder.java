@@ -54,7 +54,11 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	private IElement getTable(String uri) {
 		TableVO v = tableDao.getTable(uri);
 		if (v != null) {
-			return new TableDecorator(v);
+			return new TableDecorator(v){
+				@Override
+				public IElement getGeneralizedParent() {
+					return null;
+				}};
 		}
 		return null;
 	}
@@ -62,7 +66,11 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	private IElement getMapping(String uri) {
 		MappingVO m = mappingDao.getMapping(uri);
 		if (m != null) {
-			return new MappingDecorator(m);
+			return new MappingDecorator(m){
+				@Override
+				public IElement getGeneralizedParent() {
+					return null;
+				}};
 		}
 		return null;
 	}
@@ -70,7 +78,11 @@ public class CsvMetafacadeBuilder extends MetafacadeBuilder {
 	private IElement getSchema(String uri) {
 		SchemaVO s = schemaDao.getSchema(uri);
 		if (s != null) {
-			return new SchemaDecorator(s);
+			return new SchemaDecorator(s){
+				@Override
+				public IElement getGeneralizedParent() {
+					return null;
+				}};
 		}
 		return null;
 	}

@@ -57,7 +57,11 @@ public class EAMetafacadeBuilder extends MetafacadeBuilder {
 	protected IElement createMetafacade(String uri) {
 		// SCHEMA
 		if (uri.startsWith("schema:")) {
-			return new SchemaDecorator(schemaDao.getSchemaVO(uri));
+			return new SchemaDecorator(schemaDao.getSchemaVO(uri)){
+				@Override
+				public IElement getGeneralizedParent() {
+					return null;
+				}};
 		}
 		// OBJECT
 		EAElementVO v = elementDao.getEAElement(uri);

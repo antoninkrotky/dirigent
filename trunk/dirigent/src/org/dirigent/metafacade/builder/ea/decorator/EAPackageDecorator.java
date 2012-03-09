@@ -1,5 +1,9 @@
 package org.dirigent.metafacade.builder.ea.decorator;
 
+import java.util.Collection;
+
+import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.decorator.PackageDecorator;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 import org.dirigent.metafacade.builder.vo.ElementVO;
@@ -16,5 +20,24 @@ public class EAPackageDecorator extends PackageDecorator {
 			v.id=Long.parseLong(ea.pdata1);
 		}
 		return v;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getGeneralizedParent()
+	 */
+	@Override
+	public IElement getGeneralizedParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public Collection<IRelation> getStartingRelations(String type,
+			String stereotype, boolean includeGeneralizedRelations) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
