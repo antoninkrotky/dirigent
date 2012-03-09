@@ -1,6 +1,9 @@
 package org.dirigent.metafacade.builder.decorator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,9 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 	private Collection<IRelation> startingRelations;
 	private Collection<IRelation> endingRelations;
 	
+	
+
+	public abstract IElement getGeneralizedParent();
 	
 	public ElementDecorator(ElementVO v) {
 		this.element=v;
@@ -67,6 +73,16 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 		String pattern=null;
  		if ("true".equals(DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.PATTERN_OVERRIDE,"true"))) {
  			pattern=element.getProperties().get("pattern");
+ 			//Try to inherit pattern from generalized parent.
+ 			if (pattern==null) {
+ 				IElement g=this.getGeneralizedParent();
+ 				if (g!=null && g instanceof IGeneratable) {
+ 					IPattern p=((IGeneratable)g).getPattern();
+ 					if (p!=null) {
+ 						return p;
+ 					}
+ 				}
+ 			}
  		}
  		if (pattern==null) {
  			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
@@ -97,6 +113,36 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 		return endingRelations;
 	}
 
+	private Map<String, IRelation> inheritedStartingrelationMap;
+	
+	protected Map<String, IRelation> getStartingInheritedRelationMap() {
+		if (inheritedStartingrelationMap==null) {
+			inheritedStartingrelationMap=new HashMap<String, IRelation>();
+			if (getGeneralizedParent()!=null) {
+				//add inherited relations to map
+				Iterator<IRelation> i=getGeneralizedParent().getStartingRelations(true).iterator();
+				while (i.hasNext()) {
+					IRelation r=i.next();
+					inheritedStartingrelationMap.put(r.getName(), r);
+				}
+			}
+			//add element relations to map
+			Iterator<IRelation> i=getStartingRelations().iterator();
+			while (i.hasNext()) {
+				IRelation r=i.next();
+				inheritedStartingrelationMap.put(r.getName(), r);
+			}			
+		}
+		return inheritedStartingrelationMap;
+	}
+	
+	public Collection<IRelation> getStartingRelations(boolean inheritRelations) {
+		if (!inheritRelations || getGeneralizedParent()==null) {
+			return getStartingRelations();
+		}		
+		return getStartingInheritedRelationMap().values();		
+	}
+	
 	@Override
 	public Collection<IRelation> getStartingRelations() {
 		if(startingRelations == null){
@@ -145,6 +191,26 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 		}
 		return null;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public Collection<IRelation> getStartingRelations(String type,
+			String stereotype, boolean includeGeneralizedRelations) {
+		Collection<IRelation> res=new ArrayList<IRelation>();
+		Collection<IRelation> c=getStartingRelations();
+		if (c!=null) {
+			for (IRelation iRelation : c) {
+				if ((type==null || type.equals(iRelation.getType())) && (stereotype==null || stereotype.equals(iRelation.getStereotype()))) {
+					res.add(iRelation);
+				}
+			}
+		}
+		return res;
+	}
+	
+	
 	
 	public String getStatus() {
 		if (element.status!=null) {

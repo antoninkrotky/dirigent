@@ -20,9 +20,33 @@ public interface IElement {
 
 	public VO getValueObject();
 
+	/**
+	 * Get parent element in model hierarchy. Parent element is typically package or folder.
+	 * */
 	public IElement getParent();
+	
+	/**
+	 * Get parent element from generalisation relation.
+	 * */
+	public IElement getGeneralizedParent();
+	
+
 
 	public Collection<IRelation> getStartingRelations();
+	
+	public Collection<IRelation> getStartingRelations(boolean inherit);
+	
+	/**
+	 * Get starting relations matching specified type and stereotype.
+	 * @param type Type of relations to return. If null, type of relation will not
+	 *            be matched.
+	 * @param stereotype
+	 *            Stereotype of relations to return. If null, stereotype of
+	 *            relation will not be matched.
+	 * @param includeGeneralizedRelations If true return also generalized relations.           
+	 *            
+	 * */
+	public Collection<IRelation> getStartingRelations(String type, String stereotype,boolean includeGeneralizedRelations);
 
 	/**
 	 * Search starting relations and return first relation of matching type and

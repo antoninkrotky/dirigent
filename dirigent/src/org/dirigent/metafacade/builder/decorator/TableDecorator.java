@@ -9,7 +9,7 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.TableVO;
 import org.dirigent.metafacade.builder.vo.VO;
 
-public class TableDecorator extends ElementDecorator implements ITable {
+public abstract class TableDecorator extends ElementDecorator implements ITable {
 
 	private TableVO table;
 

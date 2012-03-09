@@ -59,6 +59,11 @@ public class EAMappingDecorator extends EAClassDecorator implements IMapping {
 					}
 				}
 			}
+
+			@Override
+			public IElement getGeneralizedParent() {
+				return EAMappingDecorator.this.getGeneralizedParent();
+			}
 		};
 
 	}

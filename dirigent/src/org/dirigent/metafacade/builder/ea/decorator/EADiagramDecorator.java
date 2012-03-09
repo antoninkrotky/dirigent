@@ -153,6 +153,34 @@ public class EADiagramDecorator implements IDiagram {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getGeneralizedParent()
+	 */
+	@Override
+	public IElement getGeneralizedParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public Collection<IRelation> getStartingRelations(String type,
+			String stereotype, boolean includeGeneralizedRelations) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getStartingRelations(boolean)
+	 */
+	@Override
+	public Collection<IRelation> getStartingRelations(boolean inherit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

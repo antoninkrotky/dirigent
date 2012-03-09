@@ -28,7 +28,7 @@ import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 import org.dirigent.metafacade.builder.vo.VO;
 
-public class MappingDecorator extends ElementDecorator implements IMapping,
+public abstract class MappingDecorator extends ElementDecorator implements IMapping,
 		IGeneratable {
 
 	private MappingVO mapping;

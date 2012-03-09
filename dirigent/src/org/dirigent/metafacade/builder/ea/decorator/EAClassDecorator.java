@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IClass;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IOperation;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.decorator.ElementDecorator;
 import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectPropertyDAO;
@@ -110,6 +112,35 @@ public class EAClassDecorator extends ElementDecorator implements IClass {
 			}
 		}
 		return res;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	public Collection<IRelation> getStartingRelations(String type,
+			String stereotype, boolean includeGeneralizedRelations) {
+		Collection<IRelation> res=new ArrayList<IRelation>();
+		Iterator<IRelation> i=getStartingRelations(includeGeneralizedRelations).iterator();
+		while (i.hasNext()) {
+			IRelation r=i.next();
+			if ((type==null||type.equals(r.getType())) && (stereotype==null ||stereotype.equals(r.getStereotype()))) {
+				res.add(r);
+			}
+		}
+		return res;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.builder.decorator.ElementDecorator#getGeneralizedParent()
+	 */
+	@Override
+	public IElement getGeneralizedParent() {
+		IRelation r=getFirstStartingRelation("Generalization", null);
+		if (r!=null) {
+			return r.getEndElement();
+		}
+		return null;
 	}
 
 }
