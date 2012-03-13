@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -140,13 +142,16 @@ public abstract class ElementDecorator implements IElement, IGeneratable {
 		if (!inheritRelations || getGeneralizedParent()==null) {
 			return getStartingRelations();
 		}		
-		return getStartingInheritedRelationMap().values();		
+		TreeSet<IRelation> res=new TreeSet<IRelation>(new RelationComparator());
+		res.addAll(getStartingInheritedRelationMap().values());
+		return res;
 	}
 	
 	@Override
 	public Collection<IRelation> getStartingRelations() {
 		if(startingRelations == null){
-			startingRelations = MetafacadeBuilder.getMetafacadeBuilder().getStartingRelations(getUri());
+			startingRelations = new TreeSet<IRelation>(new RelationComparator());
+			startingRelations.addAll(MetafacadeBuilder.getMetafacadeBuilder().getStartingRelations(getUri()));
 		}
 		return startingRelations;
 	}
