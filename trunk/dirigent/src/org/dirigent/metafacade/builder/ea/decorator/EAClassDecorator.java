@@ -2,7 +2,10 @@ package org.dirigent.metafacade.builder.ea.decorator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.dirigent.metafacade.IAttribute;
@@ -11,6 +14,7 @@ import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IOperation;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.decorator.ElementDecorator;
+import org.dirigent.metafacade.builder.decorator.RelationComparator;
 import org.dirigent.metafacade.builder.ea.dao.EAAttributeDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectPropertyDAO;
 import org.dirigent.metafacade.builder.ea.dao.EAOperationDAO;
@@ -120,7 +124,7 @@ public class EAClassDecorator extends ElementDecorator implements IClass {
 	@Override
 	public Collection<IRelation> getStartingRelations(String type,
 			String stereotype, boolean includeGeneralizedRelations) {
-		Collection<IRelation> res=new ArrayList<IRelation>();
+		List<IRelation> res=new ArrayList<IRelation>();
 		Iterator<IRelation> i=getStartingRelations(includeGeneralizedRelations).iterator();
 		while (i.hasNext()) {
 			IRelation r=i.next();
@@ -128,6 +132,7 @@ public class EAClassDecorator extends ElementDecorator implements IClass {
 				res.add(r);
 			}
 		}
+		Collections.sort(res,new RelationComparator());
 		return res;
 	}
 
