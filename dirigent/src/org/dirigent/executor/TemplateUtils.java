@@ -1,7 +1,6 @@
 package org.dirigent.executor;
 
 import java.lang.reflect.Method;
-
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +15,7 @@ import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IOperation;
 import org.dirigent.metafacade.IParameter;
+import org.dirigent.metafacade.builder.MetafacadeBuilder;
 
 /**
  * Utility class containing static helper methods to be used in Dirigent
@@ -411,5 +411,39 @@ public class TemplateUtils {
 			type = "IList";
 		}
 		return type;
+	}
+	
+	public static String getPropertyFromParent(IElement element, String property) {
+		String result = null;
+		if (element.getProperties() != null) {
+			result = element.getProperties().get(property);
+		}
+		while (result == null && element.getParent() != null) {
+			element = element.getParent();
+			if (element.getProperties() != null) {
+				result = element.getProperties().get(property);
+			}
+		}
+		return result;
+	}
+	
+	public static IElement getMetafacade(String uri) {
+		return MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(uri);
+	}
+	
+	public static String getPath(IElement e, String rootStereotype,String separator) {
+		if (e == null) {
+			return "";
+		}
+		if ((rootStereotype != null) && rootStereotype.equals(e.getStereotype())) {
+			return e.getName();
+		} else {
+			String parent = getPath(e.getParent(), rootStereotype,separator);
+			if ("".equals(parent)) {
+				return e.getName();
+			} else {
+				return parent + separator + e.getName();
+			}
+		}
 	}
 }
