@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
@@ -89,7 +90,7 @@ public abstract class EADao<V> {
 			stmt.close();
 			return v;
 		} catch (Exception e) {
-			throw new RuntimeException("Exception executin query: " + query, e);
+			throw new RuntimeException("Exception executin query: " + query + ". Parameters: "+Arrays.toString(parameters), e);
 		}
 	}
 

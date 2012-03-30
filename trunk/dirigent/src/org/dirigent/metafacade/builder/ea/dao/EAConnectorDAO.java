@@ -8,6 +8,8 @@ import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 
 public class EAConnectorDAO extends EADao<EAConnectorVO> {
 
+	public static long connectorSeq=0;
+	
 	/**
 	 * Get all connectors starting in specified element.
 	 * */
@@ -31,6 +33,12 @@ public class EAConnectorDAO extends EADao<EAConnectorVO> {
 		EAConnectorVO v = new EAConnectorVO();
 		v.ea_guid = res.getString(1);
 		v.name = res.getString(2);
+		
+		if (v.name==null) {
+			//If name is not set assign unique name to connector.			
+			//This prevents unexpected behaviour by generelasition of connectors (which is based on connector name).
+			v.name="Anonymous"+connectorSeq++;
+		}
 		v.type = res.getString(3);
 		v.stereotype = res.getString(4);
 		v.note = res.getString(5);

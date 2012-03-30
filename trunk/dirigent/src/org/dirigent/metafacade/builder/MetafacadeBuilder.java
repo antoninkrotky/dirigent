@@ -8,6 +8,7 @@ import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
+import org.dirigent.metafacade.builder.mm.MMMetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
@@ -25,6 +26,8 @@ public abstract class MetafacadeBuilder {
 				"dirigent.model.type");
 		if ("EA".equals(modelType)) {
 			return new EAMetafacadeBuilder();
+		} else if ("MetaMart".equals(modelType)) {
+			return new MMMetafacadeBuilder();
 		} else {
 			return new CsvMetafacadeBuilder();
 		}
