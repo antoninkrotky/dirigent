@@ -65,6 +65,7 @@ public class ArtefactDAO extends EADao<ArtefactVO> {
 		v.sortOrder=res.getInt("SORT_ORDER");
 		v.expression=res.getString("EXPRESSION");
 		v.dataType=res.getString("DATA_TYPE");
+		v.joinType=res.getString("JOIN_TYPE");
 		return v;
 	}
 

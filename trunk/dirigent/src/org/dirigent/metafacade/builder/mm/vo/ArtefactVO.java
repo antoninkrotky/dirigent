@@ -32,5 +32,6 @@ public class ArtefactVO extends VO{
 	public String parentUri;
 	public String expression;
 	public String dataType;
+	public String joinType;
 	
 }
