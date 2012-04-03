@@ -23,7 +23,7 @@ import java.util.Vector;
 
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
-import org.dirigent.metafacade.builder.MetafacadeBuilder;
+import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.mm.dao.ArtefactDAO;
 import org.dirigent.metafacade.builder.mm.dao.ConnectorDAO;
 import org.dirigent.metafacade.builder.mm.decorator.MMArtefactDecorator;
@@ -36,7 +36,7 @@ import org.dirigent.metafacade.builder.vo.ObjectVO;
  * @author khubl
  *
  */
-public class MMMetafacadeBuilder extends MetafacadeBuilder {
+public class MMMetafacadeBuilder extends EAMetafacadeBuilder {
 
 	private ArtefactDAO artefactDao=new ArtefactDAO();
 	private ConnectorDAO connectorDao=new ConnectorDAO();
@@ -45,7 +45,7 @@ public class MMMetafacadeBuilder extends MetafacadeBuilder {
 	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getMetafacade(java.lang.String)
 	 */
 	@Override
-	public IElement getMetafacade(String uri) {
+	protected IElement createMetafacade(String uri) {
 		if (uri==null) {
 			return null;
 		}

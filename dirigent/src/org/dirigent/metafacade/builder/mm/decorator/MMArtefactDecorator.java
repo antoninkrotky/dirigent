@@ -18,6 +18,7 @@
 package org.dirigent.metafacade.builder.mm.decorator;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,17 +36,21 @@ import org.dirigent.pattern.builder.PatternBuilder;
 
 /**
  * @author khubl
- *
+ * 
  */
-public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
+public class MMArtefactDecorator implements IElement, IComposite, IGeneratable, Comparable<MMArtefactDecorator> {
 
-	private static Logger l=Logger.getLogger(MMArtefactDecorator.class.getName());
+	private static Logger l = Logger.getLogger(MMArtefactDecorator.class
+			.getName());
 	private ArtefactVO artefact;
-	
-	public MMArtefactDecorator(ArtefactVO v){
-		artefact=v;
+
+	public MMArtefactDecorator(ArtefactVO v) {
+		artefact = v;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getUri()
 	 */
 	@Override
@@ -53,7 +58,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return artefact.uri;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getName()
 	 */
 	@Override
@@ -61,7 +68,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return artefact.name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getType()
 	 */
 	@Override
@@ -69,7 +78,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return artefact.typeName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getStereotype()
 	 */
 	@Override
@@ -77,7 +88,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return artefact.typeName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getProperties()
 	 */
 	@Override
@@ -85,7 +98,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getValueObject()
 	 */
 	@Override
@@ -93,15 +108,20 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return artefact;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getParent()
 	 */
 	@Override
 	public IElement getParent() {
-		return MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(artefact.parentUri);
+		return MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
+				artefact.parentUri);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getGeneralizedParent()
 	 */
 	@Override
@@ -109,25 +129,38 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	private Collection<IRelation> startingRelations;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getStartingRelations()
 	 */
 	@Override
 	public Collection<IRelation> getStartingRelations() {
-		return getStartingRelations(false);
+		if (startingRelations == null) {
+			startingRelations = MetafacadeBuilder.getMetafacadeBuilder().getStartingRelations(getUri());
+		}
+		return startingRelations;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getStartingRelations(boolean)
 	 */
 	@Override
 	public Collection<IRelation> getStartingRelations(boolean inherit) {
-		// TODO Auto-generated method stub
-		return MetafacadeBuilder.getMetafacadeBuilder().getStartingRelations(getUri());
+		// Inheritance is not aplicable for metamart artefacts
+		return getStartingRelations();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String,
+	 * java.lang.String, boolean)
 	 */
 	@Override
 	public Collection<IRelation> getStartingRelations(String type,
@@ -136,8 +169,12 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String
+	 * , java.lang.String)
 	 */
 	@Override
 	public IRelation getFirstStartingRelation(String type, String stereotype) {
@@ -145,24 +182,35 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	private Collection<IRelation> endingRelations;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getEndingRelations()
 	 */
 	@Override
 	public Collection<IRelation> getEndingRelations() {
-		// TODO Auto-generated method stub
-		return MetafacadeBuilder.getMetafacadeBuilder().getEndingRelations(getUri());
+		if (endingRelations == null) {
+			endingRelations = MetafacadeBuilder.getMetafacadeBuilder()
+					.getEndingRelations(getUri());
+		}
+		return endingRelations;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getDescription()
 	 */
 	@Override
-	public String getDescription() {		
+	public String getDescription() {
 		return artefact.description;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getAlias()
 	 */
 	@Override
@@ -171,7 +219,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getKeywords()
 	 */
 	@Override
@@ -180,7 +230,9 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IElement#getStatus()
 	 */
 	@Override
@@ -189,52 +241,87 @@ public class MMArtefactDecorator implements IElement,IComposite,IGeneratable  {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	private Collection<IElement> childElements;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IComposite#getChildElements()
 	 */
 	@Override
 	public Collection<IElement> getChildElements() {
-		// TODO Auto-generated method stub
-		return MetafacadeBuilder.getMetafacadeBuilder().getChildElements(artefact.uri);
+		if (childElements == null) {
+			childElements = MetafacadeBuilder.getMetafacadeBuilder()
+					.getChildElements(artefact.uri);
+		}
+		return childElements;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IGeneratable#getPattern()
 	 */
 	@Override
 	public IPattern getPattern() {
-		String pattern=null;
-  		if (pattern==null) {
- 			String confPattern=DirigentConfig.DEFAULT_PATTERN_ELEMENT;
- 			if (getStereotype()!=null) {
- 				confPattern=confPattern+ "." + getStereotype().toLowerCase();
- 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
- 				if (pattern==null) {
- 					pattern=DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DEFAULT_PATTERN_ELEMENT);
- 				}
- 			} else {
- 				pattern=DirigentConfig.getDirigentConfig().getProperty(confPattern);
- 			}
- 			if (pattern==null) {
- 				MMArtefactDecorator.l.log(Level.WARNING, "Element " + getName() + " skipped. Pattern definition missing in configuration file for pattern " + confPattern);
- 				return null;	
- 			}
-  		}		
+		String pattern = null;
+		if (pattern == null) {
+			String confPattern = DirigentConfig.DEFAULT_PATTERN_ELEMENT;
+			if (getStereotype() != null) {
+				confPattern = confPattern + "." + getStereotype().toLowerCase();
+				pattern = DirigentConfig.getDirigentConfig().getProperty(
+						confPattern);
+				if (pattern == null) {
+					pattern = DirigentConfig.getDirigentConfig().getProperty(
+							DirigentConfig.DEFAULT_PATTERN_ELEMENT);
+				}
+			} else {
+				pattern = DirigentConfig.getDirigentConfig().getProperty(
+						confPattern);
+			}
+			if (pattern == null) {
+				MMArtefactDecorator.l
+						.log(Level.WARNING,
+								"Element "
+										+ getName()
+										+ " skipped. Pattern definition missing in configuration file for pattern "
+										+ confPattern);
+				return null;
+			}
+		}
 		return PatternBuilder.getPatternBuilder().getPattern(
-					pattern + ".pattern.xml");
+				pattern + ".pattern.xml");
 	}
 
 	public String getExpression() {
 		return artefact.expression;
 	}
-	
+
 	public String getDataType() {
 		return artefact.dataType;
 	}
-	
+
 	public String getSourceName() {
 		return artefact.sourceName;
 	}
 
+	public String getJoinType() {
+		return artefact.joinType;
+	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(MMArtefactDecorator o) {
+		return this.getUri().compareTo(o.getUri());
+	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return getUri().hashCode();
+	}
 }

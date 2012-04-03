@@ -29,7 +29,7 @@ import org.dirigent.metafacade.builder.vo.VO;
  * @author khubl
  *
  */
-public class MMRelationDecorator implements IRelation {
+public class MMRelationDecorator implements IRelation, Comparable<MMRelationDecorator> {
 
 	
 	private ConnectorVO connector;
@@ -138,6 +138,22 @@ public class MMRelationDecorator implements IRelation {
 	@Override
 	public int getLineColor() {
 		return 0;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(MMRelationDecorator o) {
+		// TODO Auto-generated method stub
+		return this.getUri().compareTo(o.getUri());
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return getUri().hashCode();
 	}
 
 }

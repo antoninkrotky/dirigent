@@ -4,7 +4,9 @@ import java.lang.reflect.Method;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -446,4 +448,12 @@ public class TemplateUtils {
 			}
 		}
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static List sort(Collection c) {
+		ArrayList res=new ArrayList(c);
+		Collections.sort(res);
+		return res;
+	}
+	
 }
