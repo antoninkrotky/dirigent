@@ -17,6 +17,7 @@ import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IOperation;
 import org.dirigent.metafacade.IParameter;
+import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 
 /**
@@ -454,6 +455,18 @@ public class TemplateUtils {
 		ArrayList res=new ArrayList(c);
 		Collections.sort(res);
 		return res;
+	}
+	
+	public static IRelation findFirstRelationByType(Collection<IRelation> relations,String type) {
+		if (relations==null) {
+			return null;
+		}
+		for (IRelation iRelation : relations) {
+			if (iRelation.getType().equals(type)) {
+				return iRelation;
+			}
+		}
+		return null;
 	}
 	
 }
