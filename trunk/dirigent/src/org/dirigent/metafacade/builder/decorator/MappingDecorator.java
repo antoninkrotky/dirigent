@@ -28,13 +28,13 @@ import org.dirigent.metafacade.builder.vo.MappingSourceVO;
 import org.dirigent.metafacade.builder.vo.MappingVO;
 import org.dirigent.metafacade.builder.vo.VO;
 
-public abstract class MappingDecorator extends ElementDecorator implements IMapping,
-		IGeneratable {
+public abstract class MappingDecorator extends ElementDecorator implements
+		IMapping, IGeneratable {
 
 	private MappingVO mapping;
 	private Map<MappingSourceVO, IElement> sources;
 	protected Collection<IColumnMapping> columnMappings;
-	private Logger l=Logger.getLogger(MappingDecorator.class.getName());
+	private Logger l = Logger.getLogger(MappingDecorator.class.getName());
 
 	/**
 	 * VelocityContext of expression subqueries which are not included in FROM
@@ -46,8 +46,6 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 	public MappingDecorator(MappingVO mapping) {
 		super(mapping);
 		this.mapping = mapping;
-		
-		
 
 	}
 
@@ -74,7 +72,8 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 							+ ") " + v.alias);
 				}
 			} else {
-				l.warning("Mapping source "+element.toString()+" ignored. Mapping source must implement IQueriable.");
+				l.warning("Mapping source " + element.toString()
+						+ " ignored. Mapping source must implement IQueriable.");
 			}
 		}
 		subqueriesContext = new VelocityContext(expressionSubqueries);
@@ -116,7 +115,7 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 
 	@Override
 	public Collection<IColumnMapping> getColumnMappings() {
-		if (columnMappings==null) {
+		if (columnMappings == null) {
 			initColumnMappings();
 		}
 		return columnMappings;
@@ -180,7 +179,7 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 
 		return sb.toString();
 	}
-	
+
 	public String getOrderByClause() {
 		StringBuffer sb = new StringBuffer();
 		if (mapping.orderByClause != null
@@ -215,7 +214,8 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 		StringBuffer sb = new StringBuffer();
 		sb.append(getOffset());
 		sb.append("FROM ");
-		//we enclose the whole from clause into this extra parenthesis so that we can use set operators in joinType tagged values.		
+		// we enclose the whole from clause into this extra parenthesis so that
+		// we can use set operators in joinType tagged values.
 		sb.append("(\n");
 
 		Iterator<MappingSourceVO> i = getSources().keySet().iterator();
@@ -249,9 +249,12 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 				ITable table = (ITable) element;
 
 				sb.append(table.getFullName());
-				sb.append(' ');
-				if (s.alias!=null) {
-					sb.append(s.alias);
+				//Add source alias except for UNION ALL join type
+				if (!"unionAll".equals(s.joinType)) {
+					sb.append(' ');
+					if (s.alias != null) {
+						sb.append(s.alias);
+					}
 				}
 			}
 
@@ -263,8 +266,12 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 				sb.append(mapping.getSQLQuery(getOffset().length + 1));
 				sb.append(getOffset());
 				sb.append("\n) ");
-				if (s.alias!=null) {
-					sb.append(s.alias);
+				//Add source alias except for UNION ALL join type
+				if (!"unionAll".equals(s.joinType)) {
+					sb.append(' ');
+					if (s.alias != null) {
+						sb.append(s.alias);
+					}
 				}
 
 			}
@@ -275,7 +282,9 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 					&& (s.joinCondition == null || "".equals(s.joinCondition
 							.trim()))) {
 				// DO NOTHING
-			} else if ("inner".equals(s.joinType) || "leftOuter".equals(s.joinType) || "fullOuter".equals(s.joinType)) {
+			} else if ("inner".equals(s.joinType)
+					|| "leftOuter".equals(s.joinType)
+					|| "fullOuter".equals(s.joinType)) {
 				sb.append(" ON ");
 				sb.append(s.joinCondition);
 			}
@@ -329,7 +338,7 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 
 	@Override
 	public Map<MappingSourceVO, IElement> getSources() {
-		if (sources==null) {
+		if (sources == null) {
 			initSources();
 		}
 		return sources;
@@ -355,8 +364,8 @@ public abstract class MappingDecorator extends ElementDecorator implements IMapp
 	 * @return
 	 */
 	private Context getSubqueriesContext() {
-		if (subqueriesContext==null) {
-			//subqueriesContext is initialized within initSource method.
+		if (subqueriesContext == null) {
+			// subqueriesContext is initialized within initSource method.
 			initSources();
 		}
 		return subqueriesContext;

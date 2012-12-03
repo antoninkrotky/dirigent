@@ -101,7 +101,7 @@
 	<target name="compile" depends="clean">
 		<mkdir dir="${tmp.bin.dir}" />
 		<echo message="${toString:classpath}"/>
-		<javac srcdir="${src.dir}" classpathref="classpath" destdir="${tmp.bin.dir}" debug="true"/>
+		<javac srcdir="${src.dir}" classpathref="classpath" destdir="${tmp.bin.dir}" debug="true" compiler="modern"/>
 		<copy todir="${tmp.bin.dir}">
 			<fileset dir="${src.dir}">
 				<exclude name="**/*.java"/>
