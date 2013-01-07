@@ -172,6 +172,25 @@ public class TestFileExecutor extends TestCase {
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public IElement getGeneralizedParent() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Collection<IRelation> getStartingRelations(boolean inherit) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Collection<IRelation> getStartingRelations(String type,
+					String stereotype, boolean includeGeneralizedRelations) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 
 	}
