@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
+import org.dirigent.metafacade.builder.classloader.ClassLoaderBuilder;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.mm.MMMetafacadeBuilder;
@@ -28,6 +29,8 @@ public abstract class MetafacadeBuilder {
 			return new EAMetafacadeBuilder();
 		} else if ("MetaMart".equals(modelType)) {
 			return new MMMetafacadeBuilder();
+		} else if ("ClassLoader".equals(modelType)) {
+			return new ClassLoaderBuilder();
 		} else {
 			return new CsvMetafacadeBuilder();
 		}
