@@ -18,7 +18,6 @@
 package org.dirigent.metafacade.builder.mm.decorator;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;

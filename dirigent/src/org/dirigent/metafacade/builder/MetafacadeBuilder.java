@@ -6,7 +6,7 @@ import java.util.Vector;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IRelation;
-import org.dirigent.metafacade.builder.classloader.ClassLoaderBuilder;
+import org.dirigent.metafacade.builder.classloader.ClassloaderMetafacadeBuilder;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.mm.MMMetafacadeBuilder;
@@ -27,10 +27,10 @@ public abstract class MetafacadeBuilder {
 				"dirigent.model.type");
 		if ("EA".equals(modelType)) {
 			return new EAMetafacadeBuilder();
+		} else if ("CLASSLOADER".equals(modelType)) {
+			return new ClassloaderMetafacadeBuilder();
 		} else if ("MetaMart".equals(modelType)) {
 			return new MMMetafacadeBuilder();
-		} else if ("ClassLoader".equals(modelType)) {
-			return new ClassLoaderBuilder();
 		} else {
 			return new CsvMetafacadeBuilder();
 		}
@@ -44,15 +44,13 @@ public abstract class MetafacadeBuilder {
 	 * */
 	public abstract IElement getMetafacade(String uri);
 
-
-
 	/**
 	 * Save metafacede to model.
 	 * */
 	public abstract void save(IElement element);
 
 	public abstract Vector<IElement> getChildElements(String uri);
-	
+
 	public abstract void clearCache();
 
 	@Deprecated
@@ -61,14 +59,11 @@ public abstract class MetafacadeBuilder {
 	/**
 	 * Get all relations starting in specified element.
 	 * */
-	public abstract Collection<IRelation> getStartingRelations(
-			String elementUri);
+	public abstract Collection<IRelation> getStartingRelations(String elementUri);
 
 	/**
 	 * Get all connectors ending in specified element.
 	 * */
-	public abstract Collection<IRelation> getEndingRelations(
-			String elementUri);
-
+	public abstract Collection<IRelation> getEndingRelations(String elementUri);
 
 }

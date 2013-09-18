@@ -23,6 +23,7 @@ public class FileExecutor implements IStepExecutor {
 
 	public static final String MODE_APPEND = "append";
 	public static final String MODE_OVERWRITE = "overwrite";
+	public static final String MODE_OVERWRITE_READ_ONLY = "overwrite_read_only";
 	public static final String MODE_CREATE = "create";
 
 	private Logger l=Logger.getLogger(FileExecutor.class.getName());
@@ -42,11 +43,11 @@ public class FileExecutor implements IStepExecutor {
 			if (dir != null) {
 				new File(dir).mkdirs();
 			}
-					
-			if (MODE_OVERWRITE.equals(mode)) {
+						
+			if (MODE_OVERWRITE.equals(mode) || MODE_OVERWRITE_READ_ONLY.equals(mode)) {
+					file.setWritable(true);
 					file.delete();
-			}
-			if (MODE_CREATE.equals(mode)) {
+			} else if (MODE_CREATE.equals(mode)) {
 				if (file.exists()) {
 					return;
 				}
@@ -54,6 +55,10 @@ public class FileExecutor implements IStepExecutor {
 			Writer w = new OutputStreamWriter(new FileOutputStream(fileName,true), DirigentConfig.getDirigentConfig().getProperty(DirigentConfig.DIRIGENT_FILEEXECUTOR_ENCODING,"UTF-8"));
 			w.append(TemplateHelper.generateTemplate(gen, step));
 			w.close();
+			
+			if (MODE_OVERWRITE_READ_ONLY.equals(mode)) {
+				file.setReadOnly();
+			}
 			l.info("Step "+step.getName()+" generated file "+file.getAbsolutePath()+".");
 
 		} catch (IOException e) {

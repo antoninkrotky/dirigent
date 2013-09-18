@@ -26,30 +26,29 @@ import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
- * @author khubl
- *
+ * @author Karel
+ * 
  */
-public class ClassLoaderBuilder extends MetafacadeBuilder {
+public class ClassloaderMetafacadeBuilder extends MetafacadeBuilder {
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getMetafacade(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.builder.MetafacadeBuilder#getMetafacade(java.
+	 * lang.String)
 	 */
 	@Override
 	public IElement getMetafacade(String uri) {
 		String className=getClassName(uri);
 		try {
-			Class<?> type=Class.forName(className);
+			Class<?> type = Class.forName(className);
 			return new ClassDecorator(type);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Class "+uri+" not found on classpath.",e);
+			throw new RuntimeException("Model class "+className+" not found.",e);
 		}
-		
 	}
-
-	/**
-	 * @param uri
-	 * @return
-	 */
+	
 	protected String getClassName(String uri) {
 		String className=uri;
 	
@@ -64,44 +63,61 @@ public class ClassLoaderBuilder extends MetafacadeBuilder {
 		return uri.endsWith(".java");
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#save(org.dirigent.metafacade.IElement)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#save(org.dirigent.
+	 * metafacade.IElement)
 	 */
 	@Override
 	public void save(IElement element) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
+
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getChildElements(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.builder.MetafacadeBuilder#getChildElements(java
+	 * .lang.String)
 	 */
 	@Override
 	public Vector<IElement> getChildElements(String uri) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#clearCache()
 	 */
 	@Override
 	public void clearCache() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getChildObjects(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.builder.MetafacadeBuilder#getChildObjects(java
+	 * .lang.String)
 	 */
 	@Override
+	@Deprecated
 	public Collection<ObjectVO> getChildObjects(String uri) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getStartingRelations(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.builder.MetafacadeBuilder#getStartingRelations
+	 * (java.lang.String)
 	 */
 	@Override
 	public Collection<IRelation> getStartingRelations(String elementUri) {
@@ -109,8 +125,12 @@ public class ClassLoaderBuilder extends MetafacadeBuilder {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.builder.MetafacadeBuilder#getEndingRelations(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.dirigent.metafacade.builder.MetafacadeBuilder#getEndingRelations(
+	 * java.lang.String)
 	 */
 	@Override
 	public Collection<IRelation> getEndingRelations(String elementUri) {
