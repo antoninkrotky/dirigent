@@ -18,47 +18,53 @@
 package org.dirigent.metafacade.builder.classloader;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 import org.dirigent.metafacade.IAttribute;
 import org.dirigent.metafacade.IElement;
 
 /**
- * @author khubl
- *
+ * @author Karel
+ * 
  */
-public class FieldDecorator implements IAttribute {
+public class AttributeDecorator implements IAttribute {
 
-	private ClassDecorator typeElement;
-	private Field field;
+	private Field modelField;
+	private ClassDecorator declaringClass;
+
 	/**
-	 * @param type 
-	 * @param field
+	 * @param classFacade
+	 * @param modelField
 	 */
-	public FieldDecorator(ClassDecorator typeElement, Field field) {
-		this.typeElement=typeElement;
-		this.field=field;
+	public AttributeDecorator(ClassDecorator classFacade, Field modelField) {
+		super();
+		this.modelField = modelField;
+		this.declaringClass = classFacade;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getName()
 	 */
 	@Override
 	public String getName() {
-		return field.getName();
+		return modelField.getName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getDescription()
 	 */
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getProperties()
 	 */
 	@Override
@@ -67,21 +73,22 @@ public class FieldDecorator implements IAttribute {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getType()
 	 */
 	@Override
 	public String getType() {
-		Type genericType=field.getGenericType();
-		Class<?> type=field.getType();
-		if (genericType instanceof Class) {
-			return type.getName();
-		} else {
-			return genericType.toString();
+		if (modelField.getType().getTypeParameters().length==0) {
+			return modelField.getType().getName();
 		}
+		return modelField.getGenericType().toString();						
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getStereotype()
 	 */
 	@Override
@@ -90,21 +97,31 @@ public class FieldDecorator implements IAttribute {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getInitialValue()
 	 */
 	@Override
 	public String getInitialValue() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Class<?> modelClass = Class.forName(declaringClass.getType());
+			Object modelInstance = modelClass.newInstance();
+			modelField.setAccessible(true);
+			return modelField.get(modelInstance).toString();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dirigent.metafacade.IAttribute#getClassifier()
 	 */
 	@Override
 	public IElement getClassifier() {
-		return typeElement;
+		return declaringClass;
 	}
 
 }

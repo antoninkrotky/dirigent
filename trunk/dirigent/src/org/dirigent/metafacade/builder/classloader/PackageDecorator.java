@@ -17,93 +17,70 @@
  */
 package org.dirigent.metafacade.builder.classloader;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.dirigent.metafacade.IAttribute;
-import org.dirigent.metafacade.IClass;
 import org.dirigent.metafacade.IElement;
-import org.dirigent.metafacade.IGeneratable;
-import org.dirigent.metafacade.IOperation;
+import org.dirigent.metafacade.IPackage;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
-import org.dirigent.pattern.builder.PatternBuilder;
 
 /**
  * @author Karel
- * 
+ *
  */
-public class ClassDecorator implements IClass, IGeneratable {
+public class PackageDecorator implements IPackage {
 
-	private Class<?> modelClass;
-
+	
+	private Package modelPackage;
+	
+	
 	/**
-	 * @param modelClass
+	 * @param modelPackage
 	 */
-	public ClassDecorator(Class<?> modelClass) {
+	public PackageDecorator(Package modelPackage) {
 		super();
-		this.modelClass = modelClass;
+		this.modelPackage = modelPackage;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getUri()
 	 */
 	@Override
 	public String getUri() {
-		return modelClass.getName();
+		// TODO Auto-generated method stub
+		return modelPackage.getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getName()
 	 */
 	@Override
 	public String getName() {
-		return modelClass.getSimpleName();
+		// TODO Auto-generated method stub
+		return modelPackage.getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getType()
 	 */
 	@Override
 	public String getType() {
-		return modelClass.getName();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getStereotype()
 	 */
 	@Override
 	public String getStereotype() {
-		Annotation stereotypedAnnotation = getStereotypedAnnotation();
-		return stereotypedAnnotation.annotationType().getSimpleName();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	private Annotation getStereotypedAnnotation() {
-		for (Annotation annotation : modelClass.getDeclaredAnnotations()) {
-			if (annotation.annotationType().getAnnotation(Stereotype.class) != null) {
-				return annotation;
-			}
-		}
-		throw new RuntimeException("Class " + modelClass.getName()
-				+ " is not anotated by Stereotype.");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getProperties()
 	 */
 	@Override
@@ -112,9 +89,7 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getValueObject()
 	 */
 	@Override
@@ -123,19 +98,16 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getParent()
 	 */
 	@Override
 	public IElement getParent() {
-		return new PackageDecorator(modelClass.getPackage());
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getStartingRelations()
 	 */
 	@Override
@@ -144,12 +116,8 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String
-	 * , java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public IRelation getFirstStartingRelation(String type, String stereotype) {
@@ -157,9 +125,7 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getEndingRelations()
 	 */
 	@Override
@@ -168,9 +134,7 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getDescription()
 	 */
 	@Override
@@ -179,9 +143,7 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getAlias()
 	 */
 	@Override
@@ -190,9 +152,7 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IElement#getKeywords()
 	 */
 	@Override
@@ -201,60 +161,22 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.dirigent.metafacade.IClass#getAttributes()
-	 */
-	@Override
-	public Collection<IAttribute> getAttributes() {
-		ArrayList<IAttribute> attributes = new ArrayList<IAttribute>();
-		for (Field field : modelClass.getDeclaredFields()) {
-			if (!Modifier.isStatic(field.getModifiers())) {
-			attributes.add(new AttributeDecorator(this, field));
-			}
-		}
-		return attributes;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.dirigent.metafacade.IClass#getOperations()
-	 */
-	@Override
-	public Collection<IOperation> getOperations() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.IGeneratable#getPattern()
 	 */
 	@Override
 	public IPattern getPattern() {
-		String patternUri = getStereotypedAnnotation().annotationType()
-				.getAnnotation(Stereotype.class).pattern();
-		return PatternBuilder.getPatternBuilder().getPattern(patternUri);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/**
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.dirigent.metafacade.IComposite#getChildElements()
 	 */
-	public String getPackagePath() {
-		return modelClass.getPackage().getName().replace('.', '/');
-	}
-
-	/**
-	 * @return
-	 */
-	public IClass getSuperclass() {
-		if (modelClass.getSuperclass() == null) {
-			return null;
-		}
-		return new ClassDecorator(modelClass.getSuperclass());
+	@Override
+	public Collection<IElement> getChildElements() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -294,13 +216,5 @@ public class ClassDecorator implements IClass, IGeneratable {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.dirigent.metafacade.IClass#getOperations(java.lang.String)
-	 */
-	@Override
-	public Collection<IOperation> getOperations(String stereotype) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
