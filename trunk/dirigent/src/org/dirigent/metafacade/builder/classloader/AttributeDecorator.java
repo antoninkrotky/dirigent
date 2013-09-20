@@ -123,5 +123,13 @@ public class AttributeDecorator implements IAttribute {
 	public IElement getClassifier() {
 		return declaringClass;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return modelField.getDeclaringClass()+"."+this.modelField.getName();
+	}
 
 }

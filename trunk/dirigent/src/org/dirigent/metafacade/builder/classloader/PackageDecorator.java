@@ -215,6 +215,14 @@ public class PackageDecorator implements IPackage {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.modelPackage.getName();
+	}
 
 	
 }
