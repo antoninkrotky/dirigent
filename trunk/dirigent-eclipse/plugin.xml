@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.ICompilationUnit"            
+            id="org.dirigent.eclipse.contribution1">
+         <menu
+               label="Dirigent"
+               path="additions"
+               id="org.dirigent.eclipse.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Generate"
+               class="org.dirigent.eclipse.popup.actions.GenerateAction"
+               menubarPath="org.dirigent.eclipse.menu1/group1"
+               enablesFor="1"
+               id="org.dirigent.eclipse.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
