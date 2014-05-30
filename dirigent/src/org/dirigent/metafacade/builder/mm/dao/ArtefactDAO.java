@@ -21,14 +21,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import org.dirigent.metafacade.builder.ea.dao.EADao;
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.mm.vo.ArtefactVO;
 
 /**
  * @author khubl
  *
  */
-public class ArtefactDAO extends EADao<ArtefactVO> {
+public class ArtefactDAO extends AbstractDao<ArtefactVO> {
 
 	/*public Object[] parseUri(String uri) {
 		Object[] res=new Object[2];

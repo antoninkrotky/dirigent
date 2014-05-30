@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class EAObjectPropertyDAO extends EADao<String[]> {
+import org.dirigent.metafacade.builder.AbstractDao;
+
+public class EAObjectPropertyDAO extends AbstractDao<String[]> {
 
 	@Override
 	protected String[] createVO(ResultSet res) throws SQLException {

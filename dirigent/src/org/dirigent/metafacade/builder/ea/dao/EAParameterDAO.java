@@ -5,9 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.vo.EAParameterVO;
 
-public class EAParameterDAO extends EADao<EAParameterVO> {
+public class EAParameterDAO extends AbstractDao<EAParameterVO> {
 
 	public Collection<EAParameterVO> getParameters(long operationid) {
 		return findVOs("select name,notes,ea_guid,type,Classifier, \"Default\" from t_operationparams where operationid=?  order by pos", new Object[] { new BigDecimal(operationid) });

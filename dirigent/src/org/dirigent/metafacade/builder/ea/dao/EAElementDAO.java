@@ -4,9 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.vo.EAElementVO;
 
-public class EAElementDAO extends EADao<EAElementVO> {
+public class EAElementDAO extends AbstractDao<EAElementVO> {
 
 
 	public EAElementVO getEAElement(String uri) {

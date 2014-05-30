@@ -4,9 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.vo.EAConnectorVO;
 
-public class EAConnectorDAO extends EADao<EAConnectorVO> {
+public class EAConnectorDAO extends AbstractDao<EAConnectorVO> {
 
 	public static long connectorSeq=0;
 	
