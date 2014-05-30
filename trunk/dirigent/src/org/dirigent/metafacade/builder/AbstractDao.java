@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea.dao;
+package org.dirigent.metafacade.builder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,12 +11,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
 
-import org.dirigent.metafacade.builder.ea.EAHelper;
 import org.dirigent.metafacade.builder.vo.VO;
 
-public abstract class EADao<V> {
+/**
+ * Abstract parent data access object (DAO) class. Implementations of metafacade
+ * builders using database reporsitory, can use this class as parent for their
+ * DAO classes.
+ * */
+public abstract class AbstractDao<V> {
 
-	protected EADao() {
+	protected AbstractDao() {
 
 	}
 
@@ -27,7 +31,7 @@ public abstract class EADao<V> {
 	 *             if unable to create connection
 	 */
 	protected Connection getConnection() {
-		return EAHelper.instance().getConnection();
+		return DAOHelper.instance().getConnection();
 	}
 
 	protected abstract V createVO(ResultSet res) throws SQLException;
@@ -41,10 +45,10 @@ public abstract class EADao<V> {
 		PreparedStatement stmt = getConnection().prepareStatement(query);
 		if (parameters != null) {
 			for (int i = 0; i < parameters.length; i++) {
-				if (parameters[i]!=null) {
-				stmt.setObject(i + 1, parameters[i]);
+				if (parameters[i] != null) {
+					stmt.setObject(i + 1, parameters[i]);
 				} else {
-					stmt.setNull(i+1, Types.INTEGER);
+					stmt.setNull(i + 1, Types.INTEGER);
 				}
 			}
 		}
@@ -90,7 +94,8 @@ public abstract class EADao<V> {
 			stmt.close();
 			return v;
 		} catch (Exception e) {
-			throw new RuntimeException("Exception executin query: " + query + ". Parameters: "+Arrays.toString(parameters), e);
+			throw new RuntimeException("Exception executin query: " + query
+					+ ". Parameters: " + Arrays.toString(parameters), e);
 		}
 	}
 

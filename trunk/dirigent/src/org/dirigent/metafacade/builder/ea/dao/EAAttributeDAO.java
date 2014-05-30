@@ -4,9 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.vo.EAAttributeVO;
 
-public class EAAttributeDAO extends EADao<EAAttributeVO> {
+public class EAAttributeDAO extends AbstractDao<EAAttributeVO> {
 
 	public Collection<EAAttributeVO> getAttributes(String uri) {
 		return findVOs("select id,name,notes,length,precision,scale,stereotype,pos,ea_guid,type,Classifier, \"Default\", allowduplicates from t_attribute where object_id=(select object_id from t_object where ea_guid=?)  order by pos", new Object[] { uri });

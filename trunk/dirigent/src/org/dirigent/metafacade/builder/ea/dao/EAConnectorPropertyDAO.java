@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EAConnectorPropertyDAO extends EADao<String> {
+import org.dirigent.metafacade.builder.AbstractDao;
+
+public class EAConnectorPropertyDAO extends AbstractDao<String> {
 
 	@Override
 	protected String createVO(ResultSet res) throws SQLException {

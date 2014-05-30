@@ -21,14 +21,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import org.dirigent.metafacade.builder.ea.dao.EADao;
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.mm.vo.ConnectorVO;
 
 /**
  * @author khubl
  *
  */
-public class ConnectorDAO extends EADao<ConnectorVO>{
+public class ConnectorDAO extends AbstractDao<ConnectorVO>{
 
 	/* (non-Javadoc)
 	 * @see org.dirigent.metafacade.builder.ea.dao.EADao#createVO(java.sql.ResultSet)

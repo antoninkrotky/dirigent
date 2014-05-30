@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
 
-public class EADiagramDAO extends EADao<EADiagramVO>{
+public class EADiagramDAO extends AbstractDao<EADiagramVO>{
 	
 	public EADiagramVO getDiagram(String uri) {
 		return findVO("select diagram_id,ea_guid,name,notes,package_id,parentid,stereotype from t_diagram where ea_guid=?",new Object[]{uri});

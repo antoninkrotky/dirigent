@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.dirigent.metafacade.IPackage;
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.vo.EADiagramVO;
 import org.dirigent.metafacade.builder.vo.ElementVO;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
-public class EAObjectDao extends EADao<ObjectVO> {
+public class EAObjectDao extends AbstractDao<ObjectVO> {
 
 	@Override
 	protected ObjectVO createVO(ResultSet res) throws SQLException {

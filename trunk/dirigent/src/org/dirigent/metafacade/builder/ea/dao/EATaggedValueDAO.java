@@ -23,13 +23,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.dirigent.metafacade.builder.AbstractDao;
+
 /**
  * 
  * DAO for table t_taggedvalue. This table contains tagged values for objects, that has no special tagged value tables. For example packages, operation parameters.
  * @author khubl
  *
  */
-public class EATaggedValueDAO extends EADao<String[]> {
+public class EATaggedValueDAO extends AbstractDao<String[]> {
 
 	@Override
 	protected String[] createVO(ResultSet res) throws SQLException {

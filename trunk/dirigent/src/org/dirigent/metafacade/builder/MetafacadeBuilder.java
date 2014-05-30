@@ -10,6 +10,7 @@ import org.dirigent.metafacade.builder.classloader.ClassloaderMetafacadeBuilder;
 import org.dirigent.metafacade.builder.csv.CsvMetafacadeBuilder;
 import org.dirigent.metafacade.builder.ea.EAMetafacadeBuilder;
 import org.dirigent.metafacade.builder.mm.MMMetafacadeBuilder;
+import org.dirigent.metafacade.builder.odi.ODI10gMetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
 /**
@@ -31,6 +32,8 @@ public abstract class MetafacadeBuilder {
 			return new ClassloaderMetafacadeBuilder();
 		} else if ("MetaMart".equals(modelType)) {
 			return new MMMetafacadeBuilder();
+		} else if ("ODI".equals(modelType)) {
+			return new ODI10gMetafacadeBuilder();
 		} else {
 			return new CsvMetafacadeBuilder();
 		}

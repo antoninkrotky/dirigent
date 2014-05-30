@@ -1,4 +1,4 @@
-package org.dirigent.metafacade.builder.ea;
+package org.dirigent.metafacade.builder;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.dirigent.config.DirigentConfig;
+/**
+ * Helper for JDBC DAO implementations.
+ * */
+public class DAOHelper {
 
-public class EAHelper {
-
-	private static Logger l = Logger.getLogger(EAHelper.class.getName());
-	private static EAHelper instance = new EAHelper();
+	private static Logger l = Logger.getLogger(DAOHelper.class.getName());
+	private static DAOHelper instance = new DAOHelper();
 
 	private Map<String, Connection> connectionPool=new HashMap<String, Connection>();
 
@@ -55,7 +57,7 @@ public class EAHelper {
 		}
 	}
 
-	public static EAHelper instance() {
+	public static DAOHelper instance() {
 		return instance;
 	}
 	
