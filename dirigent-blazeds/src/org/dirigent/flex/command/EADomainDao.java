@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import org.dirigent.metafacade.builder.ea.dao.EADao;
+import org.dirigent.metafacade.builder.AbstractDao;
 import org.dirigent.metafacade.builder.ea.dao.EAObjectPropertyDAO;
 import org.dirigent.metafacade.builder.vo.DomainVO;
 
 
-public class EADomainDao extends EADao<DomainVO> {
+public class EADomainDao extends AbstractDao<DomainVO> {
 
 	private EAObjectPropertyDAO objectPropertyDao=new EAObjectPropertyDAO();
 	
