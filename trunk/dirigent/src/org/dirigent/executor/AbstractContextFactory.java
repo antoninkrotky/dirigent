@@ -17,29 +17,37 @@
  */
 package org.dirigent.executor;
 
+import java.util.Map;
+
 import org.apache.velocity.VelocityContext;
 import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.ILibraryImport;
 
 /**
  * @author bgrekov
- *
+ * 
  */
 public abstract class AbstractContextFactory {
-	
+
 	public abstract VelocityContext createVelocityContext(IGeneratable gen);
-	
+
 	private static AbstractContextFactory getContextFactory() {
 		return new DefaultContextFactory();
 	}
-	
-	public static VelocityContext getVelocityContext(IGeneratable gen){
-		return AbstractContextFactory.getContextFactory().createVelocityContext(gen);
+
+	public static VelocityContext getVelocityContext(IGeneratable gen) {
+		return AbstractContextFactory.getContextFactory()
+				.createVelocityContext(gen);
 	}
-	
+
 	static class DefaultContextFactory extends AbstractContextFactory {
-		/* (non-Javadoc)
-		 * @see org.dirigent.executor.AbstractContextFactory#createVelocityContext(org.dirigent.metafacade.IGeneratable)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.dirigent.executor.AbstractContextFactory#createVelocityContext
+		 * (org.dirigent.metafacade.IGeneratable)
 		 */
 		@Override
 		public VelocityContext createVelocityContext(IGeneratable gen) {
@@ -47,7 +55,37 @@ public abstract class AbstractContextFactory {
 			vCtx.put("element", gen);
 			vCtx.put("config", DirigentConfig.getDirigentConfig());
 			vCtx.put("utils", TemplateUtils.class);
+			addLibraries(vCtx, gen);
 			return vCtx;
+		}
+
+		/**
+		 * @param vCtx
+		 * @param gen
+		 */
+		private void addLibraries(VelocityContext vCtx, IGeneratable gen) {
+			if (!(gen instanceof ILibraryImport)) {
+				return;
+			}
+			Map<String, String> librariesMap = ((ILibraryImport) gen)
+					.getLibraries();
+			for (String key : librariesMap.keySet()) {
+				vCtx.put(key, getLibraryInstance(librariesMap.get(key)));
+			}
+
+		}
+
+		/**
+		 * @param object
+		 * @return
+		 */
+		private Object getLibraryInstance(String className) {
+			try {
+				return Class.forName(className).newInstance();
+			} catch (Exception e) {
+				throw new RuntimeException(
+						"Exception instantiating library class " + className, e);
+			}
 		}
 	}
 
