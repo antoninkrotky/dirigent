@@ -25,7 +25,7 @@ public abstract class MetafacadeBuilder {
 	 * */
 	public static MetafacadeBuilder getMetafacadeBuilder() {
 		String modelType = DirigentConfig.getDirigentConfig().getProperty(
-				"dirigent.model.type");
+				"dirigent.model.type","CSV");
 		if ("EA".equals(modelType)) {
 			return new EAMetafacadeBuilder();
 		} else if ("CLASSLOADER".equals(modelType)) {
@@ -34,8 +34,14 @@ public abstract class MetafacadeBuilder {
 			return new MMMetafacadeBuilder();
 		} else if ("ODI".equals(modelType)) {
 			return new ODI10gMetafacadeBuilder();
-		} else {
+		} else if ("CSV".equals(modelType)){
 			return new CsvMetafacadeBuilder();
+		} else {
+			try {
+				return (MetafacadeBuilder)Class.forName(modelType).newInstance();
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to create MetafacadeBuilder of type: "+modelType);
+			}
 		}
 	}
 

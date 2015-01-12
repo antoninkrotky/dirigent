@@ -2,7 +2,9 @@ package org.dirigent.config;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class DirigentConfigImpl extends DirigentConfig {
 
@@ -38,6 +40,32 @@ public class DirigentConfigImpl extends DirigentConfig {
 	@Override
 	public String getProperty(String key, String defaultValue) {
 		return p.getProperty(key,defaultValue);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.config.DirigentConfig#keySet()
+	 */
+	@Override
+	public Set<String> getProperties() {
+		HashSet<String> res=new HashSet<String>(p.size());
+		for (Object key : p.keySet()) {
+			res.add(key.toString());			
+		}
+		return res;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.dirigent.config.DirigentConfig#getProperties(java.lang.String)
+	 */
+	@Override
+	public Set<String> getProperties(String prefix) {
+		HashSet<String> res=new HashSet<String>();
+		for (String property : getProperties()) {
+			if (property.startsWith(prefix)) {
+				res.add(property);
+			}
+		}
+		return res;
 	}
 
 }
