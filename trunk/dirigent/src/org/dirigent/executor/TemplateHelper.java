@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.pattern.IPatternStep;
 
@@ -41,38 +42,33 @@ public class TemplateHelper {
 		return generateValue(step.getTemplate(), gen) + '\n';
 	}
 
-	private static VelocityContext getVelocityContext(IGeneratable gen) {
-		String contextFactoryName = System
-				.getProperty("dirigent.context.factory");
-		if (contextFactoryName != null) {
-			try {
-				return ((AbstractContextFactory) Class.forName(
-						contextFactoryName).newInstance())
-						.createVelocityContext(gen);
-			} catch (InstantiationException e) {
-				throw new RuntimeException(
-						"InstantiationException when creating instance of "
-								+ contextFactoryName + ". "
-								+ contextFactoryName
-								+ " is either abstract or interface. ");
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(
-						"IllegalAccessException when creating instance of "
-								+ contextFactoryName, e);
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException("Class " + contextFactoryName
-						+ " not found.");
-			}
-		} else {
-			return AbstractContextFactory.getVelocityContext(gen);
-		}
+	private static VelocityContext getVelocityContext(IElement gen) {
+		return AbstractContextFactory.getContextFactory().createVelocityContext(gen);
 	}
 
-	public static String generateValue(String template, IGeneratable gen) {
+	/**
+	 * Evaluates velocity template using given element context.
+	 * To enable metamodel to contain sub-templates, the template is evaluated in 2 round.
+	 * Only one level of sub-templating is supported. 
+	 * The main goal is to enable evaluation of functions and constants stored in shared libraries.
+	 * */
+	public static String generateValue(String template, IElement gen) {
+		return generateValue(template, gen, 2);
+	}
+	
+	public static String generateValue(String template, IElement gen,int rounds) {
+		VelocityContext velocityContext = getVelocityContext(gen);
+		for (int round=1;round<=rounds;round++) {
+			template=generateValueInternal(template, velocityContext, round);
+		}		
+		return template;
+	}
+
+	private static String generateValueInternal(String template, VelocityContext velocityContext,int round) {
 		try {
-			Writer w = new StringWriter();
-			Velocity.evaluate(getVelocityContext(gen), w, gen.getName() + ":"
-					+ template, template);
+			Writer w = new StringWriter();		
+						
+			Velocity.evaluate(velocityContext, w, round+":"+template, template);
 			w.close();
 			return w.toString();
 		} catch (Exception e) {

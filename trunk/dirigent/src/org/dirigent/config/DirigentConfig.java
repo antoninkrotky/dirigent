@@ -2,6 +2,7 @@ package org.dirigent.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Abstract Dirigent configuration factory. There can be more configurations
@@ -49,6 +50,8 @@ public abstract class DirigentConfig {
 
 	public abstract String getProperty(String key);
 	public abstract String getProperty(String key,String defaultValue);
+	public abstract Set<String> getProperties();
+	public abstract Set<String> getProperties(String prefix);
 
 	public static final String MODEL_PATH = "dirigent.model.path";
 	public static final String MODEL_DRIVER = "dirigent.model.jdbcDriver";
@@ -69,6 +72,8 @@ public abstract class DirigentConfig {
 
 	public static final String DIRIGENT_CONTEXT_FACTORY = "dirigent.context.factory";
 	public static final String DIRIGENT_FILEEXECUTOR_ENCODING = "dirigent.fileexecutor.encoding";
+	
+	public static final String GLOBAL_LIBRARY_PREFIX="dirigent.library";
 	
 	//public static final String DEFAULT_PATTERN_MAPPING = "dirigent.pattern.default.mapping";
 	//public static final String DEFAULT_PATTERN_DIMENSION = "dirigent.pattern.default.dimension";

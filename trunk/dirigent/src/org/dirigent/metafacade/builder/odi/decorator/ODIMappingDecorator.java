@@ -27,7 +27,6 @@ import org.dirigent.metafacade.IMapping;
 import org.dirigent.metafacade.IRelation;
 import org.dirigent.metafacade.ISchema;
 import org.dirigent.metafacade.ITable;
-import org.dirigent.metafacade.builder.odi.v10g.dao.SnpColDao;
 import org.dirigent.metafacade.builder.odi.v10g.dao.SnpPopColDao;
 import org.dirigent.metafacade.builder.odi.vo.ODIColumnMappingVO;
 import org.dirigent.metafacade.builder.odi.vo.ODIMappingVO;
