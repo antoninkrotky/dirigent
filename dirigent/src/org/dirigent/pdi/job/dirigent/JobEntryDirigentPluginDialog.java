@@ -77,8 +77,6 @@ public class JobEntryDirigentPluginDialog extends JobEntryDialog implements
 		ModifyListener lsMod = new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				jobEntry.setChanged();
-				MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
-						wURI.getText());
 			}
 		};
 
