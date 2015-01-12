@@ -24,23 +24,24 @@ import java.util.Stack;
  * 
  */
 public class PatternExecutionStatistics {
-	private static ThreadLocal<Stack<StepStatistics>> stepStatistics = new ThreadLocal<Stack<StepStatistics>>();
+	private static ThreadLocal<Stack<StepStatistics>> stepStatistics = new ThreadLocal<Stack<StepStatistics>>(){
+		@Override
+		protected Stack<StepStatistics> initialValue() {
+			return new Stack<StepStatistics>();
+		}
+	};
 
 	public static void reset() {
-		stepStatistics.set(null);
+		stepStatistics.remove();
 	}
 
 	public static Stack<StepStatistics> getStepStatistics() {
-		Stack<StepStatistics> s = stepStatistics.get();
-		if (s == null) {
-			s = new Stack<StepStatistics>();
-			stepStatistics.set(s);
-		}
-		return s;
+		return stepStatistics.get();
 	}
 
+	
 	public static long getMaxAffectedRows() {
-		Stack<StepStatistics> s = stepStatistics.get();
+		Stack<StepStatistics> s = getStepStatistics();
 		long rowsAffected=0;
 		for (StepStatistics i : s) {
 			rowsAffected=Math.max(rowsAffected, i.getAffectedRows());
