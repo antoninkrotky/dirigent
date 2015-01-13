@@ -17,19 +17,16 @@
  */
 package org.dirigent.executor.test;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.apache.velocity.VelocityContext;
+import org.dirigent.config.DirigentConfig;
 import org.dirigent.executor.AbstractContextFactory;
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
 import org.dirigent.metafacade.ILibraryImport;
-import org.dirigent.metafacade.IRelation;
-import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 
 /**
@@ -42,8 +39,16 @@ public class TestDefaultContextFactory extends TestCase {
 	
 	
 	public void testLibraryImport() {
-		VelocityContext ctx=AbstractContextFactory.getVelocityContext(element);
+		VelocityContext ctx=AbstractContextFactory.getContextFactory().createVelocityContext(element);
 		TestingLibrary l=(TestingLibrary)ctx.get("l");
+		assertNotNull(l);
+		assertEquals(TestingLibrary.class, l.getClass());
+	}
+	
+	public void testGlobalLibraryImport() {
+		System.setProperty(DirigentConfig.GLOBAL_LIBRARY_PREFIX+".global", TestingLibrary.class.getName());
+		VelocityContext ctx=AbstractContextFactory.getContextFactory().createVelocityContext(element);
+		TestingLibrary l=(TestingLibrary)ctx.get("global");
 		assertNotNull(l);
 		assertEquals(TestingLibrary.class, l.getClass());
 	}
@@ -70,142 +75,6 @@ public class TestDefaultContextFactory extends TestCase {
 		 */
 		@Override
 		public String getName() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getType()
-		 */
-		@Override
-		public String getType() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getStereotype()
-		 */
-		@Override
-		public String getStereotype() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getProperties()
-		 */
-		@Override
-		public Map<String, String> getProperties() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getValueObject()
-		 */
-		@Override
-		public VO getValueObject() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getParent()
-		 */
-		@Override
-		public IElement getParent() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getGeneralizedParent()
-		 */
-		@Override
-		public IElement getGeneralizedParent() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getStartingRelations()
-		 */
-		@Override
-		public Collection<IRelation> getStartingRelations() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getStartingRelations(boolean)
-		 */
-		@Override
-		public Collection<IRelation> getStartingRelations(boolean inherit) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getStartingRelations(java.lang.String, java.lang.String, boolean)
-		 */
-		@Override
-		public Collection<IRelation> getStartingRelations(String type,
-				String stereotype, boolean includeGeneralizedRelations) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getFirstStartingRelation(java.lang.String, java.lang.String)
-		 */
-		@Override
-		public IRelation getFirstStartingRelation(String type, String stereotype) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getEndingRelations()
-		 */
-		@Override
-		public Collection<IRelation> getEndingRelations() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getDescription()
-		 */
-		@Override
-		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getAlias()
-		 */
-		@Override
-		public String getAlias() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getKeywords()
-		 */
-		@Override
-		public String getKeywords() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.dirigent.metafacade.IElement#getStatus()
-		 */
-		@Override
-		public String getStatus() {
 			// TODO Auto-generated method stub
 			return null;
 		}

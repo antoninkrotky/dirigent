@@ -5,11 +5,8 @@ import java.util.Map;
 
 import org.dirigent.metafacade.builder.vo.VO;
 
-public interface IElement {
-	public String getUri();
-
-	public String getName();
-
+public interface IElement extends IMetafacadeBase {
+	
 	public String getType();
 
 	public String getStereotype();

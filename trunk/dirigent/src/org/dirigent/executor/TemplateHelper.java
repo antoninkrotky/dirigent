@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
+import org.dirigent.metafacade.IMetafacadeBase;
 import org.dirigent.pattern.IPatternStep;
 
 public class TemplateHelper {
@@ -42,7 +42,7 @@ public class TemplateHelper {
 		return generateValue(step.getTemplate(), gen) + '\n';
 	}
 
-	private static VelocityContext getVelocityContext(IElement gen) {
+	private static VelocityContext getVelocityContext(IMetafacadeBase gen) {
 		return AbstractContextFactory.getContextFactory().createVelocityContext(gen);
 	}
 
@@ -52,11 +52,11 @@ public class TemplateHelper {
 	 * Only one level of sub-templating is supported. 
 	 * The main goal is to enable evaluation of functions and constants stored in shared libraries.
 	 * */
-	public static String generateValue(String template, IElement gen) {
+	public static String generateValue(String template, IMetafacadeBase gen) {
 		return generateValue(template, gen, 2);
 	}
 	
-	public static String generateValue(String template, IElement gen,int rounds) {
+	public static String generateValue(String template, IMetafacadeBase gen,int rounds) {
 		VelocityContext velocityContext = getVelocityContext(gen);
 		for (int round=1;round<=rounds;round++) {
 			template=generateValueInternal(template, velocityContext, round);
