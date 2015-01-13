@@ -9,6 +9,7 @@ import org.dirigent.config.DirigentConfig;
 import org.dirigent.metafacade.IDiagram;
 import org.dirigent.metafacade.IDimension;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IMetafacadeBase;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 
 /**
@@ -33,11 +34,11 @@ public class TestEAMetafacadeBuilder extends TestCase{
 		IDiagram domainsDiagram=(IDiagram)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade("{70F9DD11-2A14-41c2-B68B-3AD1F0D7A1CD}");
 		Collection<IElement> c=domainsDiagram.getChildElements();
 		Iterator<IElement> i=c.iterator();		
-		IElement e1=i.next();
+		IMetafacadeBase e1=i.next();
 		assertEquals("DESCRIPTION", e1.getName());
-		IElement e2=i.next();
+		IMetafacadeBase e2=i.next();
 		assertEquals("NAME", e2.getName());
-		IElement e3=i.next();
+		IMetafacadeBase e3=i.next();
 		assertEquals("KEY", e3.getName());
 	}
 }

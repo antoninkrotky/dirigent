@@ -22,8 +22,8 @@ import java.util.Set;
 
 import org.apache.velocity.VelocityContext;
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.ILibraryImport;
+import org.dirigent.metafacade.IMetafacadeBase;
 
 /**
  * @author bgrekov
@@ -32,7 +32,7 @@ import org.dirigent.metafacade.ILibraryImport;
 public abstract class AbstractContextFactory {
 	private static AbstractContextFactory instance;
 	
-	public abstract VelocityContext createVelocityContext(IElement gen);
+	public abstract VelocityContext createVelocityContext(IMetafacadeBase gen);
 
 	public static AbstractContextFactory getContextFactory() {
 		if (instance==null) {
@@ -79,7 +79,7 @@ public abstract class AbstractContextFactory {
 		 * (org.dirigent.metafacade.IGeneratable)
 		 */
 		@Override
-		public VelocityContext createVelocityContext(IElement gen) {			
+		public VelocityContext createVelocityContext(IMetafacadeBase gen) {			
 			VelocityContext vCtx=(VelocityContext)prototype.clone();
 			vCtx.put("element", gen);
 			addElementLibraries(vCtx, gen);		
@@ -133,7 +133,7 @@ public abstract class AbstractContextFactory {
 		 * @param vCtx
 		 * @param gen
 		 */
-		private void addElementLibraries(VelocityContext vCtx, IElement gen) {
+		private void addElementLibraries(VelocityContext vCtx, IMetafacadeBase gen) {
 			if (!(gen instanceof ILibraryImport)) {
 				return;
 			}

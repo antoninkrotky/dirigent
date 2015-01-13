@@ -2,17 +2,12 @@ package org.dirigent.generator;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.dirigent.config.DirigentConfig;
-import org.dirigent.metafacade.IElement;
 import org.dirigent.metafacade.IGeneratable;
-import org.dirigent.metafacade.IRelation;
-import org.dirigent.metafacade.builder.vo.VO;
 import org.dirigent.pattern.IPattern;
 import org.dirigent.pattern.builder.PatternBuilder;
 import org.dirigent.test.utils.FileComparator;
@@ -94,103 +89,12 @@ public class TestFileExecutor extends TestCase {
 			public String getName() {
 				return "FileExecutorTest";
 			}
-
-			@Override
-			public Map<String, String> getProperties() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getStereotype() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-					
+			
 			@Override
 			public String getUri() {
 				return null;
 			}
 
-			@Override
-			public VO getValueObject() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public IElement getParent() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getAlias() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getDescription() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Collection<IRelation> getEndingRelations() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Collection<IRelation> getStartingRelations() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getKeywords() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getType() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public IRelation getFirstStartingRelation(String type,
-					String stereotype) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getStatus() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public IElement getGeneralizedParent() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Collection<IRelation> getStartingRelations(boolean inherit) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Collection<IRelation> getStartingRelations(String type,
-					String stereotype, boolean includeGeneralizedRelations) {
-				// TODO Auto-generated method stub
-				return null;
-			}
 		};
 
 	}

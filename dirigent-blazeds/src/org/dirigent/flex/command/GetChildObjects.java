@@ -10,6 +10,7 @@ import org.dirigent.config.DirigentConfig;
 import org.dirigent.flex.ICommand;
 import org.dirigent.metafacade.IComposite;
 import org.dirigent.metafacade.IElement;
+import org.dirigent.metafacade.IMetafacadeBase;
 import org.dirigent.metafacade.builder.MetafacadeBuilder;
 import org.dirigent.metafacade.builder.vo.ObjectVO;
 
@@ -27,7 +28,7 @@ public class GetChildObjects implements ICommand {
 		}
 		List<ObjectVO> res;
 		if (uri != null) {
-			IElement element = MetafacadeBuilder.getMetafacadeBuilder()
+			IMetafacadeBase element = MetafacadeBuilder.getMetafacadeBuilder()
 					.getMetafacade(uri);
 			if (element instanceof IComposite) {
 				res = cleanCollection(((IComposite) element).getChildElements());
