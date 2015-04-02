@@ -99,6 +99,9 @@ public abstract class MappingDecorator extends ElementDecorator implements
 
 	@Override
 	public ITable getTargetTable() {
+		if (mapping.targetTableUri==null) {
+			return null;
+		}
 		return (ITable) MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(
 				mapping.targetTableUri);
 	}
