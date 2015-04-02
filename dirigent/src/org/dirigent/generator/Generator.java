@@ -33,10 +33,15 @@ public class Generator {
 			throw new RuntimeException("Element URI=" + elementURI
 					+ " not found.");
 		}
-		generate(gen);
+		generateInternal(gen);
+	}
+	
+	public static void generate(IGeneratable gen) {
+		generatedStack.set(new LinkedList<String>());
+		generateInternal(gen);
 	}
 
-	protected static void generate(IGeneratable gen) {
+	protected static void generateInternal(IGeneratable gen) {
 		// prevent deadlocks
 		if (generatedStack.get().contains(gen.getUri())) {
 			return;
@@ -88,7 +93,7 @@ public class Generator {
 			while (y.hasNext()) {
 				IElement e = y.next();
 				if (e instanceof IGeneratable) {
-					generate((IGeneratable) e);
+					generateInternal((IGeneratable) e);
 				}
 			}
 		}
