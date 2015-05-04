@@ -32,7 +32,7 @@ public class EAFactTableDecorator extends EATableDecorator implements IFactTable
 		if (idems == null){
 			idems = new ArrayList<IDimension>();	
 			for (IRelation k : this.getStartingRelations()){
-				if(k.getStereotype().equals("BIRelation")){
+				if("BIRelation".equals(k.getStereotype())){
 					LOG.info("Adding related dimension");
 					idems.add((IDimension)MetafacadeBuilder.getMetafacadeBuilder().getMetafacade(k.getEndElementUri()));			
 				}
